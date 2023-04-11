@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Getting Started</title>
+    <link th:replace="partials/pieces :: bootstrapLink">
 </head>
 <body>
-<h1>Getting Started</h1>
+    <nav th:replace="partials/pieces :: navbar"></nav>
+    <h1>Getting Started</h1>
 
+    <script th:replace="partials/pieces :: bootstrapScript"></script>
 </body>
 </html>
