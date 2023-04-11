@@ -14,9 +14,9 @@ const getTrending = async () => {
                     coinCard +=
                         `<div class="w-100">
                  <div class="card card-custom jump">
-                   <span style="display:flex;margin:2px;"><img style="margin-right:1em;" src='${coin.item.small}' alt="${coin.item.name} icon"><h1 class="coin-name">${coin.item.name}</h1><h4 class="coin-ticker"> ${coin.item.symbol}</h4></span>                 
+                   <span style="display:flex;margin:2px;"><img style="margin-right:1em;" src='${coin.item.small}' alt="${coin.item.name} icon"><h1 class="coin-name">${coin.item.name}</h1><h4 class="coin-ticker"> ${coin.item.symbol}</h4></span>
                     <h3 class="coin-mc">Rank# ${coin.item.market_cap_rank}</h3>
-                     <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price--> 
+                     <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price-->
                     <h5 class="user-rating">User Score: ${coin.item.score}/10</h5>
                     </div>
                     </div>
@@ -129,7 +129,7 @@ const getChart = async (url) => {
 
 const getHistoricalData = async (coinId, canvasId) => {
     try {
-        const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7&interval=hourly`;
+        const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7&interval=3hourly`;
         console.log("chart data fetch")
 
         const response = await fetch(url);
@@ -190,72 +190,6 @@ const getHistoricalData = async (coinId, canvasId) => {
 };
 
 
-// const getChart = async (url) => {
-//     try {
-//         $.getJSON(url)
-//             .done(function (data) {
-//                 console.log(data)
-//                 data.forEach((coin) => {
-//                     let marketCap = new Intl.NumberFormat("en-US", {
-//                         style: "currency",
-//                         currency: "USD",
-//                         notation: "compact",
-//                         compactDisplay: "long",
-//                         maximumSignificantDigits: 3
-//                     }).format(coin.market_cap);
-//                     let price = new Intl.NumberFormat("en-US", {
-//                         style: "currency",
-//                         currency: "USD",
-//                         notation: "compact",
-//                         compactDisplay: "long",
-//                         maximumSignificantDigits: 4
-//                     }).format(coin.current_price);
-//                     let volume = new Intl.NumberFormat("en-US", {
-//                         style: "currency",
-//                         currency: "USD",
-//                         notation: "compact",
-//                         compactDisplay: "long",
-//                         maximumSignificantDigits: 3
-//                     }).format(coin.total_volume)
-//                     let high = new Intl.NumberFormat("en-US", {
-//                         style: "currency",
-//                         currency: "USD",
-//                         notation: "compact",
-//                         compactDisplay: "long",
-//                         maximumSignificantDigits: 3
-//                     }).format(coin.high_24h)
-//                     let low = new Intl.NumberFormat("en-US", {
-//                         style: "currency",
-//                         currency: "USD",
-//                         notation: "compact",
-//                         compactDisplay: "long",
-//                         maximumSignificantDigits: 3
-//                     }).format(coin.low_24h)
-//                     let color = coin.price_change_percentage_24h > 0 ? 'green' : 'red';
-//
-//                     let chartElement = "";
-//                     chartElement +=
-//                         `<tr>
-// <td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
-// <td><img class="coin-icon" src="${coin.image}" alt=""><span>${coin.name}</span></td>
-// <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
-// <td class="coin-price">${price}</td>
-// <td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}%</td>
-// <td class="coin-volume">${volume}</td>
-// <td class="coin-marketcap">${marketCap}</td>
-// <td class="coin-high">${high}</td>
-// <td class="coin-low">${low}</td>
-//  </tr>`
-//                     // api: MC rank, Name, Price, 1h/24h/7d price change, 24h volume, mkt cap,
-//                     //     market_cap_rank, id, current_price, price_change_percentage_24h, total_volume, market_cap
-//                     $('#coinChart').append(chartElement)
-//                 })
-//             })
-//     }
-//     catch (e) {
-//         console.error(e)
-//     }
-// }
 
 const searchQuery = async (input) => {
     $('#searchResults').empty()
@@ -338,3 +272,6 @@ getTicker("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currenci
 getTicker("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&precision=full")
 
 // getTrending()
+
+
+
