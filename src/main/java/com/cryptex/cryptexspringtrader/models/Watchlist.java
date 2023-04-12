@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "watchlist")
+@Table(name = "watchlists")
 public class Watchlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,17 +3,18 @@ package com.cryptex.cryptexspringtrader.models;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique=true)
     private String email;
+
     @Column(nullable = false, length = 100)
     private String password;
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 50, unique=true)
     private String username;
     @Column(nullable = false, length = 20)
     private String phonenumber;
@@ -21,6 +22,14 @@ public class User {
     private List<Watchlist> watchlists;
 
     // Getters, setters, and constructors
+
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+        phonenumber = copy.phonenumber;
+    }
 
 
     public User(String email, String password, String username, String phonenumber) {
@@ -76,5 +85,7 @@ public class User {
     }
 
     public String getPhonenumber(){ return phonenumber; }
-    public void setPhonenumber(){this.phonenumber = phonenumber; }
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
 }
