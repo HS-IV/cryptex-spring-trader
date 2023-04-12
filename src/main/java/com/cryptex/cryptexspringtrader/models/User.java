@@ -8,14 +8,32 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String email;
-    private String password;
-    private String username;
 
+    @Column(nullable = false, length = 50)
+    private String email;
+    @Column(nullable = false, length = 100)
+    private String password;
+    @Column(nullable = false, length = 50)
+    private String username;
+    @Column(nullable = false, length = 20)
+    private String phonenumber;
     @OneToMany(mappedBy = "user")
     private List<Watchlist> watchlists;
 
     // Getters, setters, and constructors
+
+
+    public User(String email, String password, String username, String phonenumber) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.phonenumber = phonenumber;
+
+    }
+
+    public User() {
+
+    }
 
     public Long getId() {
         return id;
@@ -56,4 +74,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPhonenumber(){ return phonenumber; }
+    public void setPhonenumber(){this.phonenumber = phonenumber; }
 }
