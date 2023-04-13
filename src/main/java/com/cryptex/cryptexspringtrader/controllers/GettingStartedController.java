@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class GettingStartedController {
 
-    @GetMapping("/gettingstarted")
+    @GetMapping("/tutorial")
     public String gettingStartedPage() {
-        return "gettingstarted";
+        return "tutorial";
     }
 }
