@@ -1,36 +1,38 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Profile</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1 th:text="${user.getUsername()}"></h1>-->
-<!--&lt;!&ndash;email&ndash;&gt;-->
-<!--<p>email: <span th:text="${user.getEmail()}"></span></p>-->
-<!--<p>phone number: <span th:text="${user.getPhonenumber()}"></span></p>-->
-<!--<p>username: <span th:text="${user.getUsername()}"></span></p>-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<h1 th:text="${user.getUsername()}"></h1>
+<!--email-->
+<p>email: <span th:text="${user.getEmail()}"></span></p>
+<p>phone number: <span th:text="${user.getPhonenumber()}"></span></p>
+<p>username: <span th:text="${user.getUsername()}"></span></p>
 
 
-<!--<h1>EDIT ACCOUNT INFO</h1>-->
-<!--<form th:action="@{/profile}" th:method="post" th:object="${user}">-->
-
-<!--    <label for="username">USERNAME:</label>-->
-<!--    <input th:field="*{username}" type="text" id="username">-->
-
-<!--    <label for="email">EMAIL:</label>-->
-<!--    <input th:field="*{email}" type="text" id="email">-->
-
-<!--    <label for="phonenumber">PHONE NUMBER:</label>-->
-<!--    <input th:field="*{phonenumber}" type="text" id="phonenumber">-->
-
-<!--    <label for="password">PHONE NUMBER:</label>-->
-<!--    <input th:field="*{password}" type="text" id="password">-->
-
-<!--    <button>submit</button>-->
-<!--</form>-->
+<h1>EDIT ACCOUNT INFO</h1>
+<form th:action="@{/profile}" th:method="post" th:object="${user}">
 
 
+    <input type="hidden" name="id" th:value="${user.id}" />
 
-<!--</body>-->
-<!--</html>-->
+    <label for="username">USERNAME:</label>
+    <input th:field="*{username}" type="text" id="username">
+
+    <label for="email">EMAIL:</label>
+    <input th:field="*{email}" type="text" id="email">
+
+    <label for="phonenumber">PHONE NUMBER:</label>
+    <input th:field="*{phonenumber}" type="text" id="phonenumber">
+
+    <input th:field="*{password}" type="hidden" id="password">
+
+    <button>submit</button>
+</form>
+
+
+
+</body>
+</html>

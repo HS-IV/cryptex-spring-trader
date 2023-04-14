@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,18 +41,20 @@ public class UserController {
         userDao.save(user);
         return "redirect:/login";
     }
-//    @GetMapping("/profile")
-//    public String profilePage(Model model){
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        model.addAttribute("user" , user);
-//        return "profile";
-//    }
-//
-//
-//    @PostMapping("/profile")
-//    public String editProfile(@ModelAttribute User user){
-//        userDao.save(user);
-//        return "redirect:/tutorial";
-//    }
+    @GetMapping("/profile")
+    public String profilePage(Model model){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("user" , user);
+        return "profile";
+    }
+
+
+    @PostMapping("/profile")
+    public String editProfile(@ModelAttribute User user){
+        userDao.save(user);
+        return "redirect:/login";
+    }
+
+
 
 }
