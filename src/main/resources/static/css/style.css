@@ -197,6 +197,7 @@ searchResults {
     overflow-y:scroll;
     width: 300px;
 }
+
 #searchResults a {
     text-decoration: none!important;
     color:inherit;
