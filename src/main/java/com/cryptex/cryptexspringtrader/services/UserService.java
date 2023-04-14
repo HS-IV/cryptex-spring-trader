@@ -1,5 +1,7 @@
 package com.cryptex.cryptexspringtrader.services;
-import com.cryptex.cryptexspringtrader.model.User;
+
+import com.cryptex.cryptexspringtrader.models.User;
+
 import com.cryptex.cryptexspringtrader.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +29,5 @@ public class UserService {
 //        return new UserWithRoles(user);
 //    }
     // Add other necessary CRUD methods and custom methods
-}
 
+}
