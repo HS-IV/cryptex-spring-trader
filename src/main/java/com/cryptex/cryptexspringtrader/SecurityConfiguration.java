@@ -61,5 +61,13 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+//    @Bean
+//    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests()
+//                .anyRequest().permitAll()
+//                .and().formLogin()
+//                .and().httpBasic();
+//        return http.build();
+//    }
 }
 
