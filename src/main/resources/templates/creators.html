@@ -1,67 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Our Team</title>
+    <link th:replace="partials/partials:: bootstrapLink">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav th:replace="partials/partials :: navbar"></nav>
 
+</nav>
+<style>
+    .team-member {
+        opacity: 0.8; /* add a fade effect */
+        transition: opacity 0.5s;
+    }
 
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>CREATORS</title>
-        <link th:replace="partials/partials:: bootstrapLink">
-        <link rel="stylesheet" href="/css/style.css">
-    </head>
-    <body>
-    <nav th:replace="partials/partials :: navbar"></nav>
-    <h1>About</h1>
+    .team-member:hover {
+        opacity: 1; /* increase opacity on hover */
+    }
 
-    <nav>
+    img {
+        width: 200px; /* set image width */
+        height: auto; /* maintain aspect ratio */
+        border-radius: 50%; /* add rounded corners */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.7); /* add a subtle shadow */
+        transition: transform 0.5s;
+    }
 
-    </nav>
+    img:hover {
+        transform: scale(1.2); /* zoom in on hover */
+    }
+</style>
 
-    <main class ="container">
-        <h2>Our Team</h2>
-        <p></p>
-        <ul>
-            <li>
-                <h3>Horace Smith </h3>
-                <img src=".jpg" alt="">
-                <p>Rizzing hoes</p>
-            </li>
-            <li>
-                <h3>Nickolas Solley</h3>
-                <img src=".jpg" alt="">
-                <p>blah blah balh</p>
-            </li>
-            <li>
-                <h3>Jason Crites</h3>
-                <img src=".jpg" alt="">
-                <p>some info</p>
-            </li>
-            <h3>Lonnie Arellano</h3>
-            <img src=".jpg" alt="">
-            <p> Lowkey Likes men</p>
-            </li>
-            <li>
-                <h3>Andre</h3>
-                <img src=".jpg" alt="">
-                <p>some info</p>
-        </ul>
-    </main>
+<main class="container text-center">
+    <div class="team-member">
+        <h3>Horace Smith</h3>
+        <img src="/images/bet.jpg" alt="Horace Smith">
+        <p>Horace is an experienced professional with expertise in various fields including Balenciaga.</p>
+    </div>
 
-    <footer>
-        <h2>Contact Us</h2>
-        <form action="submit-form.php" method="post">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">Send</button>
-        </form>
-        <p>&copy; 2023 CryptEX. </p>
-    </footer>
+    <div class="team-member">
+        <h3>Jason Crites</h3>
+        <img src="/images/1.jpg" alt="Jason Crites">
+        <p>Jason is a skilled individual who has worked on numerous projects while wearing Balenciaga</p>
+    </div>
 
+    <div class="team-member">
+        <h3>Nickolas Solley</h3>
+        <img src="/static/images/bet.jpg" alt="Nickolas Solley">
+        <p>Nickolas has extensive knowledge in different areas and has delivered exceptional results wearing Balenciaga.</p>
+    </div>
 
-    <script th:replace="partials/partials :: bootstrapScript"></script>
-    </body>
+    <div class="team-member">
+        <h3>Lonnie Arellano</h3>
+        <img src="/static/images/Q.jpg" alt="Lonnie Arellano">
+        <p>Lonnie is a dedicated professional who brings a positive attitude to everything he does with Balenciaga.</p>
+    </div>
+
+    <div class="team-member">
+        <h3>Andre</h3>
+        <img src="/static/images/lighthouse.jpeg" alt="Andre">
+        <p>There is only Balenciaga</p>
+    </div>
+
+</main>
+
+<footer style="background-color: #037dd6; color: #fff; padding: 20px; border: 1px solid #fff;">
+    <h2 style="margin-bottom: 10px;">Contact Us</h2>
+    <form action="submit-form.php" method="post">
+        <label for="name" style="display: block; margin-bottom: 5px;">Name:</label>
+        <input type="text" id="name" name="name" required
+               style="padding: 5px; border-radius: 5px; border: none; margin-bottom: 10px;">
+        <label for="email" style="display: block; margin-bottom: 5px;">Email:</label>
+        <input type="email" id="email" name="email" required
+               style="padding: 5px; border-radius: 5px; border: none; margin-bottom: 10px;">
+        <label for="message" style="display: block; margin-bottom: 5px;">Message:</label>
+        <textarea id="message" name="message" required
+                  style="padding: 5px; border-radius: 5px; border: none; margin-bottom: 5px;"></textarea>
+        <br>
+        <button type="submit"
+                style="background-color: #fff; color: #037dd6; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            Send
+        </button>
+    </form>
+    <p style="text-align: center;">&copy; 2023 CryptEX. </p>
+</footer>
+<script th:replace="partials/partials :: bootstrapScript"></script>
+</body>
 </html>
 
