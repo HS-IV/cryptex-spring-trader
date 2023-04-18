@@ -6,10 +6,12 @@
   <style>
     *{
       font-family: Poppins, sans-serif;
+      margin: 0;
+      padding: 0;
     }
     body {
-      background-image:url("../img/blueCrypto.webp");
-      /*background-color:black;*/
+      /*background-image:url("../img/blueCrypto.webp");*/
+      background-color: #2a2b3c;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -75,11 +77,35 @@
       left: 17px;
     }
 
+    li a{
+      font-weight: 400;
+      font-size: 12px;
+      color: #04adef ;
+      text-decoration: none;
+    }
+
+    .nav__links {
+      list-style: none;
+    }
+    .nav__links li {
+      display: inline-block;
+      padding: 0px 20px;
+    }
+    .nav__links li a {
+      transition: all 0.3s ease 0s;
+    }
+    .nav__links li a:hover {
+      color: white;
+    }
+    nav {
+      background-color: #2a2b3c;
+    }
+
 
   </style>
 </head>
 <body>
-<h1>Log In</h1>
+<nav th:replace="partials/Nav.html"></nav>
 <div th:if="${param.error}">
   Invalid Username and Password.
 </div>
