@@ -1,5 +1,5 @@
 package com.cryptex.cryptexspringtrader;
-
+import org.springframework.boot.SpringApplication;
 import com.cryptex.cryptexspringtrader.services.UserDetailsLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,11 +55,12 @@ public class SecurityConfiguration {
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/sign-up","/creators","/index", "/tutorial", "/css/**", "/js/**") // anyone can see home, the ads pages, and sign up
+                .requestMatchers("/", "/sign-up", "/creators", "/index", "/tutorial", "/css/**", "/js/**, /creators") // anyone can see home, the ads pages, and sign up
                 .permitAll()
         ;
         return http.build();
     }
+}
 
 //    @Bean
 //    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -69,5 +70,7 @@ public class SecurityConfiguration {
 //                .and().httpBasic();
 //        return http.build();
 //    }
-}
+//}
+
+
 
