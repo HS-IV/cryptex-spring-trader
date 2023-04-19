@@ -3,6 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Getting Started</title>
+    <style>
+        * {
+            font-family: Poppins, sans-serif;
+            /*box-sizing: border-box;*/
+            margin: 0;
+            padding: 0;
+        }
+
+        .Cryptoblue {
+            background-color: #2a2b3c;
+            color: #04adef;
+        }
+
+        .blue {
+            outline-color: #04adef;
+        }
+
+
+        .text-info a:hover {
+            color: white;
+        }
+
+        li a{
+            font-weight: 400;
+            font-size: 12px;
+            color: #04adef ;
+            text-decoration: none;
+        }
+
+        header{
+            background-color: #2a2b3c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 10px;
+        }
+
+        .nav__links {
+            list-style: none;
+        }
+        .nav__links li {
+            display: inline-block;
+            padding: 0px 20px;
+            color: #04adef;
+        }
+        .nav__links li a {
+            transition: all 0.3s ease 0s;
+            color: #04adef;
+        }
+        .nav__links li a:hover {
+            color: white;
+            /*color: #04adef;*/
+        }
+        nav {
+            background-color: #2a2b3c;
+
+        }
+    </style>
     <link th:replace="partials/partials :: bootstrapLink">
 </head>
 <body>
