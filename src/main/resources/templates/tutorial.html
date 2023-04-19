@@ -1,112 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang ="en" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec ="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
     <title>Getting Started</title>
     <link th:replace="partials/partials :: bootstrapLink">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <style>
-        /*@media (max-width: 767px) {*/
-        /*    #myCarousel .carousel-control-prev,*/
-        /*    #myCarousel .carousel-control-next {*/
-        /*        width: 10%;*/
-        /*    }*/
-        /*}*/
-        body {
-            margin: 0 auto;
-            max-width: 1200px;
-            background-color: #121212;
-            color: #ffffff;
-            font-family: Euclid Circular B,
-            sans-serif;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            color: #ffffff;
-
-        }
-
-        .toggle-paragraph {
-            background-color: #222222;
-            color: #ffffff;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .toggle-btn {
-            background-color: #037dd6;
-            color: #f4dfdf;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-            line-height: 24px;
-            font-weight: 700;
-            float-end: right;
-        }
-
-        .toggle-btn:hover {
-            background-color: #889aee;
-        }
-
-        #myCarousel .carousel-control-prev,
-        #myCarousel .carousel-control-next {
-            width: 5%;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        #myCarousel .carousel-control-prev-icon,
-        #myCarousel .carousel-control-next-icon {
-            width: 100%;
-            height: 100%;
-            font-size: 2rem;
-            color: #ffffff;
-
-        }
-
-        .carousel-item {
-            text-align: center;
-        }
-
-        .toggle-paragraph {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .toggle-btn {
-            position: relative;
-            right: 0;
-
-
-        }
-
-        .video {
-            text-align: center;
-        }
-        .faq {
-            text-align: center;
-        }
-
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
 
 </head>
 
-<body>
+<body class ="body">
 <nav th:replace="partials/partials :: navbar"></nav>
 
 <main class="container">
     <h1 class ="faq">Frequently Asked Questions</h1>
 
     <h2 class="">What is Crypto Currency? </h2>
-    <button class="toggle-btn"> </button>
+    <button class="toggle-btn">+</button>
+
     <div class="toggle-paragraph">
         <p> Cryptocurrency is a digital or virtual currency that uses cryptography for security and operates
             independently
@@ -374,6 +286,7 @@
         <div class="container">
             <h2 class="video">Additional Video Resources</h2>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <br>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/1YyAzVmP9xQ"
@@ -386,11 +299,6 @@
                     <div class="carousel-item">
                         <iframe width="560" height="315" src="https://www.youtube.com/embed/rYQgy8QDEBI"
                                 allowfullscreen></iframe>
-                    </div>
-                    <div class="carousel-item">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/1YyAzVmP9xQ"
-                                allowfullscreen></iframe>
-
                     </div>
                     <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
@@ -406,27 +314,8 @@
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script th:replace="partials/partials :: bootstrapScript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="/js/tutorial.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script>
-
-    $(document).ready(function () {
-        $('.toggle-paragraph').hide();
-        $(".toggle-btn").on("click", function () {
-
-            let paragraph = $(this).next();
-            if (paragraph.css("display") === "none") {
-                paragraph.css("display", "block");
-                $(this).html("-");
-
-            } else {
-                paragraph.css("display", "none");
-                $(this).html("+");
-            }
-        });
-    });
-
-
-</script>
 </body>
 </html>

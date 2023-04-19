@@ -4,9 +4,10 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Gecko API</title>
+    <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet"   href="/css/style.css">
+
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 </head>
@@ -47,10 +48,10 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                <li><a href="/index" class="nav-link px-2 text-secondary">Home</a></li>
+<!--                <li><a href="/" class="nav-link px-2 text-white"></a></li>-->
+                <li><a href="/tutorial" class="nav-link px-2 text-white">Getting Started</a></li>
+                <li><a href="/creators" class="nav-link px-2 text-white">About</a></li>
             </ul>
             <div style="position: relative">
                 <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -60,13 +61,12 @@
                 <div><ul id="searchResults"></ul></div>
             </div>
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Login</button>
-                <button type="button" class="btn btn-warning">Sign-up</button>
+                <button onclick="window.location.href ='/login';" class="btn btn-outline-light me-2">Login</button>
+             <button onclick="window.location.href = '/sign-up';" class="btn btn-outline-light me-2">Create an Account</button>
             </div>
         </div>
             <div id="global" class="text-end"></div>
 </header>
-
 
 <main>
     <div class="container">
@@ -109,11 +109,11 @@
     </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-<script src="../jquery-plugins/jquery-sparkline.js"></script>
+<script src="/jquery-plugins/jquery-sparkline.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<script src="../js/index.js"></script>
-<script src="../js/tableSort.js"></script>
+<script src="/js/index.js"></script>
+<script src="/js/tableSort.js"></script>
 
 </body>
 </html>

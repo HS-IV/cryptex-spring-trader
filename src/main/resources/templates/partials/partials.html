@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
 </head>
 <body>
 
@@ -20,7 +21,7 @@
 </div>
 
 
-<nav th:fragment = "navbar" class="navbar navbar-expand-lg bg-body-tertiary">
+<nav th:fragment = "navbar" class="navbar navbar-expand-lg bg-body-tertiary ">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">CRYPTEX</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,10 +33,10 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/gettingStarted">Getting Started</a>
+                    <a class="nav-link" href="/tutorial">Getting Started</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/Creators">About</a>
+                    <a class="nav-link active" aria-current="page" href="/creators">About</a>
                 </li>
                 <li class="nav-item">
                     <form class="d-flex" role="search">
@@ -44,11 +45,14 @@
                     </form>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+
+                    <a class="nav-link active " aria-current="page" href="/profile">Profile</a>
                 </li>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="/">Login</a>-->
-<!--                </li>-->
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Login</a>
+
+                </li>
+
 
 
                 <li class="nav-item" sec:authorize="isAuthenticated()">

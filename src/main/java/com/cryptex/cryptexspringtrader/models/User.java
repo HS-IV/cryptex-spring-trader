@@ -1,4 +1,5 @@
 package com.cryptex.cryptexspringtrader.models;
+
  import jakarta.persistence.*;
  import jakarta.validation.constraints.Email;
  import jakarta.validation.constraints.NotBlank;
@@ -6,6 +7,7 @@ package com.cryptex.cryptexspringtrader.models;
  import jakarta.validation.constraints.Size;
 
  import java.util.List;
+
 
 @Entity
 @Table(name = "users")
