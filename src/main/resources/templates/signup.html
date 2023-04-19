@@ -19,17 +19,23 @@
       <div class="column d-flex flex-column ">
 
         <form class="d-flex flex-column"  th:action="@{/sign-up}" method="POST" th:object="${user}">
+
+
           <label for="username">Username</label>
-          <input id="username" th:field="*{username}" />
+          <input id="username" name="username" th:field="*{username}" />
+          <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
 
           <label for="email">Email</label>
           <input id="email" th:field="*{email}" />
+          <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 
           <label for="phonenumber">phone number</label>
           <input id="phonenumber" th:field="*{phonenumber}" />
+          <span th:if="${#fields.hasErrors('phonenumber')}" th:errors="*{phonenumber}"></span>
 
           <label for="password">Password</label>
           <input id="password" type="password" th:field="*{password}" />
+          <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
           <input value="Sign me up!" type="submit" />
         </form>
