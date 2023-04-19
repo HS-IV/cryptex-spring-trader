@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>NavBar</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Abel&family=Anton&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
+  <style>
+	  /*nav bar text*/
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		/*background-color: #2a2b3c ;*/
+	}
+
+	  nav {
+          background-color: #2a2b3c
+	  }
+
+	li,a, button{
+		/*font-family: Montserrat, sans-serif;*/
+        font-family: "Andale Mono";
+		font-weight: 500;
+		font-size: 16px;
+		color: #037DD6;
+		text-decoration: none;
+    }
+
+	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 30px 10px;
+	}
+	.nav-links {
+		list-style: none;
+
+	}
+
+	.nav-links li {
+		display: inline-block;
+		padding: 0px 20px;
+	}
+
+	.nav-links li a {
+		transition: all 0.3s ease 0s;
+	}
+
+    .nav-links li a:hover{
+        color: white;
+    }
+
+
+	button:hover {
+        background-color: rgba(0,136,169, 0.8);
+	}
+
+	/*nav-bar search*/
+	.content {
+		background: white;
+		width: 70vw;
+		padding: 3em;
+		box-shadow: 0 03em rgba(0,0,0, 0.15);
+		position: relative;
+	}
+
+
+	  .search-bar input {
+		flex-grow: 1;
+		  font-size: 1.5rem;
+	  }
+
+		.flex {
+			display: flex;
+			justify-content: start;
+		}
+
+	  .search-bar-submit
+  </style>
+</head>
+<body>
+<nav th:fragment="navbar">
+  <ul class="nav-links">
+	  <li><a href="#">CryptEX</a></li>
+	  <li><a href="#">Getting Started</a></li>
+	  <li><a href="#">About</a></li>
+	  <li><a href="#">Profile</a></li>
+	  <li><a href="#">Login</a></li>
+  </ul>
+
+</nav>
+</body>
+</html>
