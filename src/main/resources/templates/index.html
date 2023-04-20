@@ -10,68 +10,63 @@
 
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-  <style>
-    body,html{
-      margin:0;
-      padding: 0;
-      display: grid;
-      justify-content: center;
-      align-content: center;
-      color:white;
-      background:black;
-    }
-    * {
-      box-sizing: border-box;
-      font-family: Galvji, sans-serif;
-      scroll-behavior: smooth;
-      background-color: #2a2b3c;
-    }
-    section {
-      position: relative;
-      display: grid;
-      /*place-items: center;*/
-      /*height: 100vh;*/
-    }
-    .icons {
-      justify-content: center;
-      align-self: center;
-      height:20px;
-      width:20px;
-    }
-  </style>
-
 </head>
 <body>
-<nav th:replace="partials/partials.html :: navbar">
+<style>
+  body,html{
+    margin:0;
+    padding: 0;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    color:white;
+    background:black;
+  }
+  * {
+    box-sizing: border-box;
+    font-family: Galvji, sans-serif;
+    scroll-behavior: smooth;
 
-</nav>
+  }
+  section {
+    position: relative;
+    display: grid;
+    /*place-items: center;*/
+    /*height: 100vh;*/
+  }
+  .icons {
+    justify-content: center;
+    align-self: center;
+    height:20px;
+    width:20px;
+  }
+</style>
+<header class="container p-3 text-bg-dark">
+  <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+      <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+    </a>
 
-<!--<header class="container p-3 text-bg-dark">-->
-<!--  <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">-->
-<!--    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">-->
-<!--      <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>-->
-<!--    </a>-->
-
-<!--    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">-->
-<!--      <li><a href="/index" class="nav-link px-2 text-secondary">Home</a></li>-->
-<!--      &lt;!&ndash;                <li><a href="/" class="nav-link px-2 text-white"></a></li>&ndash;&gt;-->
-<!--      <li><a href="/tutorial" class="nav-link px-2 text-white">Getting Started</a></li>-->
-<!--      <li><a href="/creators" class="nav-link px-2 text-white">About</a></li>-->
-<!--    </ul>-->
-<!--    <div style="position: relative">-->
-<!--      <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">-->
-<!--        <input id="search" type="text" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">-->
-<!--        <input type="submit" onclick="let input = $('#search').val();searchQuery(input); console.log(input)">-->
-<!--      </div>-->
-<!--      <div><ul id="searchResults"></ul></div>-->
-<!--    </div>-->
-<!--    <div class="text-end">-->
-<!--      <button onclick="window.location.href ='/login';" class="btn btn-outline-light me-2">Login</button>-->
-<!--      <button onclick="window.location.href = '/sign-up';" class="btn btn-outline-light me-2">Create an Account</button>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div id="global" class="text-end"></div>-->
-<!--</header>-->
+    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+      <li><a href="/index" class="nav-link px-2 text-secondary">Home</a></li>
+      <!--                <li><a href="/" class="nav-link px-2 text-white"></a></li>-->
+      <li><a href="/tutorial" class="nav-link px-2 text-white">Getting Started</a></li>
+      <li><a href="/creators" class="nav-link px-2 text-white">About</a></li>
+    </ul>
+    <div style="position: relative">
+      <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+        <input id="search" type="text" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+        <input type="submit" onclick="let input = $('#search').val();searchQuery(input); console.log(input)">
+      </div>
+      <div><ul id="searchResults"></ul></div>
+    </div>
+    <div class="text-end">
+      <button onclick="window.location.href ='/login';" class="btn btn-outline-light me-2">Login</button>
+      <button onclick="window.location.href = '/sign-up';" class="btn btn-outline-light me-2">Create an Account</button>
+    </div>
+  </div>
+  <div id="global" class="text-end"></div>
+</header>
 
 <main>
   <div class="container">
