@@ -22,15 +22,15 @@
         <ul class="nav__links" style="margin-top: 10px">
             <li><a href="http://localhost:8080">CryptEX</a></li>
             <li><a href="http://localhost:8080/gettingstarted">Getting Started</a></li>
-            <li><a href="#">About</a></li>
+            <li><a href="http://localhost:8080/creators">Creators</a></li>
             <li><a href="#">Profile</a></li>
             <li><a href="http://localhost:8080/login">Login</a></li>
-            <li><a href="#">Sign Up</a></li>
+            <li><a href="http://localhost:8080/sign-up">Sign Up</a></li>
         </ul>
         <form action="/search" method="get">
             <label for="search">Search:</label>
             <input type="text" id="search" name="search">
-            <input type="submit" value="Submit">
+            <input type="submit" onclick="let input = $('#search').val();searchQuery(input); console.log(input)">
         </form>
     </nav>
 </header>

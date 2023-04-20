@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <title>Log In</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}">
-  <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
 
+  <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
   <style>
     *{
       font-family: Poppins, sans-serif;
+      margin: 0;
+      padding: 0;
     }
     body {
-      /*background-image:url("/img/project.webp");*/
-      background-color:black;
+      /*background-image:url("../img/blueCrypto.webp");*/
+      background-color: #2a2b3c;
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -78,50 +78,6 @@
       left: 17px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      /*background-color: #2a2b3c ;*/
-    }
-
-    nav {
-      background-color: #2a2b3c
-    }
-
-    li,a, button{
-      /*font-family: Montserrat, sans-serif;*/
-      font-family: "Andale Mono";
-      font-weight: 500;
-      font-size: 16px;
-      color: #037DD6;
-      text-decoration: none;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 30px 10px;
-    }
-    .nav-links {
-      list-style: none;
-
-    }
-
-    .nav-links li {
-      display: inline-block;
-      padding: 0px 20px;
-    }
-
-    .nav-links li a {
-      transition: all 0.3s ease 0s;
-    }
-
-    .nav-links li a:hover{
-      color: white;
-    }
-
     li a{
       font-weight: 400;
       font-size: 12px;
@@ -147,34 +103,10 @@
     }
 
 
-    button:hover {
-      background-color: rgba(0,136,169, 0.8);
-    }
-
-    /*nav-bar search*/
-    .content {
-      background: white;
-      width: 70vw;
-      padding: 3em;
-      box-shadow: 0 03em rgba(0,0,0, 0.15);
-      position: relative;
-    }
-
-
-    .search-bar input {
-      flex-grow: 1;
-      font-size: 1.5rem;
-    }
-
   </style>
 </head>
 <body>
-<<<<<<< Updated upstream
 <nav th:replace="partials/Nav.html"></nav>
-=======
-<nav th:replace="~{partials/navBar :: navbar}"></nav>
-
->>>>>>> Stashed changes
 <div th:if="${param.error}">
   Invalid Username and Password.
 </div>
@@ -182,7 +114,6 @@
   You have been logged out.
 </div>
 <div class="box">
-<!--  <nav th:replace="~{partials/navBar :: navbar}"></nav>-->
   <div class="container">
     <div>
       <span></span>
@@ -201,5 +132,6 @@
     </form>
   </div>
 </div>
+
 </body>
 </html>
