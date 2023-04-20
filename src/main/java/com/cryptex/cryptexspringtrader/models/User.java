@@ -1,6 +1,13 @@
 package com.cryptex.cryptexspringtrader.models;
+
  import jakarta.persistence.*;
-import java.util.List;
+ import jakarta.validation.constraints.Email;
+ import jakarta.validation.constraints.NotBlank;
+ import jakarta.validation.constraints.Pattern;
+ import jakarta.validation.constraints.Size;
+
+ import java.util.List;
+
 
 @Entity
 @Table(name = "users")
@@ -9,13 +16,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "Invalid email address")
     @Column(nullable = false, length = 50, unique=true)
     private String email;
 
+    @NotBlank(message = "Password cannot be empty")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     @Column(nullable = false, length = 100)
     private String password;
+    @NotBlank(message = "Username cannot be empty")
     @Column(nullable = false, length = 50, unique=true)
     private String username;
+    @NotBlank(message = "Phone number cannot be empty")
+//    @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Invalid phone number")
     @Column(nullable = false, length = 20)
     private String phonenumber;
     @OneToMany(mappedBy = "user")
@@ -35,6 +49,13 @@ public class User {
     public User(String email, String password, String username, String phonenumber) {
         this.email = email;
         this.password = password;
+        this.username = username;
+        this.phonenumber = phonenumber;
+
+    }
+
+    public User(String email, String username, String phonenumber) {
+        this.email = email;
         this.username = username;
         this.phonenumber = phonenumber;
 
