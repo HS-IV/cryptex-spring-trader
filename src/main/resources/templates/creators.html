@@ -6,62 +6,63 @@
     <title>About Our Team</title>
     <link th:replace="partials/partials:: bootstrapLink">
     <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .team-member {
+            opacity: 0.8;
+            transition: opacity 0.5s;
+        }
+
+        .team-member:hover {
+            opacity: 1;
+        }
+
+        img {
+            width: 200px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            transition: transform 0.5s;
+        }
+
+        img:hover {
+            transform: scale(1.2); /* zoom in on hover */
+        }
+    </style>
 </head>
 <body>
-<nav th:replace="partials/partials :: navbar"></nav>
 
-</nav>
-<style>
-    .team-member {
-        opacity: 0.8;
-        transition: opacity 0.5s;
-    }
+<nav th:replace="partials/navBar"></nav>
 
-    .team-member:hover {
-        opacity: 1;
-    }
-
-    img {
-        width: 200px;
-        height: auto;
-        border-radius: 50%;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-        transition: transform 0.5s;
-    }
-
-    img:hover {
-        transform: scale(1.2); /* zoom in on hover */
-    }
-</style>
 
 <main class="container text-center">
     <div class="team-member">
         <h3>Horace Smith</h3>
-<!--        <img th:src="@{../static/bet.jpg}"alt="Horace Smith">-->
+        <!--        <img th:src="@{../static/bet.jpg}"alt="Horace Smith">-->
         <p>Horace is an experienced professional with expertise in various fields including Balenciaga.</p>
     </div>
 
     <div class="team-member">
         <h3>Jason Crites</h3>
-<!--        <img th:src="../static/images/headshot1.jpg" alt="Jason Crites">-->
+        <!--        <img th:src="../static/images/headshot1.jpg" alt="Jason Crites">-->
         <p>Jason is a skilled individual who has worked on numerous projects while wearing Balenciaga</p>
     </div>
 
     <div class="team-member">
         <h3>Nickolas Solley</h3>
-<!--        <img th:src="../static/images/headshot2.jpg" alt="Nickolas Solley">-->
+        <!--        <img th:src="../static/images/headshot2.jpg" alt="Nickolas Solley">-->
         <p>Nickolas has extensive knowledge in different areas and has delivered exceptional results wearing Balenciaga.</p>
     </div>
 
     <div class="team-member">
         <h3>Lonnie Arellano</h3>
-<!--        <img th:src="../static/images/Q.jpg" alt="Lonnie Arellano">-->
+        <!--        <img th:src="../static/images/Q.jpg" alt="Lonnie Arellano">-->
         <p>Lonnie is a dedicated professional who brings a positive attitude to everything he does with Balenciaga.</p>
     </div>
 
     <div class="team-member">
         <h3>Andre</h3>
-<!--        <img th:src="../static/images/lighthouse.jpeg" alt="Andre">-->
+        <!--        <img th:src="../static/images/lighthouse.jpeg" alt="Andre">-->
         <p>There is only Balenciaga</p>
     </div>
 
@@ -90,4 +91,3 @@
 <script th:replace="partials/partials :: bootstrapScript"></script>
 </body>
 </html>
-

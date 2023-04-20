@@ -38,22 +38,22 @@ public class UserController {
     }
 
 
-        @PostMapping("/sign-up")
-        public String publishAd(
-                @Valid User user,
-                Errors validation,
-                Model model
-        ) {
-            if (validation.hasErrors()) {
-                model.addAttribute("errors", validation);
-                model.addAttribute("user", user);
-                return "signup";
-            }
-            String hash = passwordEncoder.encode(user.getPassword());
-            user.setPassword(hash);
-            userDao.save(user);
-            return "redirect:/login";
+    @PostMapping("/sign-up")
+    public String publishAd(
+            @Valid User user,
+            Errors validation,
+            Model model
+    ) {
+        if (validation.hasErrors()) {
+            model.addAttribute("errors", validation);
+            model.addAttribute("user", user);
+            return "signup";
         }
+        String hash = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hash);
+        userDao.save(user);
+        return "redirect:/login";
+    }
 
 
 
