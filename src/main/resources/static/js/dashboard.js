@@ -522,10 +522,10 @@
 //         }, wait);
 //     };
 // }
-// const getWatchlistChart = async (coinId) => {
-//     const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinId}&order=market_cap_desc&per_page=100&page=1&sparkline=true`;
-//     getChart(url);
-// };
+const getWatchlistChart = async (coinId) => {
+    const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinId}&order=market_cap_desc&per_page=100&page=1&sparkline=true`;
+    getChart(url);
+};
 //
 // const debouncedFunction = debounce(searchQuery, 300);
 //
@@ -1069,7 +1069,9 @@ $('#searchResults').on('click', 'li', function (event) {
     event.preventDefault();
 
     const coinText = $(this).text().trim();
-    const coinHref = $(this).find("span[data-coin-id]").attr("data-coin-id");
+    // const coinHref = $(this).find("span[data-coin-id]").attr("data-coin-id");
+    const coinHref = $(this).find("a").attr("href");
+
 
     // Extract the coin name
     const coinName = coinText.split(' ').pop();
