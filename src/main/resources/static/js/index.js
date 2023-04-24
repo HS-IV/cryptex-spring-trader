@@ -389,19 +389,19 @@ function getChart(url,header) {
   </div></td>`
 
                     $('#coinChart').append(chartElement)
-                    if($(`#${coin.id}-sparkline`) !== null) {$(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
-                        tooltipFormatter: function(sp, options, fields) {
-                            var format =  $.spformat();
-                            var result = '';
-                            $.each(fields, function(i, field) {
-                                field.myprefix = options.get('myPrefixes')[i];
-                                result += format.render(field, options.get('tooltipValueLookups'), options);
-                            })
-                            return result;
-                        },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})}
-                    else{
-                        return 'NA'
-                    }
+                    // if($(`#${coin.id}-sparkline`) !== null) {$(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
+                    //     tooltipFormatter: function(sp, options, fields) {
+                    //         var format =  $.spformat();
+                    //         var result = '';
+                    //         $.each(fields, function(i, field) {
+                    //             field.myprefix = options.get('myPrefixes')[i];
+                    //             result += format.render(field, options.get('tooltipValueLookups'), options);
+                    //         })
+                    //         return result;
+                    //     },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})}
+                    // else{
+                    //     return 'NA'
+                    // }
 
                 }); //forEach
             }); //done
