@@ -11,8 +11,8 @@
 	  /*nav bar text*/
 	* {
 		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
+		/*margin: 0;*/
+		/*padding: 0;*/
 		/*background-color: #2a2b3c ;*/
 	}
 
@@ -20,14 +20,14 @@
           background-color: #2a2b3c
 	  }
 
-	li,a, button{
-		/*font-family: Montserrat, sans-serif;*/
-        font-family: "Andale Mono";
-		font-weight: 500;
-		font-size: 16px;
-		color: #037DD6;
-		text-decoration: none;
-    }
+	/*li,a, button{*/
+	/*	!*font-family: Montserrat, sans-serif;*!*/
+    /*    font-family: "Andale Mono";*/
+	/*	font-weight: 500;*/
+	/*	font-size: 16px;*/
+	/*	color: #037DD6;*/
+	/*	text-decoration: none;*/
+    /*}*/
 
 	header {
 		display: flex;
@@ -58,31 +58,18 @@
         background-color: rgba(0,136,169, 0.8);
 	}
 
-	/*nav-bar search*/
-	.content {
-		background: white;
-		width: 70vw;
-		padding: 3em;
-		box-shadow: 0 03em rgba(0,0,0, 0.15);
-		position: relative;
-	}
+      .menu-icon {
+          display: block;
+          cursor: pointer;
+      }
 
-
-	  .search-bar input {
-		flex-grow: 1;
-		  font-size: 1.5rem;
-	  }
-
-		.flex {
-			display: flex;
-			justify-content: start;
-		}
-
-	  .search-bar-submit
   </style>
 </head>
 <body>
 <nav th:fragment="navbar">
+	<div class="menu-icon">
+		<i class="fa-solid fa-bars" style="color: #ffffff;"></i>
+	</div>
   <ul class="nav-links">
 	  <li><a href="/">CryptEX</a></li>
 	  <li><a href="/tutorial">Tutorial</a></li>

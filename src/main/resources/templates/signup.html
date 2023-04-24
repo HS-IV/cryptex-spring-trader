@@ -57,6 +57,14 @@
       background: rgba(255,255,255,0.2);
     }
 
+    #my-button2 {
+      height: 45px;
+      width: 87%;
+      border: none;
+      outline: none;
+      border-radius: 30px;
+    }
+
     .input-field {
       display: flex;
       flex-direction: column;
@@ -122,31 +130,35 @@
 
       <form th:action="@{/sign-up}" th:object="${user}" method="post">
 
-        <label for="username" class="input-field">Username</label>
+        <div for="username" class="input-field">
         <input class="input" id="username" type="text" th:field="*{username}" placeholder="Username"/>
+        </div>
         <i class="fa-solid fa-user bx bx-lock-alt" style="color: #ffffff;"></i>
         <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
 
-        <label for="email" class="input-field">Email</label>
+        <div for="email" class="input-field">
         <input class="input" id="email" type="text" th:field="*{email}" placeholder="Email"/>
+        </div>
         <i class="fa-solid fa-lock bx bx-lock-alt" style="color: #ffffff;"></i>
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 
 
-        <label for="phonenumber" class="input-field">phone number</label>
+        <div for="phonenumber" class="input-field">
         <input class="input" id="phonenumber"type="text" th:field="*{phonenumber}" placeholder="Phone Number"/>
+        </div>
         <i class="fa-solid fa-lock bx bx-lock-alt" style="color: #ffffff;"></i>
         <span th:if="${#fields.hasErrors('phonenumber')}" th:errors="*{phonenumber}"></span>
 
 
-        <label for="password" class="input-field" >Password</label>
+        <div for="password" class="input-field" >
         <input class="input" id="password" type="password" th:field="*{password}"placeholder="Password" />
+        </div>
         <i class="fa-solid fa-lock bx bx-lock-alt" style="color: #ffffff;"></i>
         <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
 
         <div class="input-field">
-          <input type="submit" value="Sign up" />
+          <button id="my-button2" class="primary">Sign up</button>
         </div>
       </form>
 
