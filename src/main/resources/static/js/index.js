@@ -388,20 +388,20 @@ function getChart(url,header) {
   <span>.</span>
   </div></td>`
 
-                    $('#coinChart').append(chartElement)
-                    if($(`#${coin.id}-sparkline`) !== null) {$(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
-                        tooltipFormatter: function(sp, options, fields) {
-                            var format =  $.spformat();
-                            var result = '';
-                            $.each(fields, function(i, field) {
-                                field.myprefix = options.get('myPrefixes')[i];
-                                result += format.render(field, options.get('tooltipValueLookups'), options);
-                            })
-                            return result;
-                        },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})}
-                    else{
-                        return 'NA'
-                    }
+                    // $('#coinChart').append(chartElement)
+                    // if($('#${coin.id}-sparkline') !== null) {$(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
+                    //     tooltipFormatter: function(sp, options, fields) {
+                    //         var format =  $.spformat();
+                    //         var result = '';
+                    //         $.each(fields, function(i, field) {
+                    //             field.myprefix = options.get('myPrefixes')[i];
+                    //             result += format.render(field, options.get('tooltipValueLookups'), options);
+                    //         })
+                    //         return result;
+                    //     },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})}
+                    // else{
+                    //     return 'NA'
+                    // }
 
                 }); //forEach
             }); //done
@@ -609,9 +609,9 @@ const getGas = async () => {
 getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en','Cryptocurrency Prices by Market Cap');
 getGlobal()
 getGas()
-getTrending()
-getTicker('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&per_page=10&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')
-// getChart('../mockdb/sparkline.json','Cryptocurrency Prices by Market Cap')
+// getTrending()
+// getTicker('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&per_page=10&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')
+// getChart('/mockdb/sparkline.json','Cryptocurrency Prices by Market Cap')
 // getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=ethereum-ecosystem&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')
 // getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=ethereum-ecosystem&order=market_cap_desc&per_page=1000&page=5&sparkline=false&locale=en')
 
