@@ -1,7 +1,9 @@
 package com.cryptex.cryptexspringtrader.models;
 
-import jakarta.persistence.*;
 
+import com.cryptex.cryptexspringtrader.models.CoinData;
+
+import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
@@ -10,21 +12,31 @@ public class Watchlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long portfolioId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "watchlist_coin_data",
-            joinColumns = @JoinColumn(name = "watch_id"),
-            inverseJoinColumns = @JoinColumn(name = "coin_id")
-    )
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "watchlist_coin_data",
+            joinColumns = @JoinColumn(name = "watchlist_id"),
+            inverseJoinColumns = @JoinColumn(name = "coin_data_id"))
     private List<CoinData> coinDataList;
 
-    // Getters, setters, and constructors
+
+    private String name;
+
+    // Constructors
+
+    public Watchlist() {}
+
+    public Watchlist(Long ID, String name, User user) {
+        this.id = ID;
+        this.name = name;
+        this.user = user;
+    }
+
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -34,11 +46,46 @@ public class Watchlist {
         this.id = id;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public List<CoinData> getCoinDataList() {
         return coinDataList;
     }
 
-    public Long getPortfolioId() {
-        return portfolioId;
+//    public void setCoinDataList(List<CoinData> coinDataList) {
+//        this.coinDataList = coinDataList;
+//    }
+
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+//    public void setCoinDataList(List<WatchlistController.CoinData> coinDataList) {
+//    }
+//    public void setCoinDataList(List<com.cryptex.cryptexspringtrader.models.CoinData> coinDataList) {
+//        this.coinDataList = coinDataList;
+//    }
+
+    public void setCoinDataList(List<CoinData> coinDataList) {
+        this.coinDataList = coinDataList;
+    }
+
+    public void addCoinData(CoinData existingCoinData) {
+    }
+
+
+//    public void setCoinDataList(List<WatchlistController.CoinData> coinDataList) {
+//        this.coinDataList = coinDataList;
+//    }
 }
+
