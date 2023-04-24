@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
             return "index";
         }
 
-
     @RequestMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
