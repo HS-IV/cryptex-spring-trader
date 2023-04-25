@@ -58,7 +58,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/", "/sign-up", "/creators", "/index", "/tutorial",
                                             "/css/**", "/js/**","/overview","/lesson-1","/lesson-2","/lesson-3",
-                                            "/lesson-4","/about-us")
+                                            "/lesson-4","/about-us","/img/**")
                 .permitAll()
         ;
         return http.build();
