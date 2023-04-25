@@ -8,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,21 +24,23 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
+
+
     @GetMapping("/login")
-    public String showLoginForm(){
+    public String showLogin1Form(){
         return "login";
     }
 
 
     @GetMapping("/sign-up")
-    public String showSignupForm(Model model){
+    public String showSignup1Form(Model model){
         model.addAttribute("user", new User());
         return "signup";
     }
 
 
     @PostMapping("/sign-up")
-    public String publishAd(
+    public String publishAd1(
             @Valid User user,
             Errors validation,
             Model model
@@ -56,14 +57,6 @@ public class UserController {
     }
 
 
-
-//    @PostMapping("/sign-up")
-//    public String saveUser(@ModelAttribute User user){
-//         String hash = passwordEncoder.encode(user.getPassword());
-//        user.setPassword(hash);
-//        userDao.save(user);
-//        return "redirect:/login";
-//    }
 
     @GetMapping("/profile")
     public String profilePage(Model model){

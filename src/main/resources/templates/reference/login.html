@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Log In</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/navBar.css">
+</head>
+<body>
+<nav th:replace="partials/navBar :: navbar"></nav>
+
+    <div th:if="${param.error}">
+    Invalid Username and Password.
+    </div>
+    <div th:if="${param.logout}">
+    You have been logged out.
+    </div>
+
+
+  <div class="box">
+    <div class="container">
+      <div class="top-header">
+
+
+        <span><a href="/sign-up" class="span">Have an account?</a></span>
+        <header class="logINHeader">Login</header>
+      </div>
+
+      <form th:action="@{/login}" method="post">
+        <div class="input-field">
+          <input id="username" name="username" type="text " class="input" placeholder="UserName" />
+        </div>
+        <i class="fa-solid fa-user bx bx-lock-alt log" style="color: #ffffff;"></i>
+        <div for="password" class="input-field">
+          <input id="password" name="password" type="password" class="input" placeholder="Password"/>
+        </div>
+        <i class="fa-solid fa-lock bx bx-lock-alt log" style="color: #ffffff;"></i>
+        <div class="input-field">
+          <input type="submit" class="submit" value="login">
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.6.4.slim.js" integrity="sha256-dWvV84T6BhzO4vG6gWhsWVKVoa4lVmLnpBOZh/CAHU4=" crossorigin="anonymous"></script>
+  <script>
+    const menuIcon = $(".menu-icon");
+    const menu = $(".nav-links");
+    const linkUP = $(".up")
+    const linkDown = $(".down")
+    $(document).ready(function() {
+      const nav = $('.nav-links2');
+      $(window).resize(function() {
+        const width = $(window).width();
+        if (width > 1200) {
+          nav.show();
+          menu.hide()
+        } else {
+          nav.hide();
+        }
+      });
+    });
+
+    menuIcon.on('click', () => {
+      menu.toggle()
+    });
+
+  </script>
+  </body>
+</html>
