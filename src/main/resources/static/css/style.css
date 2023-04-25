@@ -689,4 +689,6 @@ input[id=radio3]:checked ~ .glider {
     .tabs {
         transform: scale(0.6);
     }
+
+
 }
