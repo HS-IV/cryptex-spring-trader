@@ -38,7 +38,7 @@ public class SecurityConfiguration {
                 /* Login configuration */
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/tutorial") // user's home page, it can be any URL
+                .defaultSuccessUrl("/overview") // user's home page, it can be any URL
                 .permitAll() // Anyone can go to the login page
                 /* Logout configuration */
                 .and()
@@ -56,7 +56,9 @@ public class SecurityConfiguration {
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/sign-up", "/creators", "/index", "/tutorial", "/css/**", "/js/**","/overview","/overview1","/overview2","/overview3","/overview4","/aboutus") // anyone can see home, the ads pages, and sign up
+                .requestMatchers("/", "/sign-up", "/creators", "/index", "/tutorial",
+                                            "/css/**", "/js/**","/overview","/lesson-1","/lesson-2","/lesson-3",
+                                            "/lesson-4","/about-us")
                 .permitAll()
         ;
         return http.build();

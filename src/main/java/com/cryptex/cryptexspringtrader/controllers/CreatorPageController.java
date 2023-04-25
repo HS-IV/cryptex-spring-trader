@@ -7,6 +7,11 @@ public class CreatorPageController {
 
     @GetMapping("/creators")
     public String showCreatorPage(){
-        return "creators";
+        return "/reference/creators";
+    }
+
+    @GetMapping("/tutorial")
+    public String gettingStartedPage() {
+        return "/reference/tutorial";
     }
 }
