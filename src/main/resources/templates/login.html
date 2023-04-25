@@ -1,65 +1,125 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <title>Log In</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="/css/navBar.css">
-</head>
-<body>
-<nav th:replace="partials/navBar :: navbar"></nav>
+<html lang ="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec ="http://www.thymeleaf.org/extras/spring-security">
 
-    <div th:if="${param.error}">
-    Invalid Username and Password.
-    </div>
-    <div th:if="${param.logout}">
-    You have been logged out.
-    </div>
-  <div class="box">
-    <div class="container">
-      <div class="top-header">
+<head>
+  <meta charset="UTF-8">
+  <title>Getting Started</title>
+  <link th:replace="partials/partials :: bootstrapLink">
+  <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
+  <style>
+    *{
+      color: white;
+    }
+    body{
+      background-color: #2a2b3c;
+
+    }
+    .container{
+      height: 100vh;
+    }
+    .row{
+      background-color: #1c1d2b;
+    }
+    .picture{
+      background-color: white;
+      width: 300px;
+      height: 300px;
+    }
+
+
+    .submit {
+
+      border:none;
+      border-radius: 30px;
+      font-size: 15px;
+      height: 45px;
+      outline: none;
+      width: 100%;
+      background: rgba(255,255,255,0.7);
+      curser: pointer;
+      transition: .3s;
+    }
+
+    .input {
+      height: 45px;
+      width: 150%;
+      border: none;
+      outline: none;
+      border-radius: 30px;
+      color: #ffffff;
+      padding: 0 0 0 50px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+
+    .fix {
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      padding: 0 15px 0 15px;
+    }
+
+    span {
+      color: #ffffff;
+      font-size: medium;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0 10px 0;
+    }
+
+  </style>
+
+</head>
+
+<body class ="body">
+<nav th:replace="partials/navBar"></nav>
+
+
+<div class="container d-flex flex-column justify-content-center align-items-center">
+
+
+
+
+
+  <div class="row mb-3 rounded">
+
+    <div class="col-12 fix m-5 p-5 d-flex flex-column justify-content-center align-items-center">
+
+      <h1 class="m-5 ">Login</h1>
+
+      <form th:action="@{/login}" method="post" >
+
+        <div class="username d-flex flex-column justify-content-center align-items-center">
+          <input id="username" name="username" type="text " class="input m-2" placeholder="UserName" />
+        </div>
+
+
+
+        <div for="password" class="password d-flex flex-column justify-content-center align-items-center">
+          <input id="password" name="password" type="password" class="input m-2 " placeholder="Password"/>
+        </div>
+
+
         <span><a href="/sign-up" class="span">Have an account?</a></span>
-        <header class="logINHeader">Login</header>
-      </div>
-      <form th:action="@{/login}" method="post">
-        <div class="input-field">
-          <input id="username" name="username" type="text " class="input" placeholder="UserName" />
-        </div>
-        <i class="fa-solid fa-user bx bx-lock-alt log" style="color: #ffffff;"></i>
-        <div for="password" class="input-field">
-          <input id="password" name="password" type="password" class="input" placeholder="Password"/>
-        </div>
-        <i class="fa-solid fa-lock bx bx-lock-alt log" style="color: #ffffff;"></i>
-        <div class="input-field">
+
+        <div class="button">
           <input type="submit" class="submit" value="login">
         </div>
+
       </form>
+
     </div>
+
   </div>
-  <script src="https://code.jquery.com/jquery-3.6.4.slim.js" integrity="sha256-dWvV84T6BhzO4vG6gWhsWVKVoa4lVmLnpBOZh/CAHU4=" crossorigin="anonymous"></script>
-  <script>
-    const menuIcon = $(".menu-icon");
-    const menu = $(".nav-links");
-    const linkUP = $(".up")
-    const linkDown = $(".down")
-    $(document).ready(function() {
-      const nav = $('.nav-links2');
-      $(window).resize(function() {
-        const width = $(window).width();
-        if (width > 1200) {
-          nav.show();
-          menu.hide()
-        } else {
-          nav.hide();
-        }
-      });
-    });
+</div>
 
-    menuIcon.on('click', () => {
-      menu.toggle()
-    });
 
-  </script>
-  </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:replace="partials/partials :: bootstrapScript"></script>
+</body>
 </html>
+
+
+
+

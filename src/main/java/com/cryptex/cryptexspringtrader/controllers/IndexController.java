@@ -82,11 +82,6 @@ package com.cryptex.cryptexspringtrader.controllers;//package com.cryptex.crypte
 //}
 
 
-import ch.qos.logback.core.model.Model;
-
-
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,26 +108,26 @@ public class IndexController {
     public String showOverview() {
         return "overview";
     }
-    @GetMapping("/overview1")
+    @GetMapping("/lesson-1")
     public String showOverview1() {
-        return "overview1";
+        return "lessons/lesson1";
     }
-    @GetMapping("/overview2")
+    @GetMapping("/lesson-2")
     public String showOverview2() {
-        return "overview2";
+        return "lessons/lesson2";
     }
 
-    @GetMapping("/overview3")
+    @GetMapping("/lesson-3")
     public String showOverview3() {
-        return "overview3";
+        return "lessons/lesson3";
     }
 
-    @GetMapping("/overview4")
+    @GetMapping("/lesson-4")
     public String showOverview4() {
-        return "overview4";
+        return "lessons/lesson4";
     }
 
-    @GetMapping("/aboutus")
+    @GetMapping("/about-us")
     public String showAboutUs() {
         return "aboutUs";
     }
