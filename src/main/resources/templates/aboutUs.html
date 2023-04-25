@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang ="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec ="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Getting Started</title>
+  <link th:replace="partials/partials :: bootstrapLink">
+  <style>
+    *{
+      color: white;
+    }
+    body{
+      background-color: #2a2b3c;
+    }
+    .row{
+      background-color: #1c1d2b;
+    }
+    .picture{
+      background-color: white;
+      width: 300px;
+      height: 300px;
+    }
+    .picture2{
+      background-color: white;
+      width: 200px;
+      height: 200px;
+    }
+
+  </style>
+
+</head>
+
+<body class ="body">
+<nav th:replace="partials/navBar"></nav>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-8 p-3 d-flex flex-column justify-content-center">
+        <h1>About cryptex</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusamus eaque eligendi error hic in praesentium repellendus saepe? Ab accusamus accusantium dolores hic ipsum libero minima nemo quisquam recusandae ullam.</p>
+        <h1>Our Team</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque quae, unde. Ab alias at, culpa ducimus earum, enim eos error est eveniet facilis fugiat in laborum magnam non totam vero.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci asperiores debitis dolore doloremque, doloribus explicabo fugit molestias nihil nobis placeat praesentium, quasi quibusdam quos rem repudiandae, totam unde? Dolorum, molestias?</p>
+
+    </div>
+  </div>
+
+
+  <div class="row mt-5">
+
+    <div class="col-6">
+      <h1>name</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolor ex magni quidem quisquam ratione saepe sapiente! Animi consequatur, distinctio doloribus, eaque enim esse ex, excepturi hic inventore libero similique?</p>
+    </div>
+    <div class="col-6">
+      <div class="picture"></div>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:replace="partials/partials :: bootstrapScript"></script>
+</body>
+</html>
+
+
+
+

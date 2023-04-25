@@ -108,7 +108,38 @@ public class IndexController {
     public String showDashboard() {
         return "dashboard";
     }
+
+    @GetMapping("/overview")
+    public String showOverview() {
+        return "overview";
+    }
+    @GetMapping("/overview1")
+    public String showOverview1() {
+        return "overview1";
+    }
+    @GetMapping("/overview2")
+    public String showOverview2() {
+        return "overview2";
+    }
+
+    @GetMapping("/overview3")
+    public String showOverview3() {
+        return "overview3";
+    }
+
+    @GetMapping("/overview4")
+    public String showOverview4() {
+        return "overview4";
+    }
+
+    @GetMapping("/aboutus")
+    public String showAboutUs() {
+        return "aboutUs";
+    }
 }
+
+
+
 
 
 
