@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang ="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec ="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Getting Started</title>
+  <link th:replace="partials/partials :: bootstrapLink">
+  <style>
+    *{
+      color: white;
+    }
+    body{
+      background-color: #2a2b3c;
+    }
+    .dark{
+      background-color: #1c1d2b;
+    }
+    .picture{
+      background-color: white;
+      width: 300px;
+      height: 300px;
+    }
+    .picture2{
+      background-color: white;
+      width: 400px;
+      height: 400px;
+    }
+    .fix{
+      padding-left: 120px!important;
+      padding-right: 0!important;
+    }
+
+  </style>
+
+</head>
+
+<body class ="body">
+<nav th:replace="partials/navBar"></nav>
+
+
+<div class="container">
+  <div class="col">
+    <h1>BLAhhhh</h1>
+
+  </div>
+  <div class="row">
+    <div class="col-8 p-3 d-flex flex-column justify-content-center dark ">
+
+      <h5 class="card-title">Card 1 Title</h5>
+      <p class="card-text ">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        At deserunt earum quasi quia quod ratione recusandae temporibus. Aliquid doloremque
+        error iusto laboriosam unde. Alias nesciunt officiis qui reiciendis sed vero!</p>
+
+      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        At deserunt earum quasi quia quod ratione recusandae temporibus. Aliquid doloremque
+        error iusto laboriosam unde. Alias nesciunt officiis qui reiciendis sed vero!</p>
+
+      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        At deserunt earum quasi quia quod ratione recusandae temporibus. Aliquid doloremque
+        error iusto laboriosam unde. Alias nesciunt officiis qui reiciendis sed vero!</p>
+    </div>
+    <div class="col-4 d-flex justify-content-center fix">
+      <div class="picture "></div>
+    </div>
+  </div>
+  <div class="row mt-5">
+
+
+    <div class="col-6 d-flex align-items-center justify-content-start">
+      <div class="picture2 m-3"></div>
+    </div>
+
+
+    <div class="col-6 ">
+      <p class="dark m-3 p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur, aut commodi delectus et maiores nam qui reiciendis
+        vitae voluptatum. Accusamus exercitationem inventore itaque possimus quas qui reprehenderit unde veritatis.</p>
+      <p class="dark m-3 p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur, aut commodi delectus et maiores nam qui reiciendis
+        vitae voluptatum. Accusamus exercitationem inventore itaque possimus quas qui reprehenderit unde veritatis.</p>
+      <p class="dark m-3 p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur, aut commodi delectus et maiores nam qui reiciendis
+        vitae voluptatum. Accusamus exercitationem inventore itaque possimus quas qui reprehenderit unde veritatis.</p>
+    </div>
+
+
+
+  </div>
+
+  <div class="row my-5">
+    <div class="col-4 dark">
+      <p class="p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias, eos id nisi
+        nostrum quas saepe sed! Commodi dignissimos, distinctio eum fugiat impedit inventore necessitatibus,
+        nostrum quibusdam veniam vero voluptatibus?</p>
+
+      <p class="p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias, eos id nisi
+        nostrum quas saepe sed! Commodi dignissimos, distinctio eum fugiat impedit inventore necessitatibus,
+        nostrum quibusdam veniam vero voluptatibus?</p>
+    </div>
+    <div class="col-4 d-flex justify-content-center align-items-center">
+      <div class="picture"></div>
+    </div>
+    <div class="col-4 dark">
+      <p class="p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias, eos id nisi
+        nostrum quas saepe sed! Commodi dignissimos, distinctio eum fugiat impedit inventore necessitatibus,
+        nostrum quibusdam veniam vero voluptatibus?</p>
+
+      <p class="p-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias, eos id nisi
+        nostrum quas saepe sed! Commodi dignissimos, distinctio eum fugiat impedit inventore necessitatibus,
+        nostrum quibusdam veniam vero voluptatibus?</p>
+    </div>
+
+  </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:replace="partials/partials :: bootstrapScript"></script>
+</body>
+</html>
+
+
+
+
