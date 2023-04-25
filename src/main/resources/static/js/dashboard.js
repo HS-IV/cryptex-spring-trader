@@ -1195,10 +1195,18 @@ function createWatchlistButton(watchlistName) {
     const watchlistApiUrl = getWatchlistApiUrl(watchlistName);
     newWatchlistButton.attr('onclick', `getChart('${watchlistApiUrl}');clearChart()`);
 
-    navPills.find('#create-watchlist-btn').before(newWatchlistButton);
+    navPills.find('.nav-link:last-child').before(newWatchlistButton);
 
     $('#watchlist-name').val('');
     $('button[aria-label="Close"]').click();
 }
 
+$('#create-watchlist-btn').on('click', function () {
+    // Clear the added coins array and the added-coins list in the HTML
+    addedCoins = [];
+    $('#added-coins').empty();
+
+    // Clear the search input field
+    $('#search').val('');
+});
 
