@@ -1,4 +1,5 @@
-package com.cryptex.cryptexspringtrader;
+
+package com.cryptex.cryptexspringtrader.config;
 
 import com.cryptex.cryptexspringtrader.services.UserDetailsLoader;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
 
 @Configuration
 @EnableWebSecurity
@@ -31,6 +33,7 @@ public class SecurityConfiguration {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -38,7 +41,7 @@ public class SecurityConfiguration {
                 /* Login configuration */
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/overview") // user's home page, it can be any URL
+                .defaultSuccessUrl("/tutorial") // user's home page, it can be any URL
                 .permitAll() // Anyone can go to the login page
                 /* Logout configuration */
                 .and()
@@ -49,30 +52,33 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/profile", // only authenticated users can create ads
-                        "/logout", "/dashboard", "/api/dashboard/", "/api/watchlists" // only authenticated users can edit ads
+                        "/logout", "/dashboard", "/api/dashboard/", "/api/watchlists","/api/watchlists/*" // only authenticated users can edit ads
 
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/sign-up", "/creators", "/index", "/tutorial",
-                                            "/css/**", "/js/**","/overview","/lesson-1","/lesson-2","/lesson-3",
-                                            "/lesson-4","/about-us","/img/**")
+                .requestMatchers("/", "/sign-up", "/creators", "/index", "/tutorial", "/css/**", "/js/**","/images/**" +
+                        "") // anyone can see home, the ads pages, and sign up
                 .permitAll()
         ;
+
         return http.build();
     }
 }
 
-//    @Bean
-//    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-//        http.authorizeHttpRequests()
-//                .anyRequest().permitAll()
-//                .and().formLogin()
-//                .and().httpBasic();
-//        return http.build();
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/images/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .and()
+//                .httpBasic();
 //    }
 //}
-//
+
 
