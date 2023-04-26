@@ -103,6 +103,8 @@ public class IndexController {
     public String showDashboard() {
         return "dashboard";
     }
+    @RequestMapping("/market")
+    public String market() {return "market";}
 
     @GetMapping("/overview")
     public String showOverview() {
