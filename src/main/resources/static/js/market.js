@@ -62,52 +62,54 @@
         }
     };
 
-const getTicker = async () => {
-    try {
-        const response = await fetch("'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h&locale=en'");
-        const data = await response.json();
-        data.forEach((coin) => {
-            let Chng = (coin.price_change_percentage_24h).toFixed(2)
-            let color = Chng > 0 ? 'green' : 'red';
-            let price = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-                notation: "compact",
-                compactDisplay: "short",
-                maximumSignificantDigits: 3
-            }).format(coin.current_price);
-            // console.log(Object.entries(coin)[0][1].usd)
-            let tickerElement = "";
-            tickerElement +=
-                `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
-            $('.ticker').append(tickerElement)
-        })
-    } catch (error) {
-        console.log("API request failed: " + error);
+    const getTicker = async () => {
         try {
-            const response = await fetch("/mockdb/ticker.json");
-            const data = await response.json();
-            data.forEach((coin) => {
-                let Chng = (coin.price_change_percentage_24h).toFixed(2)
-                let color = Chng > 0 ? 'green' : 'red';
-                let price = new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    notation: "compact",
-                    compactDisplay: "short",
-                    maximumSignificantDigits: 3
-                }).format(coin.current_price);
-                // console.log(Object.entries(coin)[0][1].usd)
-                let tickerElement = "";
-                tickerElement +=
-                    `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
-                $('.ticker').append(tickerElement)
+           $.getJSON('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h&locale=en')
+           .done(function(data){
+                data.forEach((coin) => {
+                    let Chng = (coin.price_change_percentage_24h).toFixed(2)
+                    let color = Chng > 0 ? 'green' : 'red';
+                    let price = new Intl.NumberFormat("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                        notation: "compact",
+                        compactDisplay: "short",
+                        maximumSignificantDigits: 3
+                    }).format(coin.current_price);
+                    // console.log(Object.entries(coin)[0][1].usd)
+                    let tickerElement = "";
+                    tickerElement +=
+                        `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
+                    $('.ticker').append(tickerElement)
+                })
             })
         } catch (error) {
-            console.log("Local JSON request failed: " + error);
+            console.log("API request failed: " + error);
+            try {
+                $.getJSON("/mockdb/ticker.json")
+                    .done(function(data) {
+                        data.forEach((coin) => {
+                            let Chng = (coin.price_change_percentage_24h).toFixed(2)
+                            let color = Chng > 0 ? 'green' : 'red';
+                            let price = new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "USD",
+                                notation: "compact",
+                                compactDisplay: "short",
+                                maximumSignificantDigits: 3
+                            }).format(coin.current_price);
+                            // console.log(Object.entries(coin)[0][1].usd)
+                            let tickerElement = "";
+                            tickerElement +=
+                                `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
+                            $('.ticker').append(tickerElement)
+                        })
+                    })
+            } catch (error) {
+                console.log("Local JSON request failed: " + error);
+            }
         }
-    }
-};
+    };
 
 const getGeckoTerminal = (Contract) => {
     if($('#terminal')){
@@ -325,21 +327,126 @@ function getExchanges(url) {
             })//done
     } catch (e) {
         console.error(e)
-    }
-}
-getChart("/mockdb/marketcap.json","Cryptocurrency Prices by Market Cap")
-function getChart(url,header) {
-    $('#terminal').empty();
-    $('#coinChart').empty()
-    $('#selectedTable').empty()
-
-    try {
-        $.getJSON(url)
+    }    try {
+        $.getJSON("/mockdb/exchanges.json")
             .done(function (data) {
                 let chartTable = '';
                 chartTable +=
+                    `<h1 class="text-justify">Exchanges</h1>                
+                     <table class="table table-dark">
+                    <thead id="tableHead">
+                <tr>
+                    <th scope="col" style="cursor:pointer;">name</th>
+                    <th scope="col">trust score</th>                 
+                    <th scope="col">trust rank</th>
+                    <th scope="col">24h volume (BTC)</th>
+                    
+                  
+                
+                </tr>
+            </thead>
+                <tbody id="coinChart"></tbody>
+            </table>`
 
-                    `<h1>${header}</h1>                
+                $('#selectedTable').append(chartTable);
+
+                var th = $('#tableHead th');
+                th.click(function () {
+                    console.log('sorting table');
+                    let table = $(this).parents('table').eq(0);
+                    let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+                    this.asc = !this.asc;
+                    if (!this.asc) {
+                        rows = rows.reverse();
+                    }
+                    for (var i = 0; i < rows.length; i++) {
+                        table.append(rows[i]);
+                    }
+                });
+
+                function comparer(index) {
+                    return function (a, b) {
+                        let valA = getCellValue(a, index), valB = getCellValue(b, index);
+                        let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+                        let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+                        if ($.isNumeric(numA) && $.isNumeric(numB)) {
+                            return numA - numB;
+                        } else {
+                            return valA.toString().localeCompare(valB);
+                        }
+                    };
+                }
+
+                function getCellValue(row, index) {
+                    let cell = $(row).children('td').eq(index);
+                    if (cell.data('numeric')) {
+                        return cell.attr('data-raw');
+                    } else {
+                        return cell.text();
+                    }
+                }
+
+
+                data.forEach((ex) => {
+
+
+
+                    let volume_formatted = '$' + (ex.trade_volume_24h_btc).toLocaleString('en-US');
+                    const marketCap = (input) => {
+                        if (input !== null || input === 0) {
+                            return input
+                        } else {
+                            return 'NA'
+                        }
+                    }
+
+                    const volume = (input) => {
+                        if (input !== null || input === 0) {
+                            return input
+                        } else {
+                            return 'NA'
+                        }
+                    }
+
+
+                    let catElement = '';
+                    catElement +=
+                        `<tr>
+<td class='exchange-name'><a style="text-decoration: none; color:white!important;" href="#search" onclick="getPools('https://api.geckoterminal.com/api/v2/networks/eth/dexes/${ex.id}/pools', '${ex.name}')"><img src='${ex.image}' alt=''>${ex.name}</a></td>
+<td class="exchange-score">${ex.trust_score}</td>
+<td class="exchange-rank">${ex.trust_score_rank}</td>
+<td class="exchange-volume">₿ ${volume(volume_formatted)}</td>
+
+</tr>`
+                    $('#coinChart').append(catElement)
+
+
+                })
+            })//done
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+    const getChart = async (url,header) => {
+        $('#terminal').empty();
+        $('#coinChart').empty()
+        $('#selectedTable').empty()
+    try{
+        $.getJSON(url)
+
+                .fail(function (jqxhr, textStatus, error) {
+                    console.log("API request failed: " + error);
+                })
+        } catch (e) {
+            console.error(e)
+        }
+                    $.getJSON("/mockdb/marketcap.json")
+                        .done(function (data) {
+                            let chartTable = '';
+                            chartTable +=
+
+                                `<h1>${header}</h1>                
             <table class="table table-dark">
             <thead id="tableHead">
             
@@ -361,59 +468,59 @@ function getChart(url,header) {
             <tbody id="coinChart"></tbody>
             </table>`
 
-                $('#selectedTable').append(chartTable);
+                            $('#selectedTable').append(chartTable);
 
-                var th = $('#tableHead th');
-                th.click(function() {
-                    console.log('sorting table');
-                    let table = $(this).parents('table').eq(0);
-                    let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
-                    this.asc = !this.asc;
-                    if (!this.asc) {
-                        rows = rows.reverse();
-                    }
-                    for (var i = 0; i < rows.length; i++) {
-                        table.append(rows[i]);
-                    }
-                });
-                function comparer(index) {
-                    return function(a, b) {
-                        let valA = getCellValue(a, index), valB = getCellValue(b, index);
-                        let numA = parseFloat(valA.replace(/[^0-9.-]+/g,""));
-                        let numB = parseFloat(valB.replace(/[^0-9.-]+/g,""));
-                        if ($.isNumeric(numA) && $.isNumeric(numB)) {
-                            return numA - numB;
-                        } else {
-                            return valA.toString().localeCompare(valB);
-                        }
-                    };
-                }
-                function getCellValue(row, index) {
-                    let cell = $(row).children('td').eq(index);
-                    if (cell.data('numeric')) {
-                        return cell.attr('data-raw');
-                    } else {
-                        return cell.text();
-                    }
-                }
-
-
-                data.forEach((coin) => {
+                            var th = $('#tableHead th');
+                            th.click(function() {
+                                console.log('sorting table');
+                                let table = $(this).parents('table').eq(0);
+                                let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+                                this.asc = !this.asc;
+                                if (!this.asc) {
+                                    rows = rows.reverse();
+                                }
+                                for (var i = 0; i < rows.length; i++) {
+                                    table.append(rows[i]);
+                                }
+                            });
+                            function comparer(index) {
+                                return function(a, b) {
+                                    let valA = getCellValue(a, index), valB = getCellValue(b, index);
+                                    let numA = parseFloat(valA.replace(/[^0-9.-]+/g,""));
+                                    let numB = parseFloat(valB.replace(/[^0-9.-]+/g,""));
+                                    if ($.isNumeric(numA) && $.isNumeric(numB)) {
+                                        return numA - numB;
+                                    } else {
+                                        return valA.toString().localeCompare(valB);
+                                    }
+                                };
+                            }
+                            function getCellValue(row, index) {
+                                let cell = $(row).children('td').eq(index);
+                                if (cell.data('numeric')) {
+                                    return cell.attr('data-raw');
+                                } else {
+                                    return cell.text();
+                                }
+                            }
 
 
-                    let colorDay = coin.price_change_percentage_1h_in_currency > 0 ? 'green' : 'red';
-                    let color = coin.price_change_percentage_24h > 0 ? 'green' : 'red';
-                    let colorWeek = coin.price_change_percentage_7d_in_currency > 0 ? 'green' : 'red';
+                            data.forEach((coin) => {
 
 
-                    const numberNotationCheck = (input) => {
-                        return '$' + (input).toLocaleString("en-US")
-                    }
+                                let colorDay = coin.price_change_percentage_1h_in_currency > 0 ? 'green' : 'red';
+                                let color = coin.price_change_percentage_24h > 0 ? 'green' : 'red';
+                                let colorWeek = coin.price_change_percentage_7d_in_currency > 0 ? 'green' : 'red';
 
-                    let sparkValue = coin.sparkline_in_7d.price
-                    let chartElement = "";
-                    chartElement +=
-                        `<tr>
+
+                                const numberNotationCheck = (input) => {
+                                    return '$' + (input).toLocaleString("en-US")
+                                }
+
+                                let sparkValue = coin.sparkline_in_7d.price
+                                let chartElement = "";
+                                chartElement +=
+                                    `<tr>
 <td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
 <td><img class="coin-icon" src="${coin.image}" alt=""><strong> ${coin.name} </strong></td>
 <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
@@ -438,26 +545,27 @@ function getChart(url,header) {
   <span>.</span>
   </div></td>`
 
-                    $('#coinChart').append(chartElement)
-                    $(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
-                        tooltipFormatter: function(sp, options, fields) {
-                            var format = $.spformat();
-                            var result = '';
-                            $.each(fields, function (i, field) {
-                                field.myprefix = options.get('myPrefixes')[i];
-                                result += format.render(field, options.get('tooltipValueLookups'), options);
-                            })
-                            return result;
-                        },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})
+                                $('#coinChart').append(chartElement)
+                                if($(`#${coin.id}-sparkline`) !== null) {$(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
+                                    tooltipFormatter: function(sp, options, fields) {
+                                        var format =  $.spformat();
+                                        var result = '';
+                                        $.each(fields, function(i, field) {
+                                            field.myprefix = options.get('myPrefixes')[i];
+                                            result += format.render(field, options.get('tooltipValueLookups'), options);
+                                        })
+                                        return result;
+                                    },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})}
+                                else{
+                                    return 'NA'
+                                }
 
-
-                }); //forEach
-            }); //done
-    } //try
-    catch (e) {
-        console.error(e)
+                            }); //forEach
+                        }) //done
+        console.log("JSON GET successful")
     }
-}
+
+
 
 function getCategories(url) {
     $('#terminal').empty();
@@ -559,8 +667,106 @@ function getCategories(url) {
                     $('#coinChart').append(catElement)
                 })
             })//done
-    }catch (e) {
-        console.error(e);
+    } catch (error) {
+        console.log("API request failed: " + error);
+    } try {
+        $.getJSON("/mockdb/categories.json")
+            .done(function (data) {
+                let chartTable = '';
+                chartTable +=
+                    `<h1 class="text-justify">Categories</h1>                
+                     <table class="table table-dark">
+                    <thead id="tableHead">
+                <tr>
+                    <th scope="col">name</th>
+                    <th scope="col">marketcap</th>                 
+                    <th scope="col">top 3 tokens</th>
+                    <th scope="col">24h volume</th>
+                    
+                  
+                
+                </tr>
+            </thead>
+                <tbody id="coinChart"></tbody>
+            </table>`
+
+
+
+                $('#selectedTable').append(chartTable);
+
+                var th = $('#tableHead th');
+                th.click(function() {
+                    console.log('sorting table');
+                    let table = $(this).parents('table').eq(0);
+                    let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+                    this.asc = !this.asc;
+                    if (!this.asc) {
+                        rows = rows.reverse();
+                    }
+                    for (var i = 0; i < rows.length; i++) {
+                        table.append(rows[i]);
+                    }
+                });
+                function comparer(index) {
+                    return function(a, b) {
+                        let valA = getCellValue(a, index), valB = getCellValue(b, index);
+                        let numA = parseFloat(valA.replace(/[^0-9.-]+/g,""));
+                        let numB = parseFloat(valB.replace(/[^0-9.-]+/g,""));
+                        if ($.isNumeric(numA) && $.isNumeric(numB)) {
+                            return numA - numB;
+                        } else {
+                            return valA.toString().localeCompare(valB);
+                        }
+                    };
+                }
+                function getCellValue(row, index) {
+                    let cell = $(row).children('td').eq(index);
+                    if (cell.data('numeric')) {
+                        return cell.attr('data-raw');
+                    } else {
+                        return cell.text();
+                    }
+                }
+                data.forEach((cat) => {
+
+                    const currencyFormat = (input) => {
+                        if(input !== 'NA' && input !== 0) {
+                            return '$' + (input).toLocaleString('en-US')
+                        }else{
+                            return `<span style="color:red;">${input}</span>`
+                        }
+                    }
+
+                    const marketCap = (input) => {
+                        if(input == null || input == '$0'){
+                            return 0
+                        } else {
+                            return input
+                        }
+                    }
+
+                    const volume = (input) => {
+                        if(input == null || input === '$0'){
+                            return 0
+                        } else {
+                            return input
+                        }
+                    }
+
+                    let catElement ='';
+                    catElement +=
+                        `<tr>
+<td id='cat-${cat.name}'><span style="cursor:pointer;" onclick="getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=${cat.id}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en','${cat.name}')">${cat.name}</span></td>
+<td>${currencyFormat(marketCap(cat.market_cap))}</td>
+<td><img src='${cat.top_3_coins[0]}' alt=''><img src='${cat.top_3_coins[1]}' alt=''><img src='${cat.top_3_coins[2]}' alt=''></td>
+<td>${(currencyFormat(volume(cat.volume_24h)))}</td>
+
+</tr>`
+                    $('#coinChart').append(catElement)
+                })
+            })//done
+    } catch (error) {
+        console.log("Local JSON request failed: " + error);
     }
 }
 
@@ -637,7 +843,28 @@ const getGlobal = async () => {
 
             })
     } catch (e) {
-        console.error(e);
+        console.error(e + "Global API call failed");
+    }  try {
+        $.getJSON("/mockdb/global.json")
+            .done(function (data) {
+                console.log(data)
+                let coin = data.data
+                let price = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    notation: "compact",
+                    compactDisplay: "long",
+                    maximumSignificantDigits: 3
+                }).format(coin.total_volume.usd);
+                coin.total_volume.usd
+                let Global = "";
+                Global +=
+                    `<span>Coins: <span class="globalValue">${coin.active_cryptocurrencies}</span> Exchanges: <span class="globalValue">${coin.markets}</span> 24hr Volume: <span class="globalValue">${price} </span> BTC Dominance: <span class="globalValue">${coin.market_cap_percentage.btc.toFixed(2)}%</span> </span>`
+                $('#global').append(Global)
+
+            })
+    } catch (e) {
+        console.error(e + "Global JSON fetch failed");
     }
 }
 const getGas = async () => {
@@ -650,18 +877,26 @@ const getGas = async () => {
                     `<span>Gas: <span class="globalValue">${data.result.FastGasPrice}gwei </span></span>`
                 $('#global').append(gas)
             })
-    } catch (e) {
-        console.error(e);
+    } catch (error) {
+        console.log("API request failed: " + error);
+    } try {
+        $.getJSON("/mockdb/gas.json")
+            .done(function (data) {
+                let gas = "";
+                gas +=
+                    `<span>Gas: <span class="globalValue">${data.result.FastGasPrice}gwei </span></span>`
+                $('#global').append(gas)
+            })
+    } catch (error) {
+        console.log("Local JSON request failed: " + error);
     }
 }
-// getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en','Cryptocurrency Prices by Market Cap');
+
+getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en',"Cryptocurrency Prices by Market Cap")
 getGlobal()
 getGas()
 getTrending()
 getTicker()
-// getChart('/mockdb/sparkline.json','Cryptocurrency Prices by Market Cap')
-// getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=ethereum-ecosystem&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')
-// getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=ethereum-ecosystem&order=market_cap_desc&per_page=1000&page=5&sparkline=false&locale=en')
 
 $(document).ready(function (){
     $('#dropdownBlockchain').click(function () {

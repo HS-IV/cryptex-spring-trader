@@ -1,11 +1,8 @@
-// // let chart,
-
 const getShow = async (input) => {
     $('#coinChart').empty()
     $('#coin-description').empty()
     try {
         $.getJSON(`https://api.coingecko.com/api/v3/coins/${input}?localization=false&tickers=true&market_data=true&community_data=true&developer_data=true&sparkline=true`)
-            // $.getJSON('../mockdb/doge.json')
             .done(function (coin) {
 
 
@@ -684,6 +681,142 @@ const getChart = async (url) => {
         }
 }
 
+const getChart = async (url,header) => {
+    $('#terminal').empty();
+    $('#coinChart').empty()
+    $('#selectedTable').empty()
+    try{
+        $.getJSON(url)
+
+            .fail(function (jqxhr, textStatus, error) {
+                console.log("API request failed: " + error);
+            })
+    } catch (e) {
+        console.error(e)
+    }
+    $.getJSON("/mockdb/marketcap.json")
+        .done(function (data) {
+            let chartTable = '';
+            chartTable +=
+
+                `<h1>${header}</h1>                
+            <table class="table table-dark">
+            <thead id="tableHead">
+            
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">name</th>
+                <th scope="col">ticker</th>
+                <th scope="col">price</th>
+                <th scope="col">1h</th>
+                <th scope="col">24h</th>
+                <th scope="col">7d</th>
+                <th scope="col">volume</th>
+                <th scope="col">marketcap</th>
+                <th scope="col">24h Hi</th>
+                <th scope="col">24h Lo</th>
+                <th scope="col">Last 7 days</th>
+            </tr>
+            </thead>
+            <tbody id="coinChart"></tbody>
+            </table>`
+
+            $('#selectedTable').append(chartTable);
+
+            var th = $('#tableHead th');
+            th.click(function() {
+                console.log('sorting table');
+                let table = $(this).parents('table').eq(0);
+                let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+                this.asc = !this.asc;
+                if (!this.asc) {
+                    rows = rows.reverse();
+                }
+                for (var i = 0; i < rows.length; i++) {
+                    table.append(rows[i]);
+                }
+            });
+            function comparer(index) {
+                return function(a, b) {
+                    let valA = getCellValue(a, index), valB = getCellValue(b, index);
+                    let numA = parseFloat(valA.replace(/[^0-9.-]+/g,""));
+                    let numB = parseFloat(valB.replace(/[^0-9.-]+/g,""));
+                    if ($.isNumeric(numA) && $.isNumeric(numB)) {
+                        return numA - numB;
+                    } else {
+                        return valA.toString().localeCompare(valB);
+                    }
+                };
+            }
+            function getCellValue(row, index) {
+                let cell = $(row).children('td').eq(index);
+                if (cell.data('numeric')) {
+                    return cell.attr('data-raw');
+                } else {
+                    return cell.text();
+                }
+            }
+
+
+            data.forEach((coin) => {
+
+
+                let colorDay = coin.price_change_percentage_1h_in_currency > 0 ? 'green' : 'red';
+                let color = coin.price_change_percentage_24h > 0 ? 'green' : 'red';
+                let colorWeek = coin.price_change_percentage_7d_in_currency > 0 ? 'green' : 'red';
+
+
+                const numberNotationCheck = (input) => {
+                    return '$' + (input).toLocaleString("en-US")
+                }
+
+                let sparkValue = coin.sparkline_in_7d.price
+                let chartElement = "";
+                chartElement +=
+                    `<tr>
+<td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
+<td><img class="coin-icon" src="${coin.image}" alt=""><strong> ${coin.name} </strong></td>
+<td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
+<td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
+<td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}</td>
+<td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}</td>
+<td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}</td>
+<td class="coin-volume">${numberNotationCheck(coin.total_volume)}</td>
+<td class="coin-marketcap">${numberNotationCheck(coin.market_cap)}</td>
+<td class="coin-high">${numberNotationCheck(coin.high_24h)}</td>
+<td class="coin-low">${numberNotationCheck(coin.low_24h)}</td>
+<td id="${coin.id}-sparkline" class="sparkline">
+<div class="loading"><span>L</span>
+  <span>o</span>
+  <span>a</span>
+  <span>d</span>
+  <span>i</span>
+  <span>n</span>
+  <span>g</span>
+  <span>.</span>
+  <span>.</span>
+  <span>.</span>
+  </div></td>`
+
+                $('#coinChart').append(chartElement)
+                if($(`#${coin.id}-sparkline`) !== null) {$(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
+                    tooltipFormatter: function(sp, options, fields) {
+                        var format =  $.spformat();
+                        var result = '';
+                        $.each(fields, function(i, field) {
+                            field.myprefix = options.get('myPrefixes')[i];
+                            result += format.render(field, options.get('tooltipValueLookups'), options);
+                        })
+                        return result;
+                    },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})}
+                else{
+                    return 'NA'
+                }
+
+            }); //forEach
+        }) //done
+    console.log("JSON GET successful")
+}
 
 
 const searchQuery = (input) => {
