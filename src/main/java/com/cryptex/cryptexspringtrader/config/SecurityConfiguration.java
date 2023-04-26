@@ -52,14 +52,14 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/profile", // only authenticated users can create ads
-                        "/logout", "/dashboard", "/api/dashboard/", "/api/watchlists","/api/watchlists/*" // only authenticated users can edit ads
+                        "/logout", "/dashboard", "/api/dashboard/", "/api/watchlists","/api/watchlists/**" // only authenticated users can edit ads
 
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**" +
+                .requestMatchers("/", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/api/watchlists/**","/api/watchlists/marketcap","/REST/","/REST/**","/REST/watchlists/marketcap" +
                         "") // anyone can see home, the ads pages, and sign up
                 .permitAll()
         ;
