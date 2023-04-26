@@ -696,6 +696,7 @@ function deleteWatchlist(watchlistId) {
         },
         success: function () {
             Swal.default.fire(
+                'confirmed',
                 'You have successfully deleted watchlist',
                 'success'
             )
