@@ -228,3 +228,17 @@ span:nth-of-type(10){ animation-delay: 0.9s; }
     text-decoration: none;
     color:white;
 }
+.watchlistButtonContainer {
+    display: inline-block;
+}
+
+.deleteWatchlistButton {
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 5px;
+}
