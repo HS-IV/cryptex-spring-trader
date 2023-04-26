@@ -1,14 +1,10 @@
-package com.cryptex.cryptexspringtrader.controllers;
 
-import com.cryptex.cryptexspringtrader.models.CoinData;
+package com.cryptex.cryptexspringtrader.controllers;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import com.cryptex.cryptexspringtrader.models.User;
 import com.cryptex.cryptexspringtrader.models.Watchlist;
 import com.cryptex.cryptexspringtrader.repositories.CoinDataRepository;
-import com.cryptex.cryptexspringtrader.repositories.UserRepository;
-import com.cryptex.cryptexspringtrader.repositories.WatchlistRepository;
 import com.cryptex.cryptexspringtrader.services.WatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,12 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.cryptex.cryptexspringtrader.repositories.CoinDataRepository;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,10 +26,6 @@ public class WatchlistController {
     private WatchlistService watchlistService;
 
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private WatchlistRepository watchlistRepository;
-    @Autowired
     private CoinDataRepository coinDataRepository;
 
 
@@ -48,15 +35,24 @@ public class WatchlistController {
         return new ResponseEntity<>(watchlists, HttpStatus.OK);
     }
 
-
 //    @PostMapping
 //    public ResponseEntity<Void> createWatchlist(@RequestBody Watchlists watchlists) {
 //        Watchlist watchlist = new Watchlist();
 //        watchlist.setName(watchlists.getName());
 //
 //        List<com.cryptex.cryptexspringtrader.models.CoinData> coinDataList = watchlists.getCoinDataList().stream()
-//                .map(coin -> coinDataRepository.findByApiId(coin.getApiId()))
-//                .filter(coinData -> coinData != null)
+//                .map(coin -> {
+//                    System.out.println("Looking for coin with apiId: " + coin.getApiId());
+//                    com.cryptex.cryptexspringtrader.models.CoinData coinData = coinDataRepository.findByApiId(coin.getApiId());
+//                    if (coinData == null) {
+//                        System.out.println("Saving new CoinData with apiId: " + coin.getApiId());
+//                        coinData = new com.cryptex.cryptexspringtrader.models.CoinData(coin.getApiId());
+//                        coinDataRepository.save(coinData);
+//                    } else {
+//                        System.out.println("CoinData with apiId: " + coin.getApiId() + " already exists");
+//                    }
+//                    return coinData;
+//                })
 //                .collect(Collectors.toList());
 //
 //        watchlist.setCoinDataList(coinDataList);
@@ -68,9 +64,10 @@ public class WatchlistController {
 //
 //        return new ResponseEntity<>(HttpStatus.CREATED);
 //    }
+// In WatchlistController
 
     @PostMapping
-    public ResponseEntity<Void> createWatchlist(@RequestBody Watchlists watchlists) {
+    public ResponseEntity<Long> createWatchlist(@RequestBody Watchlists watchlists) {
         Watchlist watchlist = new Watchlist();
         watchlist.setName(watchlists.getName());
 
@@ -94,12 +91,20 @@ public class WatchlistController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        watchlistService.createWatchlistForUser(watchlist, userDetails);
+        // Save the watchlist and get the saved watchlist from the service
+        Watchlist savedWatchlist = watchlistService.createWatchlistForUser(watchlist, userDetails);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        // Return the watchlist ID in the response
+        return new ResponseEntity<>(savedWatchlist.getId(), HttpStatus.CREATED);
     }
 
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWatchlist(@PathVariable Long id) {
+
+        watchlistService.deleteWatchlist(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
     public static class Watchlists {
 
         private String name;
@@ -141,7 +146,6 @@ public class WatchlistController {
     }
 
     public static class CoinData {
-        //        private Long id;
         private String apiId;
 
         @Override
@@ -164,18 +168,7 @@ public class WatchlistController {
         public CoinData(@JsonProperty("id") String apiId) {
             this.apiId = apiId;
         }
-//        public CoinData( String apiId) {
-//            this.id = id;
-//            this.apiId = apiId;
-//        }
 
-//        public Long getId() {
-//            return id;
-//        }
-//
-//        public void setId(Long id) {
-//            this.id = id;
-//        }
     }
 }
 
