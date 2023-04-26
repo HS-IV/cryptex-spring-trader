@@ -1,7 +1,40 @@
-const getTrending = async () => {
-    try {
-        $.getJSON("https://api.coingecko.com/api/v3/search/trending?vs_currency=usd")
-            .done(function(data) {
+
+
+
+
+
+
+
+    const getTrending = async () => {
+        try {
+            const response = await fetch("https://api.coingecko.com/api/v3/search/trending?vs_currency=usd");
+            const data = await response.json();
+            data.coins.forEach((coin) => {
+                let price = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    notation: "compact",
+                    compactDisplay: "short",
+                    maximumSignificantDigits: 3
+                }).format(coin.item.price_btc * 28000);
+                let coinCard = ""
+                coinCard +=
+                    `<div class="w-100">
+                 <div class="card card-custom jump">
+                   <span style="display:flex;margin:2px;"><img style="margin-right:1em;" src='${coin.item.small}' alt="${coin.item.name} icon"><h1 class="coin-name">${coin.item.name}</h1><h4 class="coin-ticker"> ${coin.item.symbol}</h4></span>                 
+                    <h3 class="coin-mc">Marketcap Rank #${coin.item.market_cap_rank}</h3>                 
+                     <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price--> 
+                    <h5 class="user-rating">User Score: ${coin.item.score}/10</h5>
+                    </div>
+                    </div>
+                    `
+                $("#trending").append(coinCard);
+            })
+        } catch (error) {
+            console.log("API request failed: " + error);
+            try {
+                const response = await fetch("/mockdb/trending.json");
+                const data = await response.json();
                 data.coins.forEach((coin) => {
                     let price = new Intl.NumberFormat("en-US", {
                         style: "currency",
@@ -23,41 +56,58 @@ const getTrending = async () => {
                     `
                     $("#trending").append(coinCard);
                 })
-            })
-    } catch (e) {
-        console.error(e);
-    }
-}
-const getTicker = async (url) => {
+            } catch (error) {
+                console.log("Local JSON request failed: " + error);
+            }
+        }
+    };
+
+const getTicker = async () => {
     try {
-        $.getJSON(url)
-            .done(function (data) {
-                console.log(data)
-
-                data.forEach((coin) => {
-                    let Chng = (coin.price_change_percentage_24h).toFixed(2)
-                    let color = Chng > 0 ? 'green' : 'red';
-                    let price = new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        notation: "compact",
-                        compactDisplay: "short",
-                        maximumSignificantDigits: 3
-                    }).format(coin.current_price);
-                    // console.log(Object.entries(coin)[0][1].usd)
-                    let tickerElement = "";
-                    tickerElement +=
-                        `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
-                    $('.ticker').append(tickerElement)
-                })
-
+        const response = await fetch("'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h&locale=en'");
+        const data = await response.json();
+        data.forEach((coin) => {
+            let Chng = (coin.price_change_percentage_24h).toFixed(2)
+            let color = Chng > 0 ? 'green' : 'red';
+            let price = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+                notation: "compact",
+                compactDisplay: "short",
+                maximumSignificantDigits: 3
+            }).format(coin.current_price);
+            // console.log(Object.entries(coin)[0][1].usd)
+            let tickerElement = "";
+            tickerElement +=
+                `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
+            $('.ticker').append(tickerElement)
+        })
+    } catch (error) {
+        console.log("API request failed: " + error);
+        try {
+            const response = await fetch("/mockdb/ticker.json");
+            const data = await response.json();
+            data.forEach((coin) => {
+                let Chng = (coin.price_change_percentage_24h).toFixed(2)
+                let color = Chng > 0 ? 'green' : 'red';
+                let price = new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    notation: "compact",
+                    compactDisplay: "short",
+                    maximumSignificantDigits: 3
+                }).format(coin.current_price);
+                // console.log(Object.entries(coin)[0][1].usd)
+                let tickerElement = "";
+                tickerElement +=
+                    `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
+                $('.ticker').append(tickerElement)
             })
+        } catch (error) {
+            console.log("Local JSON request failed: " + error);
+        }
     }
-
-    catch (e) {
-        console.error(e);
-    }
-}
+};
 
 const getGeckoTerminal = (Contract) => {
     if($('#terminal')){
@@ -277,7 +327,7 @@ function getExchanges(url) {
         console.error(e)
     }
 }
-
+getChart("/mockdb/marketcap.json","Cryptocurrency Prices by Market Cap")
 function getChart(url,header) {
     $('#terminal').empty();
     $('#coinChart').empty()
@@ -604,11 +654,11 @@ const getGas = async () => {
         console.error(e);
     }
 }
-getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en','Cryptocurrency Prices by Market Cap');
+// getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en','Cryptocurrency Prices by Market Cap');
 getGlobal()
 getGas()
 getTrending()
-// getTicker('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&per_page=10&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')
+getTicker()
 // getChart('/mockdb/sparkline.json','Cryptocurrency Prices by Market Cap')
 // getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=ethereum-ecosystem&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')
 // getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=ethereum-ecosystem&order=market_cap_desc&per_page=1000&page=5&sparkline=false&locale=en')
