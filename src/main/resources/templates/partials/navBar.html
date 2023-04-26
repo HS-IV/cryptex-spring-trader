@@ -1,59 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>NavBar</title>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Abel&family=Anton&display=swap" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
-
-</head>
-<body>
-<!--<nav th:fragment="navbar">-->
-<!--	<header>-->
-<!--	<div class="menu-icon">-->
-<!--		<i class="fa-solid fa-bars" style="color: #ffffff;"></i>-->
-<!--	</div>-->
-<!--  <ul class="nav-links loginShift ">-->
-<!--	  <li><a href="/">CryptEX</a></li>-->
-<!--	  <li><a href="/overview">Tutorial</a></li>-->
-<!--	  <li><a href="/about-us">About</a></li>-->
-<!--	  <li><a href="/dashboard">Dashboard</a></li>-->
-<!--	  <li><a href="/sign-up">Sign Up</a></li>-->
-<!--	  <li><a href="/login">Login</a></li>-->
-<!--  </ul>-->
-<!--		<ul class="nav-links2 loginShift ">-->
-<!--			<li><a href="/">CryptEX</a></li>-->
-<!--			<li><a href="/overview">Tutorial</a></li>-->
-<!--			<li><a href="/about-us">About</a></li>-->
-<!--			<li><a href="/dashboard">Dashboard</a></li>-->
-<!--			<li><a href="/sign-up">Sign Up</a></li>-->
-<!--		    <li><a href="/login">Login</a></li>-->
-<!--		</ul>-->
-<!--		<ul>-->
-<!--&lt;!&ndash;			<li><a href="/login" class="down">Login</a></li>&ndash;&gt;-->
-<!--		</ul>-->
-<!--	</header>-->
-<!--</nav>-->
 
 
+<nav th:fragment="navbar2" class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Griptex</a>
+		<a class="nav-link" href="#">
+			<svg class="nav-svg" version="1.0" xmlns="http://www.w3.org/2000/svg"
+				 width="70pt" height="31pt" viewBox="0 0 228.000000 186.000000"
+				 preserveAspectRatio="xMidYMid meet">
+				<!-- SVG content -->
+				<g transform="translate(0.000000,186.000000) scale(0.100000,-0.100000)"
+				   fill="#ffffff" stroke="none">
+					<path d="M1019 1689 c-73 -10 -175 -49 -252 -96 -91 -55 -647 -607 -647 -643
+							0 -20 58 -83 273 -297 149 -150 290 -287 312 -304 60 -47 211 -117 287 -133
+							93 -19 229 -20 314 -2 203 43 271 91 610 430 149 150 275 282 279 295 8 28 19
+							15 -306 342 -278 278 -341 329 -469 375 -110 40 -268 53 -401 33z m317 -39
+							c180 -46 250 -98 599 -449 l250 -251 -250 -251 c-138 -138 -284 -278 -325
+							 -311 -136 -111 -270 -158 -450 -158 -128 0 -217 21 -330 76 -94 46 -98 50
+							 -395 345 l-300 298 275 277 c282 283 370 357 469 395 137 53 317 64 457 29z"/>
+					<path d="M1005 1586 c-67 -16 -165 -62 -222 -102 -25 -17 -159 -145 -298 -284
+								l-253 -252 41 -19 c51 -23 134 -25 184 -4 23 10 110 87 223 198 194 192 253
+								237 341 263 76 23 208 21 280 -4 143 -51 252 -162 295 -301 15 -48 20 -193 8
+								 -225 -4 -10 31 20 77 67 101 101 152 130 231 131 32 1 58 3 58 6 0 9 -383 385
+								 -425 417 -59 45 -156 91 -227 108 -75 18 -243 18 -313 1z m295 -28 c67 -12
+								164 -57 230 -106 76 -56 365 -351 355 -360 -6 -5 -31 -16 -56 -26 -25 -9 -75
+								 -41 -109 -71 -35 -30 -67 -55 -70 -55 -4 0 -10 26 -13 58 -9 80 -32 150 -66
+								203 -156 235 -450 301 -675 152 -41 -28 -140 -117 -236 -213 -91 -91 -181
+								 -173 -202 -183 -43 -20 -141 -23 -156 -4 -16 19 441 476 529 529 146 89 283
+								111 469 76z"/>
+					<path d="M1091 1329 c-29 -5 -80 -23 -112 -40 -233 -124 -278 -427 -92 -612
+							60 -61 121 -93 205 -107 208 -36 420 115 446 318 35 266 -186 483 -447 441z
+							m217 -55 c71 -35 109 -68 153 -136 117 -181 41 -424 -160 -516 -70 -32 -189
+							 -36 -266 -9 -83 28 -158 95 -197 174 -30 62 -33 75 -33 163 0 83 3 102 27 151
+							87 176 305 256 476 173z"/>
+					<path d="M625 969 c-93 -94 -135 -119 -219 -127 l-61 -7 220 -216 c195 -190
+						229 -220 295 -252 41 -20 102 -44 135 -52 85 -22 235 -19 330 5 153 39 225 94
+						540 409 l219 220 -44 20 c-57 26 -132 26 -188 1 -29 -13 -109 -84 -235 -208
+						 -106 -103 -212 -199 -237 -213 -129 -71 -287 -73 -425 -5 -169 84 -266 250
+						 -252 434 3 39 5 72 3 72 -1 0 -37 -36 -81 -81z m1389 -22 c15 -11 -8 -38 -226
+						 -253 -198 -196 -258 -249 -322 -287 -191 -112 -444 -109 -636 8 -34 21 -132
+						108 -236 212 -169 168 -176 177 -153 186 75 30 129 61 164 96 22 22 45 40 51
+						41 14 0 24 -32 24 -75 0 -37 30 -121 64 -179 38 -64 131 -145 214 -184 65 -31
+						86 -36 172 -40 114 -5 201 16 284 69 27 17 129 109 225 204 97 95 192 182 211
+						194 40 24 135 29 164 8z"/>
+				</g>
+			</svg>
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class=" collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav ms-auto ">
 
 
 
-<nav th:fragment="navbar2" class="navbar navbar-expand-lg bg-body-tertiary ">
-	<a class="col-6 navbar-brand" href="/">Cryptex</a>
+				<li class="nav-item">
+					<a class="nav-link mx-2 active" href="/market">MarketPlace</a>
+				</li>
 
-	<div class="col-6 d-flex justify-content-between">
-		<a class="nav-link active" href="/overview">Tutorial</a>
-		<a class="nav-link active" href="/about-us">About</a>
-		<a class="nav-link active" href="/dashboard">Dashboard</a>
-		<a class="nav-link active" href="/sign-up">Sign Up</a>
-		<a class="nav-link active" href="/login">Login</a>
+
+				<li class="nav-item">
+					<a class="nav-link mx-2 active" href="/overview">Tutorial</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link mx-2 active" href="/dashboard">Dashboard</a>
+				</li>
+
+
+				<li class="nav-item">
+					<a class="nav-link mx-2 active" href="/about-us">About</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link mx-2 active" href="/sign-up">Sign Up</a>
+				</li>
+
+
+				<li class="nav-item">
+					<a class="nav-link mx-2 active" href="/login">Login</a>
+				</li>
+
+			</ul>
+		</div>
 	</div>
 </nav>
 
 
-
-</body>
-</html>
