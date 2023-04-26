@@ -1,96 +1,966 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Gecko API</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="/css/style.css">
+  <title>Cipher</title>
+  <link rel="stylesheet" href="/css/cipher.css">
+
+  <style>
+
+    html {
+      height: 100%;
+    }
+    body {
+    }
+    body {
+      height: 100%;
+      margin: 0;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+      background-color: #193c6d;
+      background-image: linear-gradient(100deg,black,white);
+      background-size: 100%;
+      text-align: center;
+      overflow-x: hidden;
+      overscroll-behavior-y: none;
+      overscroll-behavior-x: none;
+    }
 
 
+    @keyframes rotate {
+      from {
+        rotate: 0deg;
+      }
+
+      50% {
+        scale: 1 1.5;
+      }
+
+      to {
+        rotate: 360deg;
+      }
+    }
+
+
+    .navItems {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 5;
+    }
+
+    #navbar li {
+      float: left;
+    }
+
+    .navItems li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    .navItems li a:hover:not(.active) {
+      background-color: #111;
+    }
+
+    .active {
+      background-color: darkblue;
+      text-shadow: 1px 1px 0 black;
+    }
+
+
+    #CryptEx {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(3rem, 10vw, 10rem);
+      color: white;
+      text-shadow: 1px 1px 3px black;
+      white-space: nowrap;
+      padding: 0rem clamp(1rem, 2vw, 3rem);
+      border-radius: clamp(0.4rem, 0.75vw, 1rem);
+      margin: 0rem;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      translate: -50% -50%;
+      z-index: 3;
+    }
+    #blur {
+      height: 110vh;
+      width: 110vw;
+      background-image: radial-gradient(circle,transparent, black 90%);
+      filter:blur(10px);
+      z-index: 1;
+
+    }
+
+    canvas{
+      left: 0;
+      width: 1021px;
+      height: 780px;
+      z-index: -110;
+      position: fixed;
+      top: 0;
+    }
+
+    .vertical-section{
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      overflow-x: hidden;
+      display: flex;
+      position: sticky;
+      top:0;
+    }
+    section {
+      min-width: 50vw;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 4ch;
+    }
+    h1{
+      color:white;
+    }
+    section:nth-child(even) {
+      background-color: teal;
+      color: white;
+    }
+
+    /*Footer*/
+
+    footer {
+      position: sticky;
+      bottom: 0;
+      z-index: -1;
+      height: 200px;
+      width: 100vw;
+      color: white;
+      padding: 5px 0;
+      text-align: center;
+      transition: display .08s ease-in-out;
+    }
+
+    /*Hide and Show Obs*/
+    .hidden{
+      opacity: 0;
+      filter:blur(5px);
+      transform:translateX(-100%);
+      transition: all 2s;
+    }
+    .show{
+      opacity: 1;
+      filter:blur(0);
+      transform:translateX(0%);
+    }
+
+    .card {
+      /* Add shadows to create the "card" effect */
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .blurb {
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.9s;
+      margin-left: 2em;
+      background: rgba(190,190,0,0.2);}
+    .blurb:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    .container {
+      padding: 2px 16px;
+    }
+    /*Scroll-bound*/
+    .scroll-bound {
+      height: 500vh;
+    }
+    .content {
+      height: 100vh;
+      width: 100%;
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    video {
+      width: 80%;
+    }
+  </style>
 </head>
 <body>
 
-<nav th:replace="partials/navBar :: navbar"></nav>
 
+<nav th:replace="partials/navBar :: navbar2"></nav>
+
+<div style="position:relative;z-index: 0;height:100vh;">
+  <svg class="scroll" style="position: absolute;top: 35%;left: 18%;
+}" version="1.0" xmlns="http://www.w3.org/2000/svg"
+       width="240.000000pt" height="256.000000pt" viewBox="0 0 247.000000 278.000000"
+       preserveAspectRatio="xMidYMid meet">
+    <g transform="translate(0.000000,186.000000) scale(0.100000,-0.100000)"
+       fill="#ffffff" stroke="none">
+      <path d="M1019 1689 c-73 -10 -175 -49 -252 -96 -91 -55 -647 -607 -647 -643
+0 -20 58 -83 273 -297 149 -150 290 -287 312 -304 60 -47 211 -117 287 -133
+93 -19 229 -20 314 -2 203 43 271 91 610 430 149 150 275 282 279 295 8 28 19
+15 -306 342 -278 278 -341 329 -469 375 -110 40 -268 53 -401 33z m317 -39
+c180 -46 250 -98 599 -449 l250 -251 -250 -251 c-138 -138 -284 -278 -325
+-311 -136 -111 -270 -158 -450 -158 -128 0 -217 21 -330 76 -94 46 -98 50
+-395 345 l-300 298 275 277 c282 283 370 357 469 395 137 53 317 64 457 29z"/>
+      <path d="M1005 1586 c-67 -16 -165 -62 -222 -102 -25 -17 -159 -145 -298 -284
+l-253 -252 41 -19 c51 -23 134 -25 184 -4 23 10 110 87 223 198 194 192 253
+237 341 263 76 23 208 21 280 -4 143 -51 252 -162 295 -301 15 -48 20 -193 8
+-225 -4 -10 31 20 77 67 101 101 152 130 231 131 32 1 58 3 58 6 0 9 -383 385
+-425 417 -59 45 -156 91 -227 108 -75 18 -243 18 -313 1z m295 -28 c67 -12
+164 -57 230 -106 76 -56 365 -351 355 -360 -6 -5 -31 -16 -56 -26 -25 -9 -75
+-41 -109 -71 -35 -30 -67 -55 -70 -55 -4 0 -10 26 -13 58 -9 80 -32 150 -66
+203 -156 235 -450 301 -675 152 -41 -28 -140 -117 -236 -213 -91 -91 -181
+-173 -202 -183 -43 -20 -141 -23 -156 -4 -16 19 441 476 529 529 146 89 283
+111 469 76z"/>
+      <path d="M1091 1329 c-29 -5 -80 -23 -112 -40 -233 -124 -278 -427 -92 -612
+60 -61 121 -93 205 -107 208 -36 420 115 446 318 35 266 -186 483 -447 441z
+m217 -55 c71 -35 109 -68 153 -136 117 -181 41 -424 -160 -516 -70 -32 -189
+-36 -266 -9 -83 28 -158 95 -197 174 -30 62 -33 75 -33 163 0 83 3 102 27 151
+87 176 305 256 476 173z"/>
+      <path d="M625 969 c-93 -94 -135 -119 -219 -127 l-61 -7 220 -216 c195 -190
+229 -220 295 -252 41 -20 102 -44 135 -52 85 -22 235 -19 330 5 153 39 225 94
+540 409 l219 220 -44 20 c-57 26 -132 26 -188 1 -29 -13 -109 -84 -235 -208
+-106 -103 -212 -199 -237 -213 -129 -71 -287 -73 -425 -5 -169 84 -266 250
+-252 434 3 39 5 72 3 72 -1 0 -37 -36 -81 -81z m1389 -22 c15 -11 -8 -38 -226
+-253 -198 -196 -258 -249 -322 -287 -191 -112 -444 -109 -636 8 -34 21 -132
+108 -236 212 -169 168 -176 177 -153 186 75 30 129 61 164 96 22 22 45 40 51
+41 14 0 24 -32 24 -75 0 -37 30 -121 64 -179 38 -64 131 -145 214 -184 65 -31
+86 -36 172 -40 114 -5 201 16 284 69 27 17 129 109 225 204 97 95 192 182 211
+194 40 24 135 29 164 8z"/>
+    </g>
+  </svg>
+  <h1 id="CryptEx" class="scroll" data-value="CryptEx">CryptEx</h1>
+</div>
+
+<div class="vertical-section" style="background: black;">
+  <main>
+    <div class="container" style="font-size: 1.3em;">
+
+
+      <br><br>
+
+
+      <div class="scroll">
+        <h4 style="animation-delay: .08s; color:white;line-height: 2em; transform:translateY(50%);"><strong style="font-size: 1.5em;color:teal;">CryptEx</strong> is your source for crypto <br> <span style="color:orange;">News,</span> <span style="color:lightcoral;">Stats</span> and <span style="color:cyan;">Market Data.</span></h4>
+        <br> <hr>
+      </div>
+      <svg class="scroll" version="1.0" xmlns="http://www.w3.org/2000/svg"
+           width="228.000000pt" height="186.000000pt" viewBox="0 0 228.000000 186.000000"
+           preserveAspectRatio="xMidYMid meet">
+
+        <g transform="translate(0.000000,186.000000) scale(0.100000,-0.100000)"
+           fill="#ffffff" stroke="none">
+          <path d="M1019 1689 c-73 -10 -175 -49 -252 -96 -91 -55 -647 -607 -647 -643
+0 -20 58 -83 273 -297 149 -150 290 -287 312 -304 60 -47 211 -117 287 -133
+93 -19 229 -20 314 -2 203 43 271 91 610 430 149 150 275 282 279 295 8 28 19
+15 -306 342 -278 278 -341 329 -469 375 -110 40 -268 53 -401 33z m317 -39
+c180 -46 250 -98 599 -449 l250 -251 -250 -251 c-138 -138 -284 -278 -325
+-311 -136 -111 -270 -158 -450 -158 -128 0 -217 21 -330 76 -94 46 -98 50
+-395 345 l-300 298 275 277 c282 283 370 357 469 395 137 53 317 64 457 29z"/>
+          <path d="M1005 1586 c-67 -16 -165 -62 -222 -102 -25 -17 -159 -145 -298 -284
+l-253 -252 41 -19 c51 -23 134 -25 184 -4 23 10 110 87 223 198 194 192 253
+237 341 263 76 23 208 21 280 -4 143 -51 252 -162 295 -301 15 -48 20 -193 8
+-225 -4 -10 31 20 77 67 101 101 152 130 231 131 32 1 58 3 58 6 0 9 -383 385
+-425 417 -59 45 -156 91 -227 108 -75 18 -243 18 -313 1z m295 -28 c67 -12
+164 -57 230 -106 76 -56 365 -351 355 -360 -6 -5 -31 -16 -56 -26 -25 -9 -75
+-41 -109 -71 -35 -30 -67 -55 -70 -55 -4 0 -10 26 -13 58 -9 80 -32 150 -66
+203 -156 235 -450 301 -675 152 -41 -28 -140 -117 -236 -213 -91 -91 -181
+-173 -202 -183 -43 -20 -141 -23 -156 -4 -16 19 441 476 529 529 146 89 283
+111 469 76z"/>
+          <path d="M1091 1329 c-29 -5 -80 -23 -112 -40 -233 -124 -278 -427 -92 -612
+60 -61 121 -93 205 -107 208 -36 420 115 446 318 35 266 -186 483 -447 441z
+m217 -55 c71 -35 109 -68 153 -136 117 -181 41 -424 -160 -516 -70 -32 -189
+-36 -266 -9 -83 28 -158 95 -197 174 -30 62 -33 75 -33 163 0 83 3 102 27 151
+87 176 305 256 476 173z"/>
+          <path d="M625 969 c-93 -94 -135 -119 -219 -127 l-61 -7 220 -216 c195 -190
+229 -220 295 -252 41 -20 102 -44 135 -52 85 -22 235 -19 330 5 153 39 225 94
+540 409 l219 220 -44 20 c-57 26 -132 26 -188 1 -29 -13 -109 -84 -235 -208
+-106 -103 -212 -199 -237 -213 -129 -71 -287 -73 -425 -5 -169 84 -266 250
+-252 434 3 39 5 72 3 72 -1 0 -37 -36 -81 -81z m1389 -22 c15 -11 -8 -38 -226
+-253 -198 -196 -258 -249 -322 -287 -191 -112 -444 -109 -636 8 -34 21 -132
+108 -236 212 -169 168 -176 177 -153 186 75 30 129 61 164 96 22 22 45 40 51
+41 14 0 24 -32 24 -75 0 -37 30 -121 64 -179 38 -64 131 -145 214 -184 65 -31
+86 -36 172 -40 114 -5 201 16 284 69 27 17 129 109 225 204 97 95 192 182 211
+194 40 24 135 29 164 8z"/>
+        </g>
+      </svg>
+
+
+
+      <div class="card scroll" style="line-height: 2em;padding: 3px;margin:auto;"><p class="scroll" style="text-align:left;animation-delay: .05s; color:white;"><br>
+        <br><span style="color:cyan;font-weight: bold">Sign up</span> and stay up-to-date with <span style="font-weight: bold;color:orange;">daily live crypto prices</span>, stats and market trends on our <span style="font-weight: bold;color:cyan;">customizable watchlist;</span></p>
+        <p class="scroll" style="animation-delay: .08s; color:white;">Choose your <span style="color:cyan;font-weight: bold;">favorite cryptocurrencies</span> or blockchain projects and get your <span style="color:orange;font-weight: bold">crypto data</span> updated in real time.</p></div>
+      <div class="row">
+
+        <br>
+
+        <a href="/sign-up"><h2 class="underline scroll" style="color:white;">Create your Watchlist</h2></a>
+
+        <br><hr>
+      </div>
+    </div>
+  </main>
+</div>
 
 <main>
-
-  <button onclick="topFunction()" class="bg-primary" id="topBtn" title="Go to top"><i class="bi bi-arrow-up-circle"></i></button>
-  <!--    <section class="container">-->
-  <div class="row">
-
-
-    <div class="d-flex">
-      <div class="tabs">
-        <div class='dropdown'>
-          <input type="radio" class="table-buttons dropdown-toggle"  id="dropdownBlockchain" data-bs-toggle="dropdown" aria-expanded="false">
-          <label class="table-buttons" for="dropdownBlockchain">Blockchains</label>
-          <!--                    </button>-->
-          <div class="dropdown-Blockchain-item">
-            <ul style='justify-content:space-around;position:relative;list-style: none;' aria-labelledby="dropdownBlockchain">
-              <li style="z-index:10;"><a class="dropdown-item" href="#" onclick="getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=ethereum-ecosystem&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en', 'Ethereum Ecosystem')">Ethereum</a></li>
-              <li style="z-index:10;"><a class="dropdown-item" href="#" onclick="getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=fantom-ecosystem&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en', 'Fantom Ecosystem')">Fantom</a></li>
-              <li style="z-index:10;"><a class="dropdown-item" href="#" onclick="getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=polygon-ecosystem&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en', 'Polygon-Matic Ecosystem')">Polygon-Matic</a></li>
-            </ul>
-          </div>
-        </div>
-
-
-        <input type="radio" name="tabs" id="radio1" onclick="getExchanges('https://api.coingecko.com/api/v3/exchanges')">
-        <label class="tab" for="radio1">Exchanges</label>
-        <input type="radio" name="tabs" id="radio2" onclick="getCategories('https://api.coingecko.com/api/v3/coins/categories')">
-        <label class="tab" for="radio2">Categories</label>
-        <input type="radio" name="tabs" id="radio3" onclick="getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en','Cryptocurrency Prices by Market Cap')">
-        <label class="tab" for="radio3">Market Cap</label>
-      </div>
-    </div>
+  <div class="column scroll" style="border:1px solid black;text-align:center; box-shadow: 0 8px 8px -4px lightblue;color:orange;background-image:linear-gradient(90deg,darkcyan,cyan);text-shadow:1px 2px 0 black;">
+    <h2>Track your Favorite Coins</h2>
+    <p style="font-weight: bold;">Easy interface to display data relevant to you</p>
   </div>
-
-
-  </section>
-  <div class="row" id="selectedTable"></div>
-
-  <div class="container" style="height:900px;" id="terminal"></div>
-  <section>
-    <div class="row">
-      <div id="trending">
-        <h1 style="text-align: center">Trending Now</h1>
-        <hr style="color:white;">
-      </div>
-    </div>
-  </section>
+  <div class="column scroll" style="border:1px solid black;text-align:center; box-shadow: 0 8px 8px -4px lightblue;color:antiquewhite;background-image:linear-gradient(120deg,darkmagenta,magenta);text-shadow:1px 2px 0 black;">
+    <h2>Historical Data</h2>
+    <p style="font-weight: bold;">Marketcap, Volume, Circulating supply tracked in real time</p>
+  </div>
+  <div class="column scroll" style="border:1px solid black;text-align:center; box-shadow: 0 8px 8px -4px lightblue;color:cyan;background-image:linear-gradient(100deg,orange,darkorange);text-shadow:1px 2px 0 black;">
+    <h2>Set Alerts</h2>
+    <p style="font-weight: bold;">Receive SMS alerts to your phone when you Sign up for a <i>free</i> <strong>CryptEx</strong> account</p>
+  </div>
 
 </main>
 
 
-<script>
-  let topBtn = document.getElementById("topBtn");
+<div class="sticky-container">
+  <main>
+    <section style="background: orange;">
+      <div class="content-slider">
+        <div class="slider">
+          <div class="mask">
+            <ul>
+              <li class="anim1">
+                <div class="quote">
+                  <h4>Live Prices</h4>
+                  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                       width="200.000000pt" height="200.000000pt" viewBox="0 0 300.000000 300.000000"
+                       preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)"
+                       fill="#fffffff" stroke="none">
+                      <path d="M2606 2833 c-36 -36 -38 -40 -33 -90 l5 -52 -79 -105 c-43 -58 -79
+-108 -79 -111 0 -3 -34 -51 -75 -105 -41 -54 -75 -102 -75 -105 0 -3 -27 -42
+-60 -85 -33 -43 -69 -94 -80 -112 -15 -26 -30 -37 -65 -46 -46 -12 -60 -8
+-175 58 -8 5 -74 37 -147 72 -73 35 -133 69 -133 76 0 17 -30 63 -55 84 -12
+11 -37 17 -66 18 -39 0 -51 -5 -82 -37 -29 -28 -37 -44 -37 -72 0 -32 -6 -40
+-56 -76 -31 -22 -67 -50 -79 -61 -13 -12 -52 -43 -87 -69 -35 -27 -67 -53 -73
+-59 -5 -7 -39 -34 -74 -61 -57 -43 -69 -48 -110 -47 -57 3 -89 -23 -121 -95
+-5 -13 -18 -23 -29 -23 -11 0 -37 -7 -58 -16 -21 -9 -54 -23 -73 -31 -19 -8
+-48 -21 -63 -29 -16 -8 -36 -14 -45 -14 -9 0 -26 -7 -36 -15 -11 -8 -27 -15
+-37 -15 -9 0 -22 -7 -29 -15 -7 -8 -20 -15 -30 -15 -10 0 -23 7 -30 15 -7 9
+-29 15 -55 15 -35 0 -48 -6 -78 -37 -32 -31 -37 -43 -37 -83 0 -40 5 -52 37
+-83 31 -32 43 -37 82 -37 53 1 76 17 108 75 16 29 30 42 53 46 18 4 37 12 43
+18 6 6 19 11 28 11 10 0 31 7 48 15 17 8 45 22 62 30 17 8 38 15 47 15 9 0 26
+7 36 15 11 8 27 15 37 15 9 0 22 7 29 15 7 8 20 15 30 15 10 0 23 -7 30 -15
+17 -21 90 -19 115 3 34 29 55 65 55 97 0 25 10 37 56 70 31 22 67 50 79 61 13
+12 52 43 87 70 63 48 138 110 185 151 18 16 32 20 57 16 18 -3 44 0 56 7 20
+11 45 1 230 -91 178 -89 209 -108 213 -130 3 -14 20 -40 38 -57 27 -27 41 -32
+79 -32 41 0 52 5 84 38 36 35 38 39 33 89 -6 57 -24 27 225 367 40 55 76 108
+80 118 4 10 12 18 18 18 5 0 10 5 10 10 0 6 5 16 10 23 27 31 93 125 106 150
+10 19 22 27 42 27 59 0 111 57 112 121 0 39 -5 51 -37 82 -31 32 -43 37 -83
+37 -41 0 -52 -5 -84 -37z"/>
+                      <path d="M2450 1045 l0 -1045 240 0 240 0 0 1045 0 1045 -240 0 -240 0 0
+-1045z m362 3 c2 -508 0 -927 -4 -932 -8 -11 -228 -11 -236 0 -4 5 -6 424 -4
+932 l2 922 120 0 120 0 2 -922z"/>
+                      <path d="M1250 775 l0 -775 240 0 240 0 0 775 0 775 -240 0 -240 0 0 -775z
+m362 3 c2 -359 0 -657 -4 -662 -8 -11 -228 -11 -236 0 -4 5 -6 303 -4 662 l2
+652 120 0 120 0 2 -652z"/>
+                      <path d="M1850 625 l0 -625 240 0 240 0 0 625 0 625 -240 0 -240 0 0 -625z
+m362 3 c2 -277 0 -507 -4 -512 -8 -11 -228 -11 -236 0 -4 5 -6 235 -4 512 l2
+502 120 0 120 0 2 -502z"/>
+                      <path d="M650 535 l0 -535 240 0 240 0 0 535 0 535 -240 0 -240 0 0 -535z
+m362 3 c2 -227 0 -417 -4 -422 -8 -11 -228 -11 -236 0 -4 5 -6 195 -4 422 l2
+412 120 0 120 0 2 -412z"/>
+                      <path d="M50 415 l0 -415 240 0 240 0 0 415 0 415 -240 0 -240 0 0 -415z m362
+3 c2 -161 0 -297 -4 -302 -8 -11 -228 -11 -236 0 -4 5 -6 141 -4 302 l3 292
+119 0 119 0 3 -292z"/>
+                    </g>
+                  </svg>
+                </div>
+              </li>
+              <li class="anim2">
+                <div class="quote">
+                  <h4>Trending Tokens </h4>
 
+                  <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 351.9 572" width="100" height="100"><style>.st0{fill:#937821}.st1{fill:#d8ba5a}.st2{fill:#725d1a}.st3{fill:#9a8023}</style><path class="st0" d="M175.9 0l-3.8 13v378.3l3.8 3.8 175.9-103.8z"/><path class="st1" d="M175.9 0L0 291.3l175.9 103.8V211.5z"/><path class="st0" d="M175.9 428.3l-2.2 2.7v134.7l2.2 6.3 176-247.4z"/><path class="st1" d="M175.9 572V428.3L0 324.6z"/><path class="st2" d="M175.9 395.1l175.9-103.8-175.9-79.8z"/><path class="st3" d="M0 291.3l175.9 103.8V211.5z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 710.5 687.9" width="100" height="100"><title>IOTA</title><desc>Created using Figma</desc><path d="M516.723 79.8c21.7 0 39.3-17.9 39.3-39.9S538.423 0 516.723 0c-21.7.1-39.3 18-39.3 40s17.6 39.8 39.3 39.8zM528.312 183.501c18.4 0 33.3-15.1 33.3-33.8 0-18.6-14.9-33.8-33.3-33.8s-33.3 15.1-33.3 33.8c0 18.7 14.9 33.8 33.3 33.8zM619.717 196.699c18.3 0 33.2-15.1 33.2-33.7s-14.9-33.7-33.2-33.7-33.2 15.1-33.2 33.7 14.9 33.7 33.2 33.7zM608.74 285.419c15.7 0 28.4-12.9 28.4-28.8s-12.7-28.8-28.4-28.8-28.4 12.9-28.4 28.8 12.7 28.8 28.4 28.8zM681.913 314.191c15.8 0 28.6-13 28.6-29s-12.8-29-28.6-29-28.6 13-28.6 29 12.8 29 28.6 29zM516.78 273.414c16.1 0 29.1-13.2 29.1-29.5s-13-29.5-29.1-29.5-29.1 13.2-29.1 29.5c0 16.2 13 29.5 29.1 29.5zM490.409 344.011c13.5 0 24.4-11.1 24.4-24.7 0-13.7-10.9-24.7-24.4-24.7s-24.4 11.1-24.4 24.7 10.9 24.7 24.4 24.7zM581.923 356.489c13.4 0 24.2-11 24.2-24.6 0-13.6-10.8-24.6-24.2-24.6s-24.2 11-24.2 24.6c-.1 13.6 10.8 24.6 24.2 24.6zM654.89 385.152c13.5 0 24.4-11.1 24.4-24.8s-10.9-24.8-24.4-24.8-24.4 11.1-24.4 24.8c0 13.7 10.9 24.8 24.4 24.8zM618.844 438.703c11.4 0 20.6-9.4 20.6-20.9s-9.2-20.9-20.6-20.9c-11.4 0-20.6 9.4-20.6 20.9s9.2 20.9 20.6 20.9zM545.533 410.497c11.6 0 21.1-9.6 21.1-21.4s-9.4-21.4-21.1-21.4-21.1 9.6-21.1 21.4 9.5 21.4 21.1 21.4zM454.14 397.429c11.5 0 20.9-9.5 20.9-21.2s-9.3-21.2-20.9-21.2c-11.5 0-20.9 9.5-20.9 21.2s9.3 21.2 20.9 21.2zM504.94 447.731c10.1 0 18.2-8.3 18.2-18.4 0-10.2-8.1-18.4-18.2-18.4s-18.2 8.3-18.2 18.4c0 10.2 8.1 18.4 18.2 18.4zM578.223 476.404c10.1 0 18.4-8.3 18.4-18.6s-8.2-18.6-18.4-18.6c-10.1 0-18.4 8.3-18.4 18.6.1 10.3 8.3 18.6 18.4 18.6zM536.946 497.921c8 0 14.5-6.6 14.5-14.7s-6.5-14.7-14.5-14.7-14.5 6.6-14.5 14.7c.1 8.1 6.5 14.7 14.5 14.7zM497.848 509.461c7.3 0 13.1-6 13.1-13.3 0-7.4-5.9-13.3-13.1-13.3-7.3 0-13.1 6-13.1 13.3-.1 7.4 5.8 13.3 13.1 13.3zM463.602 471.219c8.6 0 15.6-7.1 15.6-15.8s-7-15.8-15.6-15.8-15.6 7.1-15.6 15.8c0 8.7 7 15.8 15.6 15.8zM413.333 434.963c10 0 18.2-8.2 18.2-18.4s-8.1-18.4-18.2-18.4c-10 0-18.2 8.2-18.2 18.4.1 10.2 8.2 18.4 18.2 18.4zM562.38 665.393c21.6 0 39.1-17.8 39.1-39.7s-17.5-39.7-39.1-39.7-39.1 17.8-39.1 39.7c0 21.9 17.5 39.7 39.1 39.7zM463.012 615.128c18 0 32.6-14.8 32.6-33.1s-14.6-33.1-32.6-33.1-32.6 14.8-32.6 33.1 14.6 33.1 32.6 33.1zM406.253 687.864c18.2 0 32.9-14.9 32.9-33.4 0-18.4-14.7-33.4-32.9-33.4s-32.9 14.9-32.9 33.4c0 18.4 14.7 33.4 32.9 33.4zM389.186 553.853c15.7 0 28.5-12.9 28.5-28.9 0-16-12.8-28.9-28.5-28.9s-28.5 12.9-28.5 28.9c0 15.9 12.8 28.9 28.5 28.9zM332.544 627.567c15.7 0 28.4-12.9 28.4-28.8s-12.7-28.8-28.4-28.8-28.4 12.9-28.4 28.8c-.1 15.9 12.7 28.8 28.4 28.8zM271.514 677.623c15.7 0 28.3-12.9 28.3-28.7 0-15.9-12.7-28.7-28.3-28.7-15.7 0-28.3 12.9-28.3 28.7 0 15.8 12.7 28.7 28.3 28.7zM220.72 612.479c13.3 0 24.2-11 24.2-24.5s-10.8-24.5-24.2-24.5c-13.3 0-24.2 11-24.2 24.5.1 13.5 10.9 24.5 24.2 24.5zM281.862 562.221c13.4 0 24.2-11 24.2-24.5 0-13.6-10.8-24.5-24.2-24.5-13.4 0-24.2 11-24.2 24.5s10.8 24.5 24.2 24.5zM338.92 488.511c13.4 0 24.2-11 24.2-24.6 0-13.6-10.8-24.6-24.2-24.6-13.4 0-24.2 11-24.2 24.6 0 13.6 10.8 24.6 24.2 24.6zM251.651 498.663c11.6 0 21-9.5 21-21.3s-9.4-21.3-21-21.3-21 9.5-21 21.3 9.4 21.3 21 21.3zM190.83 548.725c11.5 0 20.8-9.4 20.8-21.1 0-11.7-9.3-21.1-20.8-21.1s-20.8 9.4-20.8 21.1 9.3 21.1 20.8 21.1zM176.83 490.049c9.9 0 18-8.2 18-18.2 0-10.1-8.1-18.2-18-18.2s-18 8.2-18 18.2c0 10.1 8.1 18.2 18 18.2zM176.319 438.571c8.5 0 15.4-7 15.4-15.7 0-8.6-6.9-15.7-15.4-15.7s-15.4 7-15.4 15.7 6.9 15.7 15.4 15.7zM184.801 395.758c7.3 0 13.1-6 13.1-13.3s-5.9-13.3-13.1-13.3c-7.3 0-13.1 6-13.1 13.3s5.8 13.3 13.1 13.3zM237.247 388.613c8.6 0 15.6-7.1 15.6-15.8 0-8.7-7-15.8-15.6-15.8s-15.6 7.1-15.6 15.8c0 8.7 7 15.8 15.6 15.8zM294.81 366.173c10 0 18.2-8.3 18.2-18.4 0-10.2-8.1-18.4-18.2-18.4-10 0-18.2 8.3-18.2 18.4 0 10.2 8.1 18.4 18.2 18.4zM308.513 424.561c11.4 0 20.7-9.4 20.7-21s-9.3-21-20.7-21-20.7 9.4-20.7 21 9.2 21 20.7 21zM237.967 440.102c10 0 18-8.2 18-18.3 0-10.1-8.1-18.3-18-18.3-10 0-18 8.2-18 18.3-.1 10.1 8 18.3 18 18.3zM39 412.978c21.5 0 39-17.7 39-39.5s-17.5-39.5-39-39.5-39 17.7-39 39.5 17.5 39.5 39 39.5zM127.525 342.422c18.5 0 33.4-15.2 33.4-33.9s-15-33.9-33.4-33.9c-18.5 0-33.4 15.2-33.4 33.9 0 18.8 15 33.9 33.4 33.9zM92.98 255.433c18.4 0 33.2-15.1 33.2-33.7s-14.9-33.7-33.2-33.7c-18.4 0-33.2 15.1-33.2 33.7-.1 18.6 14.8 33.7 33.2 33.7zM178.323 214.216c15.7 0 28.5-12.9 28.5-28.9s-12.8-28.9-28.5-28.9-28.5 12.9-28.5 28.9c0 16 12.8 28.9 28.5 28.9zM213.182 300.999c15.8 0 28.6-13 28.6-29s-12.8-29-28.6-29-28.6 13-28.6 29 12.8 29 28.6 29zM290.857 282.978c13.4 0 24.3-11 24.3-24.7 0-13.6-10.9-24.7-24.3-24.7s-24.3 11-24.3 24.7c-.1 13.6 10.8 24.7 24.3 24.7zM357.922 283.198c11.6 0 21-9.5 21-21.2s-9.4-21.2-21-21.2-21 9.5-21 21.2c.1 11.7 9.5 21.2 21 21.2zM413.357 295.968c9.7 0 17.7-8 17.7-17.9 0-9.9-7.9-17.9-17.7-17.9-9.7 0-17.7 8-17.7 17.9.1 9.8 8 17.9 17.7 17.9zM420.581 230.642c8.5 0 15.4-7 15.4-15.6s-6.9-15.6-15.4-15.6-15.4 7-15.4 15.6 6.9 15.6 15.4 15.6zM377.959 209.263c9.8 0 17.8-8.1 17.8-18.1s-8-18.1-17.8-18.1-17.8 8.1-17.8 18.1 7.9 18.1 17.8 18.1zM323.167 196.309c11.5 0 20.8-9.5 20.8-21.1 0-11.7-9.3-21.1-20.8-21.1s-20.8 9.5-20.8 21.1c0 11.7 9.3 21.1 20.8 21.1zM256.205 196.393c13.5 0 24.4-11.1 24.4-24.7s-10.9-24.7-24.4-24.7-24.4 11.1-24.4 24.7c.1 13.7 11 24.7 24.4 24.7zM166.01 134.624c15.3 0 27.6-12.5 27.6-28s-12.4-28-27.6-28c-15.3 0-27.6 12.5-27.6 28s12.4 28 27.6 28zM243.637 117.655c13.5 0 24.4-11.1 24.4-24.7s-10.9-24.7-24.4-24.7-24.4 11.1-24.4 24.7 10.9 24.7 24.4 24.7zM310.7 117.975c11.6 0 21-9.5 21-21.3s-9.4-21.3-21-21.3-21 9.5-21 21.3c0 11.7 9.4 21.3 21 21.3zM365.718 130.647c9.8 0 17.7-8 17.7-17.9 0-9.9-7.9-17.9-17.7-17.9-9.8 0-17.7 8-17.7 17.9 0 9.8 8 17.9 17.7 17.9zM407.999 152.602c8.7 0 15.8-7.2 15.8-16 0-8.9-7.1-16-15.8-16-8.7 0-15.8 7.2-15.8 16s7.1 16 15.8 16zM439.013 177.787c7.2 0 13-5.9 13-13.2 0-7.3-5.8-13.2-13-13.2s-13 5.9-13 13.2c-.1 7.3 5.8 13.2 13 13.2z"/></svg>
+                  <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 496.7" width="100" height="100"><style>.st0{fill:#2e9ad0}</style><g id="Lines"><path class="st0" d="M333.4 481.3H182.2l-122-89.4-46.5-144.4 46.4-144.4 122-89.4h151.3l122 89.4 46.4 144.4-46.4 144.4-1.7 1.7-120.3 87.7zm-147.8-10.4H330L446.9 385l44.7-137.5L446.9 110 330 24.1H185.6L68.8 110 24.1 247.5 68.8 385l116.8 85.9z"/><path class="st0" d="M519.1 457.2l-70.5-63.6-68.8-25.8-122 15.5-123.7-15.5-68.8 25.8-3.4-10.3 70.4-27.5h1.8L257.8 373l123.8-17.2 1.7 1.7 72.2 27.5 70.4 65.3z"/><path class="st0" d="M330 486.4l-72.2-99.7-75.6 99.7-55-122 10.3-5.2 48.1 106.6 72.2-98 70.5 98 48.1-106.6 65.3-130.6 15.5 159.8h-10.3l-12.1-122-48.1 98z"/><path class="st0" d="M20.6 242.3h477.8v10.3H20.6z"/><path class="st0" d="M441.7 266.4l-60.1-118.6L330 259.5l-72.2-128.9-73.9 128.9-51.6-111.7-60.1 118.6-13.8-158.1 10.4-1.7 10.3 123.7 53.2-104.8 51.6 111.7L257.8 110l70.5 127.2 53.3-111.7 53.2 103.1 8.6-122h10.4z"/><path class="st0" d="M376.4 139.2L328.3 30.9l-70.5 99.7-72.2-99.7-48.1 108.3-8.6-5.1 53.3-123.8 75.6 101.4L330 10.3l56.7 123.8zM446.9 388.4l-12.1-122L381.6 373l-53.3-113.5-70.5 128.9-73.9-128.9L132.3 373 79.1 266.4l-10.3 122H58.4l13.8-159.8 60.1 120.3 51.6-111.7 73.9 128.9L330 237.2l51.6 113.4 60.1-122 15.5 159.8z"/><path class="st0" d="M381.6 142.7l-125.5-17.2-123.8 17.2-70.4-31 3.4-10.3 68.8 29.2 122-15.4 125.5 15.4 67-29.2 5.2 10.3z"/></g><g id="Circles"><circle class="st0" cx="183.9" cy="476.1" r="20.6"/><circle class="st0" cx="328.3" cy="476.1" r="20.6"/><circle class="st0" cx="183.9" cy="20.6" r="20.6"/><circle class="st0" cx="328.3" cy="20.6" r="20.6"/><circle class="st0" cx="448.6" cy="106.6" r="20.6"/><circle class="st0" cx="63.6" cy="106.6" r="20.6"/><circle class="st0" cx="63.6" cy="390.2" r="20.6"/><circle class="st0" cx="20.6" cy="247.5" r="20.6"/><circle class="st0" cx="496.7" cy="247.5" r="20.6"/><circle class="st0" cx="438.3" cy="247.5" r="20.6"/><circle class="st0" cx="75.6" cy="247.5" r="20.6"/><circle class="st0" cx="183.9" cy="247.5" r="20.6"/><circle class="st0" cx="328.3" cy="247.5" r="20.6"/><ellipse transform="rotate(-80.781 257.815 120.308)" class="st0" cx="257.8" cy="120.3" rx="20.6" ry="20.6"/><circle class="st0" cx="132.3" cy="137.5" r="20.6"/><circle class="st0" cx="381.6" cy="137.5" r="20.6"/><circle class="st0" cx="257.8" cy="378.1" r="20.6"/><circle class="st0" cx="132.3" cy="360.9" r="20.6"/><circle class="st0" cx="381.6" cy="360.9" r="20.6"/><circle class="st0" cx="522.5" cy="453.8" r="27.5"/></g></svg>
+                </div>
+              </li>
+              <li class="anim3">
+                <div class="quote">
+                  <h4>Historical Data</h4>
+                  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                       width="150.000000pt" height="150.000000pt" viewBox="0 0 300.000000 300.000000"
+                       preserveAspectRatio="xMidYMid meet">
+
+                    <g transform="translate(0.000000,300.000000) scale(0.100000,-0.100000)"
+                       fill="#000000" stroke="none">
+                      <path d="M673 2988 c1 -6 -8 -17 -20 -23 -55 -29 -62 -43 -65 -132 l-3 -85
+-200 2 -201 1 -37 -37 -37 -37 0 -1247 0 -1247 35 -34 34 -34 753 -5 c414 -3
+759 -3 766 -1 21 6 8 24 -24 34 -16 5 -52 27 -81 48 l-52 39 -656 0 -655 0 2
+933 c2 512 6 931 11 930 4 -2 570 -3 1257 -3 l1250 0 1 -612 0 -613 56 -28
+c30 -16 57 -27 58 -25 7 7 7 72 6 949 l-1 916 -37 37 -37 37 -201 -1 -200 -2
+-3 78 c-3 82 -19 115 -65 139 -12 6 -21 17 -19 23 1 9 -27 12 -98 12 -71 0
+-99 -3 -97 -12 1 -6 -8 -17 -20 -23 -55 -29 -62 -43 -65 -131 l-3 -84 -535 0
+-535 0 -3 76 c-3 82 -19 115 -65 139 -12 6 -21 17 -19 23 1 9 -27 12 -98 12
+-71 0 -99 -3 -97 -12z m153 -120 c7 -7 6 -349 -1 -357 -3 -2 -27 -4 -55 -4
+-28 0 -52 2 -55 4 -6 7 -8 346 -2 356 7 11 102 12 113 1z m1440 0 c7 -7 6
+-349 -1 -357 -3 -2 -27 -4 -55 -4 -28 0 -52 2 -55 4 -6 7 -8 346 -2 356 7 11
+102 12 113 1z m-1676 -322 c0 -82 0 -83 37 -119 l36 -37 107 0 107 0 34 35
+c32 32 34 39 39 120 l5 85 535 0 535 0 5 -85 c5 -81 7 -88 39 -120 l34 -35
+107 0 107 0 34 35 c32 32 34 39 39 120 3 47 8 85 13 85 4 0 84 0 177 0 l170 0
+0 -210 0 -210 -1256 -2 c-690 -2 -1258 0 -1262 4 -4 4 -6 99 -4 212 l3 206
+172 2 c95 2 175 2 180 0 4 -2 7 -40 7 -86z"/>
+                      <path d="M590 1160 l0 -690 390 0 c400 0 415 1 379 37 -6 6 -14 26 -18 45 l-7
+33 -102 5 -103 5 -1 143 c0 79 2 146 5 149 3 3 50 6 103 7 l98 1 7 33 c4 19
+12 39 18 45 6 6 11 17 11 25 0 11 -23 13 -115 11 -63 -1 -118 0 -121 4 -7 7
+-8 286 -1 294 3 3 70 5 149 4 l143 0 1 -73 c2 -102 3 -108 14 -108 5 0 16 13
+25 29 8 17 31 47 50 68 19 21 35 48 35 61 0 19 5 22 39 22 22 0 42 4 46 9 13
+22 164 81 204 81 9 0 21 4 26 9 6 6 30 11 55 13 l45 3 3 153 3 152 149 0 150
+0 0 -177 0 -178 38 -23 c20 -12 45 -28 55 -35 13 -9 19 -9 25 0 4 6 6 128 4
+272 l-3 261 -899 0 -900 0 0 -690z m422 428 c2 -79 0 -147 -4 -152 -6 -8 -282
+-11 -296 -2 -4 2 -6 70 -4 150 l3 146 149 0 149 0 3 -142z m420 -4 c2 -80 -1
+-148 -5 -151 -11 -7 -287 -6 -294 0 -4 4 -6 257 -3 295 0 1 67 2 149 2 l150 0
+3 -146z m419 -4 c-1 -79 -3 -145 -4 -147 -5 -5 -289 -5 -294 0 -4 4 -7 253 -3
+295 0 1 68 1 151 0 l151 -3 -1 -145z m-844 -273 c6 -7 6 -287 0 -294 -7 -6
+-287 -6 -294 0 -6 6 -5 285 0 294 6 9 285 8 294 0z m1 -423 c4 -5 6 -73 4
+-151 l-3 -143 -149 0 -149 0 -3 146 c-2 80 0 148 4 152 10 10 289 6 296 -4z"/>
+                      <path d="M1871 1295 c-18 -8 -41 -15 -50 -16 -9 0 -36 -11 -61 -24 -25 -13
+-55 -28 -67 -34 -28 -13 -161 -146 -174 -174 -6 -12 -21 -42 -34 -67 -13 -25
+-24 -52 -24 -61 -1 -9 -8 -33 -16 -52 -10 -23 -15 -69 -15 -127 0 -58 5 -104
+15 -127 8 -19 15 -43 16 -52 0 -9 11 -36 24 -61 13 -25 28 -55 34 -67 13 -28
+147 -162 174 -174 12 -5 42 -21 66 -34 24 -14 52 -25 61 -25 10 0 34 -7 53
+-15 56 -23 199 -20 272 6 33 11 63 26 67 32 12 19 39 -4 66 -54 42 -80 119
+-135 212 -151 162 -28 302 3 385 87 41 40 85 125 85 162 0 43 11 73 26 73 10
+0 14 13 14 40 0 27 -4 40 -14 40 -15 0 -26 30 -26 71 0 64 -90 192 -153 220
+-12 5 -29 13 -37 18 -33 19 -88 34 -145 40 -55 5 -60 8 -63 31 -7 77 -30 152
+-63 210 -5 8 -13 25 -18 37 -12 27 -146 161 -174 174 -12 5 -42 21 -66 34 -24
+14 -52 25 -61 25 -10 0 -34 7 -53 15 -48 20 -209 20 -256 0z m259 -125 c95
+-37 130 -59 186 -114 55 -56 76 -89 114 -186 9 -21 14 -72 14 -130 0 -94 -3
+-111 -48 -210 -25 -58 -128 -160 -186 -187 -94 -43 -116 -47 -210 -47 -94 0
+-111 3 -210 48 -58 26 -160 128 -186 186 -45 99 -48 116 -48 210 0 94 4 116
+47 210 37 81 186 209 245 210 9 1 28 7 42 15 31 19 188 15 240 -5z m572 -540
+c58 -25 123 -90 148 -148 75 -170 -62 -372 -253 -372 -76 0 -130 25 -192 88
+-69 70 -69 81 5 154 34 34 66 71 71 82 5 12 13 28 18 36 27 47 39 80 45 119 4
+24 9 48 12 53 10 15 101 8 146 -12z"/>
+                      <path d="M1890 982 c-5 -2 -10 -23 -10 -46 0 -23 -6 -65 -14 -92 -8 -27 -16
+-67 -18 -89 l-3 -40 43 -3 c32 -2 47 1 56 13 6 9 30 19 51 22 31 4 46 0 68
+-17 23 -18 27 -29 27 -69 0 -39 -5 -52 -28 -74 -44 -42 -95 -30 -128 28 -12
+22 -73 41 -98 32 -33 -13 -7 -85 45 -125 26 -20 94 -42 129 -42 116 0 207 112
+178 220 -6 25 -20 56 -30 70 -41 53 -123 76 -164 45 -10 -8 -27 -15 -38 -15
+-16 0 -18 5 -13 37 11 63 29 73 122 63 96 -10 115 -2 115 45 0 23 -5 35 -17
+39 -19 5 -256 3 -273 -2z"/>
+                    </g>
+                  </svg>
+                </div>
+              </li>
+              <li class="anim4">
+                <div class="quote">
+                  <h4>Trade Volume</h4>
+                  <svg fill="#000000" width="120px" height="120px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.95 31.959c-6.041 0-10.956-4.848-10.956-10.806 0-6.959 9.739-20.151 10.153-20.71 0.188-0.252 0.482-0.402 0.796-0.404 0.349-0.003 0.611 0.144 0.802 0.393 0.419 0.548 10.261 13.507 10.261 20.721 0 5.959-4.96 10.806-11.056 10.806zM15.961 2.74c-2.325 3.302-8.967 13.189-8.967 18.413 0 4.855 4.018 8.806 8.956 8.806 4.993 0 9.056-3.95 9.056-8.806 0-5.418-6.692-15.157-9.045-18.413z"></path>
+                  </svg>
+                </div>
+              </li>
+              <li class="anim5">
+                <div class="quote">
+                  <h4>Professional Audit Scores</h4>
+                  <svg fill="#000000" height="100px" width="100px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                       viewBox="0 0 488.569 488.569" xml:space="preserve">
+<g>
+	<path d="M244.273,77.626c-113.474,0-205.478,68.197-205.478,107.294c0,39.104,92.004,303.648,205.478,303.648
+		c113.476,0,205.495-264.544,205.495-303.648C449.768,145.824,357.748,77.626,244.273,77.626z M354.434,241.411L237.583,358.262
+		c-4.438,4.439-10.466,6.937-16.738,6.937c-6.273,0-12.3-2.498-16.739-6.937l-57.431-57.439c-9.249-9.248-9.249-24.237,0-33.479
+		c9.248-9.247,24.23-9.247,33.478,0l40.692,40.693l100.11-100.104c9.249-9.249,24.23-9.249,33.478,0
+		C363.683,217.173,363.683,232.171,354.434,241.411z"/>
+  <path d="M469.236,73.996c-126.146-98.653-323.795-98.669-449.908,0c-10.312,8.062-12.115,22.937-4.069,33.24
+		c8.061,10.289,22.967,12.107,33.232,4.061c109.822-85.885,281.791-85.869,391.582,0c4.33,3.384,9.463,5.025,14.566,5.025
+		c7.028,0,13.995-3.122,18.665-9.086C481.365,96.932,479.547,82.058,469.236,73.996z"/>
+</g>
+</svg>
+                </div>
+              </li>
+              <li class="anim6">
+                <div class="quote">
+                  <h4>Mobile Price Alerts</h4>
+                  <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+                       width="150.000000pt" height="204.000000pt" viewBox="0 0 300.000000 374.000000"
+                       preserveAspectRatio="xMidYMid meet">
+
+                    <g transform="translate(0.000000,374.000000) scale(0.100000,-0.100000)"
+                       fill="#000000" stroke="none">
+                      <path d="M905 3421 c-51 -23 -101 -79 -114 -128 -16 -56 -15 -2618 0 -2664 18
+-51 55 -97 102 -122 42 -22 45 -22 562 -25 351 -2 536 0 571 8 62 13 120 59
+145 114 18 39 19 99 19 1362 l0 1321 -23 44 c-13 24 -43 58 -66 74 l-43 30
+-556 2 c-522 3 -560 2 -597 -16z m705 -191 c0 -19 -7 -20 -119 -20 -69 0 -122
+4 -126 10 -15 24 12 30 126 30 112 0 119 -1 119 -20z m498 -1234 c1 -759 -1
+-1042 -9 -1052 -9 -12 -118 -14 -610 -14 -530 0 -599 2 -613 16 -14 14 -16
+121 -16 1035 0 687 3 1027 10 1040 11 19 26 19 623 17 l612 -3 3 -1039z m-555
+-1178 c27 -14 57 -69 57 -103 0 -42 -33 -92 -74 -111 -48 -24 -97 -12 -135 32
+-91 103 28 247 152 182z"/>
+                      <path d="M1425 2438 c-2 -7 -5 -24 -7 -37 -2 -19 -13 -28 -45 -38 -58 -20
+-127 -84 -158 -146 -21 -44 -27 -76 -34 -178 -10 -138 -28 -199 -86 -286 -57
+-86 -54 -88 115 -91 l145 -3 15 -31 c23 -48 64 -73 119 -73 57 0 96 23 118 70
+l16 34 146 3 c164 3 174 9 128 70 -68 90 -93 170 -106 337 -13 161 -55 232
+-171 285 -47 22 -56 30 -60 58 -5 33 -5 33 -68 36 -44 2 -64 -1 -67 -10z"/>
+                      <path d="M310 2525 c-17 -21 -9 -29 128 -127 144 -103 137 -99 156 -92 39 15
+14 44 -119 138 -74 53 -138 96 -143 96 -5 0 -15 -7 -22 -15z"/>
+                      <path d="M2510 2445 c-132 -94 -152 -117 -119 -138 23 -14 291 179 287 207 -2
+12 -10 22 -18 24 -9 1 -76 -41 -150 -93z"/>
+                      <path d="M232 2141 c-8 -5 -12 -17 -10 -27 3 -18 16 -19 161 -22 l157 -3 0 25
+c0 13 -7 27 -16 30 -24 9 -277 7 -292 -3z"/>
+                      <path d="M2450 2135 c-7 -8 -10 -22 -6 -30 4 -12 31 -15 161 -15 130 0 157 3
+161 15 4 8 1 22 -6 30 -10 12 -41 15 -155 15 -114 0 -145 -3 -155 -15z"/>
+                      <path d="M435 1834 c-72 -53 -132 -100 -133 -105 -4 -11 16 -39 28 -39 11 0
+275 190 278 201 5 13 -17 39 -32 38 -6 0 -69 -43 -141 -95z"/>
+                      <path d="M2381 1916 c-6 -7 -9 -20 -6 -27 11 -25 272 -199 289 -193 37 14 12
+43 -119 137 -75 53 -139 97 -144 97 -5 0 -14 -6 -20 -14z"/>
+                    </g>
+                  </svg>
+                </div>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+
+      <img style="height: 400px;width: 600px;" src="/images/terminalVideo.gif">
+      <h1 style="position:absolute;z-index: 4;">Trading Terminals</h1>
+
+    </section>
+    <section>
+      <div style="display:block">
+        <h1 style="text-align:center; box-shadow: 0 8px 8px -4px lightblue;color:orange;background:cyan;text-shadow:1px 2px 0 black;">40+ Ecosystems</h1><br>
+        <h1 style="text-align:center; box-shadow: 0 8px 8px -4px lightblue;color:whitesmoke;background:magenta;text-shadow:1px 2px 0 black;">700+ Markets</h1><br>
+        <h1 style="text-align:center; box-shadow: 0 8px 8px -4px lightblue;color:cyan;background:orange;text-shadow:1px 2px 0 black;">11,000+ Tokens</h1><br>
+      </div>
+    </section>
+
+    <section>
+      <h4 style="position:absolute;z-index: 4;top:20%;text-shadow:1px 1px 0 black;">Discover a new favorite</h4>
+      <ul ontouch="start">
+        <li>
+          <div class='link'>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <div class='cube codepen'>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div>
+                <svg viewBox="0 0 126.61 126.61" xmlns="http://www.w3.org/2000/svg"><g fill="#f3ba2f"><path d="m38.73 53.2 24.59-24.58 24.6 24.6 14.3-14.31-38.9-38.91-38.9 38.9z"/><path d="m0 63.31 14.3-14.31 14.31 14.31-14.31 14.3z"/><path d="m38.73 73.41 24.59 24.59 24.6-24.6 14.31 14.29-38.9 38.91-38.91-38.88z"/><path d="m98 63.31 14.3-14.31 14.31 14.3-14.31 14.32z"/><path d="m77.83 63.3-14.51-14.52-10.73 10.73-1.24 1.23-2.54 2.54 14.51 14.5 14.51-14.47z"/></g></svg>
+              </div>
+              <div>Binance</div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class='link'>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <div class='cube github'>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div>
+                <svg width="1535" height="2500" viewBox="0 0 256 417" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><path fill="#343434" d="M127.961 0l-2.795 9.5v275.668l2.795 2.79 127.962-75.638z"/><path fill="#8C8C8C" d="M127.962 0L0 212.32l127.962 75.639V154.158z"/><path fill="#3C3C3B" d="M127.961 312.187l-1.575 1.92v98.199l1.575 4.6L256 236.587z"/><path fill="#8C8C8C" d="M127.962 416.905v-104.72L0 236.585z"/><path fill="#141414" d="M127.961 287.958l127.96-75.637-127.96-58.162z"/><path fill="#393939" d="M0 212.32l127.96 75.638v-133.8z"/></svg>
+
+              </div>
+              <div>Ethereum</div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class='link'>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <a target='_blank'></a>
+            <div class='cube gate'>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div>
+                <svg viewBox="0 0 560 560.04" xmlns="http://www.w3.org/2000/svg"><path d="m219.42 275.6-4.86-4.88a5.85 5.85 0 0 0 -10 4.13v69.72a5.85 5.85 0 0 0 5.87 5.84h69.73a5.83 5.83 0 0 0 4.12-10 5.85 5.85 0 0 1 0-8.25l74.18-74.38a5.84 5.84 0 0 0 0-8.26l-6.76-6.73a5.84 5.84 0 0 1 4.13-10h69.7a5.86 5.86 0 0 1 5.86 5.84v69.72a5.86 5.86 0 0 1 -10 4.13l-4.71-4.69a5.7 5.7 0 0 0 -8.24 0l-125 125a5.89 5.89 0 0 1 -8.27 0l-153-153a5.83 5.83 0 0 1 0-8.28l211.83-211.74a5.89 5.89 0 0 0 0-8.27l-49.86-49.8a5.87 5.87 0 0 0 -8.27 0l-274.17 274.2a5.87 5.87 0 0 0 0 8.27l274.17 274.17a5.87 5.87 0 0 0 8.27 0l274.16-274.17a5.85 5.85 0 0 0 0-8.25l-161.3-161.3a5.86 5.86 0 0 0 -8.26 0l-161 161a5.83 5.83 0 0 1 -8.28 0z" fill="#de5959"/></svg>
+              </div>
+              <div>Gate.io</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<div class="sticky-container">
+  <main style="background:black;">
+    <section>
+      <h1>Questions?</h1>
+
+    </section>
+    <section style="background:orange;">
+      <h2 class="skew">?</h2>
+      <svg class="skew" version="1.0" xmlns="http://www.w3.org/2000/svg"
+           width="300.000000pt" height="266.000000pt" viewBox="0 0 300.000000 266.000000"
+           preserveAspectRatio="xMidYMid meet">
+        <g transform="translate(0.000000,266.000000) scale(0.100000,-0.100000)"
+           fill="#000000" stroke="none">
+          <path d="M1395 2459 c-237 -34 -465 -167 -617 -358 -77 -97 -160 -269 -188
+-389 -46 -206 -20 -442 71 -632 52 -109 85 -152 111 -148 38 6 45 33 20 75
+-159 263 -187 569 -77 826 50 116 91 181 175 270 238 255 595 347 925 240 95
+-31 140 -52 220 -106 349 -235 485 -673 333 -1069 -90 -237 -302 -436 -550
+-517 -70 -23 -92 -48 -68 -76 17 -20 46 -19 113 4 234 81 435 259 547 486 80
+160 94 228 94 435 0 162 -2 182 -28 264 -52 171 -163 350 -282 455 -219 194
+-511 281 -799 240z"/>
+          <path d="M1060 2131 c-14 -5 -44 -18 -67 -30 -46 -23 -57 -57 -27 -81 13 -11
+23 -10 60 8 24 12 62 25 83 28 53 8 138 -11 177 -41 39 -30 70 -32 84 -6 14
+27 5 45 -40 76 -69 48 -194 69 -270 46z"/>
+          <path d="M1878 1950 c-37 -3 -74 -12 -82 -19 -19 -16 -21 -47 -4 -57 6 -4 79
+-9 162 -10 83 -1 166 -4 185 -6 40 -4 63 21 45 50 -21 33 -178 55 -306 42z"/>
+          <path d="M1161 1828 c-41 -22 -66 -65 -66 -115 0 -39 5 -49 37 -79 31 -28 45
+-34 82 -34 111 0 163 133 81 210 -29 27 -99 37 -134 18z"/>
+          <path d="M1854 1710 c-57 -23 -87 -105 -59 -164 49 -104 208 -82 230 31 17 91
+-83 169 -171 133z"/>
+          <path d="M1251 1201 c-33 -9 -49 -36 -35 -58 10 -15 23 -17 70 -15 134 6 406
+-35 496 -77 31 -14 48 -17 61 -9 28 15 18 58 -19 80 -93 54 -474 107 -573 79z"/>
+          <path d="M1025 1088 c-17 -15 -56 -96 -116 -238 -50 -118 -95 -231 -101 -250
+-27 -91 24 -246 104 -314 45 -39 114 -66 167 -66 43 0 316 76 349 97 27 17 56
+78 48 100 -4 8 5 29 20 46 19 22 25 39 23 67 -2 26 4 45 19 65 21 26 24 35 26
+80 1 15 21 25 106 52 118 36 160 69 160 124 0 42 -56 99 -97 99 -15 -1 -154
+-38 -308 -83 -154 -46 -281 -80 -283 -76 -2 4 1 65 7 135 10 127 6 157 -23
+176 -23 15 -75 8 -101 -14z m36 -240 c-12 -140 -8 -158 32 -158 12 0 160 41
+330 91 221 65 313 87 320 80 18 -18 -1 -28 -133 -66 -171 -50 -196 -69 -150
+-110 30 -27 25 -39 -22 -55 -54 -19 -64 -57 -23 -84 31 -21 21 -40 -25 -49
+-16 -4 -34 -15 -40 -27 -9 -17 -7 -24 15 -44 14 -13 25 -28 25 -33 0 -11 -281
+-93 -316 -93 -35 1 -100 37 -131 74 -16 20 -38 61 -49 91 -15 46 -16 62 -7
+102 15 64 177 446 181 426 2 -8 -1 -74 -7 -145z"/>
+        </g>
+      </svg>
+
+    </section>
+    <section>
+      <a href="#"><h1 class="btn-style2 underline">We have Guides</h1></a>
+    </section>
+    <section style="background:cyan;">
+      <svg class="skew" version="1.0" xmlns="http://www.w3.org/2000/svg"
+           width="300.000000pt" height="145.000000pt" viewBox="0 0 300.000000 145.000000"
+           preserveAspectRatio="xMidYMid meet">
+
+        <g transform="translate(0.000000,145.000000) scale(0.100000,-0.100000)"
+           fill="#000000" stroke="none">
+          <path d="M463 1376 c-98 -32 -182 -107 -226 -204 -33 -70 -32 -227 2 -295 37
+-75 104 -142 179 -179 60 -30 75 -33 157 -33 78 0 98 4 153 29 72 33 145 107
+183 183 20 41 24 63 24 148 0 88 -3 107 -27 157 -34 72 -98 137 -173 173 -48
+24 -74 30 -144 32 -54 2 -102 -2 -128 -11z m30 -110 c91 -37 99 -178 14 -223
+-96 -49 -198 22 -184 128 6 46 29 76 72 95 39 17 58 17 98 0z m185 -222 c33
+-23 31 -86 -4 -113 -34 -27 -57 -26 -90 2 -73 63 14 167 94 111z"/>
+          <path d="M2239 1375 c-151 -48 -249 -187 -249 -350 0 -101 27 -170 96 -244 78
+-85 151 -116 269 -116 76 0 99 5 147 27 79 37 142 98 181 177 29 60 32 73 31
+161 0 82 -4 103 -27 151 -33 68 -118 152 -184 181 -62 28 -198 34 -264 13z
+m41 -116 c44 -27 57 -45 65 -91 13 -74 -46 -138 -127 -138 -43 0 -54 4 -84 34
+-60 60 -47 150 29 196 41 26 74 25 117 -1z m180 -219 c28 -28 26 -75 -5 -105
+-38 -39 -86 -30 -113 22 -17 31 -15 47 9 77 26 33 79 36 109 6z"/>
+          <path d="M1673 678 c-6 -7 -14 -31 -18 -52 -3 -22 -15 -51 -26 -64 -10 -14
+-19 -30 -19 -37 0 -7 -21 -28 -46 -48 -34 -27 -59 -37 -100 -43 -105 -13 -169
+17 -219 103 -31 55 -60 68 -85 38 -31 -37 57 -161 145 -201 57 -27 133 -31
+214 -12 l51 11 53 -51 c83 -78 161 -81 207 -7 41 67 18 147 -59 201 -40 28
+-41 30 -41 90 0 58 -11 84 -36 84 -6 0 -16 -6 -21 -12z m29 -191 c7 -7 28 -23
+46 -36 26 -18 32 -29 32 -60 0 -76 -46 -81 -121 -13 l-53 47 35 5 c30 4 34 9
+37 38 4 36 5 37 24 19z"/>
+        </g>
+      </svg>
+      <svg style="position:absolute;transform:translateY(60%);scale:.5;" version="1.0" xmlns="http://www.w3.org/2000/svg"
+           width="300.000000pt" height="444.000000pt" viewBox="0 0 300.000000 444.000000"
+           preserveAspectRatio="xMidYMid meet">
+
+        <g transform="translate(0.000000,444.000000) scale(0.050000,-0.050000)"
+           fill="#000000" stroke="none">
+          <path d="M3923 8545 c-87 -173 -346 -825 -340 -857 11 -52 70 -82 111 -56 42
+26 385 836 385 911 1 51 -30 77 -90 77 -16 0 -45 -34 -66 -75z"/>
+          <path d="M2113 8527 c-37 -37 266 -849 333 -891 156 -100 151 26 -17 439 -192
+470 -236 532 -316 452z"/>
+          <path d="M3022 8392 c-50 -60 -19 -641 34 -649 94 -13 104 20 104 335 0 301
+-10 342 -82 342 -18 0 -43 -12 -56 -28z"/>
+          <path d="M4297 7627 c-223 -220 -258 -284 -181 -325 48 -26 102 10 276 188
+228 233 234 241 210 286 -47 88 -80 72 -305 -149z"/>
+          <path d="M1561 7791 c-41 -49 -9 -95 207 -308 162 -159 215 -201 244 -190 112
+41 92 89 -136 320 -206 209 -263 241 -315 178z"/>
+          <path d="M5010 7188 c-143 -61 -332 -140 -420 -178 -203 -85 -259 -184 -117
+-206 79 -12 896 344 904 394 18 128 -43 126 -367 -10z"/>
+          <path d="M920 7200 c-40 -74 9 -108 367 -257 375 -156 439 -167 449 -79 8 69
+-11 81 -407 244 -353 145 -378 150 -409 92z"/>
+          <path d="M2601 6748 c-146 -167 -317 -718 -530 -1713 -175 -817 -192 -932
+-211 -1462 -23 -634 -31 -664 -228 -864 -164 -167 -179 -173 -221 -91 -100
+193 -191 196 -634 20 -510 -202 -556 -259 -443 -554 193 -504 617 -1561 641
+-1597 90 -141 209 -135 627 31 512 203 543 251 404 614 -4 12 98 78 228 145
+436 226 633 384 725 582 59 125 63 125 123 -4 93 -201 304 -366 774 -605 103
+-52 183 -105 178 -117 -140 -366 -109 -413 404 -616 543 -214 570 -204 768
+303 50 127 187 473 304 770 286 722 287 725 173 847 -80 84 -762 351 -854 334
+-79 -15 -185 -97 -210 -164 -25 -66 -41 -60 -165 53 -236 216 -273 339 -274
+921 -1 795 -497 2906 -743 3165 -120 126 -303 73 -378 -108 -13 -32 -31 -58
+-39 -58 -8 0 -26 26 -39 58 -75 180 -269 237 -380 110z m225 -173 c78 -167
+114 -642 114 -1508 l0 -562 -107 -53 c-182 -89 -217 -160 -262 -532 -146
+-1211 -145 -1200 -40 -1200 68 0 65 -16 150 705 94 796 87 760 162 835 93 93
+101 68 89 -277 -6 -172 -17 -637 -23 -1033 -15 -893 -34 -996 -220 -1182 -133
+-133 -715 -472 -748 -435 -8 9 -103 255 -210 546 l-196 528 58 40 c330 230
+427 464 427 1037 0 450 49 769 261 1726 258 1158 435 1601 545 1365z m535 0
+c227 -371 658 -2403 659 -3115 1 -549 111 -808 436 -1024 l45 -31 -193 -527
+c-107 -291 -201 -536 -209 -545 -18 -20 -382 168 -584 301 -221 145 -336 323
+-365 559 -19 166 -49 2096 -32 2113 26 26 139 -102 152 -172 6 -35 46 -358 88
+-716 82 -702 81 -698 151 -698 107 0 109 -56 -43 1205 -42 349 -87 443 -255
+526 l-111 54 0 592 c1 1061 58 1543 183 1543 21 0 55 -28 78 -65z m-2118
+-4010 c43 -50 662 -1625 662 -1683 0 -62 -257 -203 -292 -160 -4 4 -87 210
+-185 456 -180 451 -217 512 -283 469 -58 -37 -38 -115 142 -567 95 -236 165
+-435 157 -442 -44 -41 -262 -100 -298 -81 -42 23 -686 1629 -686 1713 0 63 10
+68 360 209 314 127 378 140 423 86z m3977 -88 c352 -140 360 -145 360 -210 0
+-40 -579 -1535 -644 -1662 -35 -68 -78 -71 -233 -13 -174 64 -176 22 17 512
+177 450 185 489 108 508 -76 19 -89 -2 -268 -457 -90 -228 -169 -418 -176
+-422 -28 -16 -226 74 -247 112 -21 41 592 1643 659 1720 46 54 90 45 424 -88z"/>
+          <path d="M555 6358 c-40 -23 -46 -79 -11 -114 49 -49 1050 -33 1077 18 18 33
+15 49 -13 80 -39 44 -981 59 -1053 16z"/>
+          <path d="M4552 6354 c-22 -16 -33 -45 -29 -75 l7 -49 467 -5 c524 -6 602 13
+492 124 -43 42 -880 47 -937 5z"/>
+        </g>
+      </svg>
+    </section>
+  </main>
+</div>
+
+<section style="background:black;opacity:.3;">
+  <h3 class="hidden" style="opacity:1!important;line-height:2em;color:cyan;text-shadow:1px 1px 0 black;">It has never been easier to track the latest crypto stats and market trends together in the same app.</h3>
+</section>
+<section  class="featured">
+
+
+  <ul>
+    <div class="scroll featured-content card">
+      <div class="">
+        <img src="duck.gif" alt="Check out our free learning resources!">
+        <p style="color:white;text-shadow:1px 1px 0 black;">Use our free guides to learn about Blockchain technology</p>
+        <a href="#"><h3 class=" underline">Get Started</h3></a>
+
+      </div>
+      <div style="transform:translateX(100%)">
+        <img src="duck.gif" alt="View by Markets, Categories, Ecosystems">
+        <p style="font-weight:bold;color:orange;text-shadow:1px 1px 0 black;">Sort by Marketcap, price, volume, category and more on the latest and greatest crypto projects</p>
+        <a href="#"><h3 class="underline">Browse the Market</h3></a>
+
+      </div>
+      <div class="">
+        <img src="duck.gif" alt="Make an account and keep track of your favorite crypto projects">
+        <p style="color:white;text-shadow:1px 1px 0 black;">Make an account today and track your chosen cryptocurrencies, provide a phone number or email and get price alerts to your device</p>
+        <a href="#"><h3 class="underline">Sign up!</h3></a>
+      </div>
+    </div>
+  </ul>
+</section>
+<footer>
+  <div id="footer">
+    <h2>Live Cryptocurrency Market and Analytics</h2>
+    <p>Powered by CoinGecko</p>
+    <img src="/images/gecko.png" alt="CoinGecko Icon">
+  </div>
+</footer>
+
+<script>
+  // Select all elements with the class scroll
+  const scrollElements = document.querySelectorAll('.scroll');
+
+  // Loop through each scroll element
+  scrollElements.forEach((element) => {
+    // Add an event listener for when the element is in view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // If the element is in view, add a class to trigger the scroll animation
+          element.classList.add('scroll-active');
+        } else {
+          // If the element is not in view, remove the class
+          element.classList.remove('scroll-active');
+        }
+      });
+    });
+
+    // Start observing the element
+    observer.observe(element);
+  });
+
+</script> <!--Scroll-active-->
+<script>
+  (function(){
+    init();
+
+    var g_containerInViewport;
+    function init(){
+      setStickyContainersSize();
+      bindEvents();
+    }
+
+    function bindEvents(){
+      window.addEventListener("wheel", wheelHandler);
+    }
+
+    function setStickyContainersSize(){
+      document.querySelectorAll('.sticky-container').forEach(function(container){
+        const stikyContainerHeight = container.querySelector('main').scrollWidth;
+        container.setAttribute('style', 'height: ' + stikyContainerHeight + 'px');
+      });
+    }
+
+    function isElementInViewport (el) {
+      const rect = el.getBoundingClientRect();
+      return rect.top <= 0 && rect.bottom > document.documentElement.clientHeight;
+    }
+
+    function wheelHandler(evt){
+
+      const containerInViewPort = Array.from(document.querySelectorAll('.sticky-container')).filter(function(container){
+        return isElementInViewport(container);
+      })[0];
+
+      if(!containerInViewPort){
+        return;
+      }
+
+      var isPlaceHolderBelowTop = containerInViewPort.offsetTop < document.documentElement.scrollTop;
+      var isPlaceHolderBelowBottom = containerInViewPort.offsetTop + containerInViewPort.offsetHeight > document.documentElement.scrollTop;
+      let g_canScrollHorizontally = isPlaceHolderBelowTop && isPlaceHolderBelowBottom;
+
+      if(g_canScrollHorizontally){
+        containerInViewPort.querySelector('main').scrollLeft += evt.deltaY;
+      }
+    }
+  })(); //horizontal wheel-scroll
+
+  let nav = document.getElementById("navbar")
+  let foot = document.getElementById("footer")
   // When the user scrolls down 20px from the top of the document, show the button
   window.onscroll = function() {scrollFunction()};
 
   function scrollFunction() {
     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-      topBtn.style.display = "block";
+      nav.style.display = "block"
     } else {
-      topBtn.style.display = "none";
+      nav.style.display = "none"
     }
   }
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function() {scrollFunction()};
 
+  //Footer display
+  window.addEventListener('scroll', function() {
+    var foot = document.getElementById('footer');
+    if (document.documentElement.scrollTop === 0) {
+      foot.style.display = "block"
+    }else{
+      foot.style.display = "none"
+    }
+  });
   function topFunction() {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
-
-
   }
 
-</script> <!--Scroll to Top-->
+  //Hide Observer
+  const hideObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      console.log(entry)
+      if(entry.isIntersecting && entry.target.classList.contains('hidden')) {
+        entry.target.classList.add('show');
+      }
+      //     else {
+      //     entry.target.classList.remove('show');
+      // }
+    });
+  });
+  const hiddenElements = document.querySelectorAll('.hidden')
+  hiddenElements.forEach((el) => hideObserver.observe(el));
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-<script src="/jquery-plugins/jquery-sparkline.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<script src="/js/index.js"></script>
+  //Scroll-Bound
+
+  const registerVideo = (bound, video) => {
+    bound = document.querySelector(bound);
+    video = document.querySelector(video);
+    const scrollVideo = ()=>{
+      if(video.duration) {
+        const distanceFromTop = window.scrollY + bound.getBoundingClientRect().top;
+        const rawPercentScrolled = (window.scrollY - distanceFromTop) / (bound.scrollHeight - window.innerHeight);
+        const percentScrolled = Math.min(Math.max(rawPercentScrolled, 0), 1);
+
+        video.currentTime = video.duration * percentScrolled;
+
+      }
+      requestAnimationFrame(scrollVideo);
+    }
+    requestAnimationFrame(scrollVideo);
+  }
+  registerVideo("#bound-one", "#bound-one video");
+
+</script> <!--Scroll to -->
+<script>
+
+
+  const scrambles = "#:C?EFGH!JK{>NO)*&%SXYZ333";
+
+  let interval = null;
+
+  document.querySelector("h1").onmouseover = event => {
+    let iteration = 0;
+
+    clearInterval(interval);
+
+    interval = setInterval(() => {
+      event.target.innerText = event.target.innerText
+              .split("")
+              .map((letter, index) => {
+                if(index < iteration) {
+                  return event.target.dataset.value[index];
+                }
+
+                return scrambles[Math.floor(Math.random() * 26)]
+              })
+              .join("");
+
+      if(iteration >= event.target.dataset.value.length){
+        clearInterval(interval);
+      }
+
+      iteration += 1 / 3;
+    }, 30);
+  }
+</script> <!--Cryptex Scrambles-->
+
 </body>
 </html>
