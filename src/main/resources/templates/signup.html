@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Getting Started</title>
-    <link th:replace="partials/navbar">
+    <link th:replace="partials/partials :: bootstrapLink">
     <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
     <style>
         *{
@@ -73,7 +73,7 @@
 </head>
 
 <body class ="body">
-
+<nav th:replace="partials/navBar :: navbar2"></nav>
 
 
 <div class="container d-flex flex-column justify-content-center align-items-center">
