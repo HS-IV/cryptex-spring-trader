@@ -517,7 +517,7 @@ function getExchanges(url) {
                         chartElement +=
                             `<tr>
 <td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
-<td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-toggle="modal" data-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
+<td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
 <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
 <td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
 <td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}</td>
@@ -644,7 +644,7 @@ function getExchanges(url) {
                                     chartElement +=
                                         `<tr>
 <td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
-<td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-toggle="modal" data-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
+<td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
 <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
 <td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
 <td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}</td>
