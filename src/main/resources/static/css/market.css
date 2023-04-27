@@ -400,3 +400,8 @@ input[id=radio3]:checked ~ .glider {
 
 
 }
+
+#trending {
+    overflow-x: scroll;
+    width: 40%;
+}
