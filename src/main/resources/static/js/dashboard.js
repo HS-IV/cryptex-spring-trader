@@ -1636,7 +1636,7 @@ $('#create-watchlist-form').on('submit', function (event) {
         type: 'POST',
         contentType: 'application/json;charset=UTF-8',
         headers: {
-            // [csrfHeader]: csrfToken
+            [csrfHeader]: csrfToken
         },
         data: JSON.stringify({name: watchlistName, coinDataList: coinDataList}),
         success: function (watchlistId) {
@@ -1729,7 +1729,7 @@ function deleteWatchlist(watchlistId) {
         url: `/api/watchlists/${watchlistId}`,
         method: 'DELETE',
         headers: {
-            // [csrfHeader]: csrfToken
+            [csrfHeader]: csrfToken
         },
         success: function () {
             Swal.default.fire(
