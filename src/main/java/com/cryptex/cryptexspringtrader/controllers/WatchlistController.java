@@ -135,14 +135,14 @@ public class WatchlistController {
         watchlist.setCoinDataList(coinDataList);
         System.out.println(watchlist);
 //
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 //
 //        // Save the watchlist and get the saved watchlist from the service
-//        Watchlist savedWatchlist = watchlistService.createWatchlistForUser(watchlist, userDetails);
+        Watchlist savedWatchlist = watchlistService.createWatchlistForUser(watchlist, userDetails);
 //
 //        // Return the watchlist ID in the response
-//        System.out.println("Watchlist created with ID: " + savedWatchlist.getId());
+        System.out.println("Watchlist created with ID: " + savedWatchlist.getId());
         return new ResponseEntity<>(1L, HttpStatus.CREATED);
     }
 
