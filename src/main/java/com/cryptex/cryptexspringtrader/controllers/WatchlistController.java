@@ -138,7 +138,7 @@ public class WatchlistController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        System.out.println(userDetails.getUsername());
+        System.out.println(userDetails + "=================");
 //
 //        // Save the watchlist and get the saved watchlist from the service
         Watchlist savedWatchlist = watchlistService.createWatchlistForUser(watchlist, userDetails);
