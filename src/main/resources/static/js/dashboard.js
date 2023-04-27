@@ -1177,368 +1177,16 @@ const getChart = async (url, header) => {
 }
 
 
-//
-// const getChart = async (url,header) => {
-//     $('#terminal').empty();
-//     $('#coinChart').empty()
-//     $('#selectedTable').empty()
-//     try{
-//         $.getJSON(url)
-//
-//             .fail(function (jqxhr, textStatus, error) {
-//                 console.log("API request failed: " + error);
-//             })
-//     } catch (e) {
-//         console.error(e)
-//     }
-//     $.getJSON("/mockdb/dashboard.json")
-//         .done(function (data) {
-//             let chartTable = '';
-//             chartTable +=
-//
-//                 `<h1>${header}</h1>
-//             <table class="table table-dark">
-//             <thead id="tableHead">
-//
-//             <tr>
-//                 <th scope="col">#</th>
-//                 <th scope="col">name</th>
-//                 <th scope="col">ticker</th>
-//                 <th scope="col">price</th>
-//                 <th scope="col">1h</th>
-//                 <th scope="col">24h</th>
-//                 <th scope="col">7d</th>
-//                 <th scope="col">volume</th>
-//                 <th scope="col">marketcap</th>
-//                 <th scope="col">24h Hi</th>
-//                 <th scope="col">24h Lo</th>
-//                 <th scope="col">Last 7 days</th>
-//             </tr>
-//             </thead>
-//             <tbody id="coinChart"></tbody>
-//             </table>`
-//
-//             $('#selectedTable').append(chartTable);
-//
-//             var th = $('#tableHead th');
-//             th.click(function() {
-//                 console.log('sorting table');
-//                 let table = $(this).parents('table').eq(0);
-//                 let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
-//                 this.asc = !this.asc;
-//                 if (!this.asc) {
-//                     rows = rows.reverse();
-//                 }
-//                 for (var i = 0; i < rows.length; i++) {
-//                     table.append(rows[i]);
-//                 }
-//             });
-//             function comparer(index) {
-//                 return function(a, b) {
-//                     let valA = getCellValue(a, index), valB = getCellValue(b, index);
-//                     let numA = parseFloat(valA.replace(/[^0-9.-]+/g,""));
-//                     let numB = parseFloat(valB.replace(/[^0-9.-]+/g,""));
-//                     if ($.isNumeric(numA) && $.isNumeric(numB)) {
-//                         return numA - numB;
-//                     } else {
-//                         return valA.toString().localeCompare(valB);
-//                     }
-//                 };
-//             }
-//             function getCellValue(row, index) {
-//                 let cell = $(row).children('td').eq(index);
-//                 if (cell.data('numeric')) {
-//                     return cell.attr('data-raw');
-//                 } else {
-//                     return cell.text();
-//                 }
-//             }
-//
-//
-//             data.forEach((coin) => {
-//
-//
-//                 let colorDay = coin.price_change_percentage_1h_in_currency > 0 ? 'green' : 'red';
-//                 let color = coin.price_change_percentage_24h > 0 ? 'green' : 'red';
-//                 let colorWeek = coin.price_change_percentage_7d_in_currency > 0 ? 'green' : 'red';
-//
-//
-//                 const numberNotationCheck = (input) => {
-//                     return '$' + (input).toLocaleString("en-US")
-//                 }
-//
-//                 let sparkValue = coin.sparkline_in_7d.price
-//                 let chartElement = "";
-//                 chartElement +=
-//                     `<tr>
-// <td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
-// <td><img class="coin-icon" src="${coin.image}" alt=""><strong> ${coin.name} </strong></td>
-// <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
-// <td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
-// <td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}</td>
-// <td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}</td>
-// <td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}</td>
-// <td class="coin-volume">${numberNotationCheck(coin.total_volume)}</td>
-// <td class="coin-marketcap">${numberNotationCheck(coin.market_cap)}</td>
-// <td class="coin-high">${numberNotationCheck(coin.high_24h)}</td>
-// <td class="coin-low">${numberNotationCheck(coin.low_24h)}</td>
-// <td id="${coin.id}-sparkline" class="sparkline">
-// <div class="loading"><span>L</span>
-//   <span>o</span>
-//   <span>a</span>
-//   <span>d</span>
-//   <span>i</span>
-//   <span>n</span>
-//   <span>g</span>
-//   <span>.</span>
-//   <span>.</span>
-//   <span>.</span>
-//   </div></td>`
-//
-//                 $('#coinChart').append(chartElement)
-//                 if($(`#${coin.id}-sparkline`) !== null) {$(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
-//                     tooltipFormatter: function(sp, options, fields) {
-//                         var format =  $.spformat();
-//                         var result = '';
-//                         $.each(fields, function(i, field) {
-//                             field.myprefix = options.get('myPrefixes')[i];
-//                             result += format.render(field, options.get('tooltipValueLookups'), options);
-//                         })
-//                         return result;
-//                     },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})}
-//                 else{
-//                     return 'NA'
-//                 }
-//
-//             }); //forEach
-//         }) //done
-//     console.log("JSON GET successful")
-// }
 
-//
-// const searchQuery = (input) => {
-//     $('#searchResults').empty();
-//     try {
-//         $.getJSON(`https://api.coingecko.com/api/v3/search?query=${input}`)
-//             .done(function (data) {
-//                 let info = data.coins;
-//                 console.log(info)
-//                 $('#searchResults').append(`<span style="background:rgba(255,255,255,0.5);z-index: 12;position: relative;right: -96%;top: 21px;color:red;cursor:pointer;" onclick="$('#searchResults').empty()">X</span>`);
-//                 info.forEach((coin) => {
-//                     let marketCap = coin.market_cap_rank;
-//                     if (marketCap == null) {
-//                         return "NA";
-//                     }
-//                     let searchContent = "";
-//                     searchContent +=
-//                         `<li><span>#${marketCap} </span><span data-coin-id="${coin.id}"></span><img src="${coin.thumb}" alt="${coin.id}">${coin.symbol} ${coin.id}</span></li>`;
-//                     $('#searchResults').append(searchContent);
-//                 });
-//             });
-//     } catch (error) {
-//         console.error("Error fetching data:", error);
-//     }
-// };
-//
-// function debounce(func, wait) {
-//     let timeout;
-//     return function (...args) {
-//         const context = this;
-//         clearTimeout(timeout);
-//         timeout = setTimeout(() => {
-//             func.apply(context, args);
-//         }, wait);
-//     };
-// }
-// const getWatchlistChart = async (coinId) => {
-//     const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinId}&order=market_cap_desc&per_page=100&page=1&sparkline=true`;
-//     getChart(url);
-// };
-//
-// const debouncedFunction = debounce(searchQuery, 300);
-//
-// $('#search').on('input', function () {
-//     $('#searchResults').empty();
-//     debouncedFunction($(this).val());
-// });
-// let addedCoins = [];
-//
-// $('#searchResults').on('click', 'li', function (event) {
-//     event.preventDefault();
-//
-//     const coinText = $(this).text().trim();
-//     const coinHref = $(this).find("span[data-coin-id]").attr("data-coin-id");
-//
-//     // Extract the coin name
-//     const coinName = coinText.split(' ').pop();
-//
-//     // Check if the coin is already added
-//     if (addedCoins.some(coin => coin.id === coinHref)) {
-//         alert('Coin already added to the watchlist.');
-//         return;
-//     }
-//
-//     // Add the coin to the addedCoins array
-//     addedCoins.push({ id: coinHref, name: coinName });
-//     console.log(addedCoins)
-//     // Display the added coin in the "addedCoins" list
-//     $('#added-coins').append(`<li data-id="${coinHref}">${coinName} <span class="delete-coin" style="color: red; cursor: pointer;">&times;</span></li>`);
-//
-//     // Call the getWatchlistChart function for the newly added coin
-//     getWatchlistChart(coinHref);
-// });
-//
-// // Event handler for removing coins from the addedCoins list
-// $('#added-coins').on('click', '.delete-coin', function () {
-//     const coinId = $(this).closest('li').attr('data-id');
-//     addedCoins = addedCoins.filter(coin => coin.id !== coinId);
-//     $(this).closest('li').remove();
-// });
-//
-// $('#create-watchlist-form').on('submit', function (event) {
-//     event.preventDefault();
-//
-//     // Get the CSRF token
-//     const csrfToken = $('meta[name="_csrf"]').attr('content');
-//     const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
-//
-//     // Get the watchlist name and coin data
-//     const watchlistName = $('#watchlist-name').val().trim();
-//     const coinDataList = addedCoins.map(coin => ({id: coin.id, name: coin.name}));
-//
-//     // Send the data to the server
-//     $.ajax({
-//         url: '/api/watchlists',
-//         type: 'POST',
-//         contentType: 'application/json;charset=UTF-8',
-//         headers: {
-//             [csrfHeader]: csrfToken
-//         },
-//         data: JSON.stringify({name: watchlistName, coinDataList: coinDataList}),
-//         success: function (watchlistId) {
-//             console.log(coinDataList)
-//             Swal.default.fire(
-//                 'Congratulations',
-//                 'You have created a new watchlist',
-//                 'success'
-//             )
-//             let formattedArray = coinDataList.map(coin => coin.id).join('%2C');
-//
-//             console.log(formattedArray);
-//
-//             const watchlistButtonContainer = $('<div></div>');
-//             watchlistButtonContainer.addClass('watchlistButtonContainer d-flex align-items-center');
-//             watchlistButtonContainer.attr('data-watchlist-id', watchlistId);
-//
-//
-//             // Create the delete button
-//             const deleteWatchlistButton = $('<button class="animate__animated animate__slideInLeft"></button>');
-//             deleteWatchlistButton.text('delete');
-//             deleteWatchlistButton.addClass('deleteWatchlistButton');
-//             deleteWatchlistButton.css('display', 'none'); // Initially hide the delete button
-//             deleteWatchlistButton.attr('onclick', `deleteWatchlist(${watchlistId})`);
-//
-//
-//             const navPills = $('#v-pills-tab');
-//             const newWatchlistButton = $(' <button class="animate__animated animate__fadeInUpBig"></button>');
-//             newWatchlistButton.text(watchlistName);
-//             newWatchlistButton.addClass('nav-link w-100 ');
-//             newWatchlistButton.attr('type', 'button');
-//             newWatchlistButton.attr('name', 'createWatchlist');
-//             newWatchlistButton.attr('data-bs-toggle', 'pill');
-//             newWatchlistButton.attr('role', 'tab');
-//             newWatchlistButton.attr('aria-controls', watchlistName + '-tabpanel');
-//             newWatchlistButton.attr('aria-selected', 'false');
-//
-//             newWatchlistButton.attr('onclick', `getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${formattedArray}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')`);
-//
-//             // Append the delete button and watchlist button to the container
-//             watchlistButtonContainer.append(deleteWatchlistButton);
-//             watchlistButtonContainer.append(newWatchlistButton);
-//
-//             // Insert the container before the last nav-link element
-//             navPills.children('.nav-link:last-child').before(watchlistButtonContainer);
-//
-//             // Show delete button on hover and hide it when the mouse leaves
-//             watchlistButtonContainer.hover(
-//                 function() {
-//                     $(this).find('.deleteWatchlistButton').css('display', 'inline-block');
-//                 },
-//                 function() {
-//                     $(this).find('.deleteWatchlistButton').css('display', 'none');
-//                 }
-//             );
-//
-//             $('#create-watchlist-btn').on('click', function () {
-//                 // Clear the added coins array and the added-coins list in the HTML
-//                 addedCoins = [];
-//                 $('#added-coins').empty();
-//
-//                 // Clear the search input field
-//                 $('#search').val('');
-//             });
-//
-//             // Reset the watchlist name input and close the modal
-//             $('#watchlist-name').val('');
-//             $('button[aria-label="Close"]').click();
-//
-//
-//         },
-//         error: function () {
-//             Swal.default.fire(
-//                 'Sorry',
-//                 'Your watchlist could not be created',
-//                 'error'
-//             )
-//         },
-//     });
-// })
-//
-//
-// function deleteWatchlist(watchlistId) {
-//     // Get the CSRF token
-//     const csrfToken = $('meta[name="_csrf"]').attr('content');
-//     const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
-//
-//     // Remove the watchlist from the server
-//     $.ajax({
-//         url: `/api/watchlists/${watchlistId}`,
-//         method: 'DELETE',
-//         headers: {
-//             [csrfHeader]: csrfToken
-//         },
-//         success: function () {
-//             Swal.default.fire(
-//                 'confirmed',
-//                 'You have successfully deleted watchlist',
-//                 'success'
-//             )
-//             console.log('Watchlist deleted successfully');
-//
-//             // Remove the watchlist from the DOM
-//             $(`.watchlistButtonContainer[data-watchlist-id="${watchlistId}"]`).remove();
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             Swal.default.fire(
-//                 'Sorry',
-//                 'Your watchlist could not be deleted',
-//                 'error'
-//             )
-//             console.error('Error: Cannot Delete Watchlist', errorThrown);
-//         }
-//     });
-// }
-//
 
 
 const searchQuery = (input) => {
-    console.log("searchQuery function called with input:", input);
     $('#searchResults').empty();
     try {
         $.getJSON(`https://api.coingecko.com/api/v3/search?query=${input}`)
             .done(function (data) {
                 let info = data.coins;
-                console.log("Search data received:", info);
+                console.log(info)
                 $('#searchResults').append(`<span style="background:rgba(255,255,255,0.5);z-index: 12;position: relative;right: -96%;top: 21px;color:red;cursor:pointer;" onclick="$('#searchResults').empty()">X</span>`);
                 info.forEach((coin) => {
                     let marketCap = coin.market_cap_rank;
@@ -1557,7 +1205,6 @@ const searchQuery = (input) => {
 };
 
 function debounce(func, wait) {
-    console.log("debounce function called");
     let timeout;
     return function (...args) {
         const context = this;
@@ -1568,7 +1215,6 @@ function debounce(func, wait) {
     };
 }
 const getWatchlistChart = async (coinId) => {
-    console.log("getWatchlistChart function called with coinId:", coinId);
     const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinId}&order=market_cap_desc&per_page=100&page=1&sparkline=true`;
     getChart(url);
 };
@@ -1576,14 +1222,12 @@ const getWatchlistChart = async (coinId) => {
 const debouncedFunction = debounce(searchQuery, 300);
 
 $('#search').on('input', function () {
-    console.log("Search input event detected");
     $('#searchResults').empty();
     debouncedFunction($(this).val());
 });
 let addedCoins = [];
 
 $('#searchResults').on('click', 'li', function (event) {
-    console.log("Search result item clicked");
     event.preventDefault();
 
     const coinText = $(this).text().trim();
@@ -1600,8 +1244,7 @@ $('#searchResults').on('click', 'li', function (event) {
 
     // Add the coin to the addedCoins array
     addedCoins.push({ id: coinHref, name: coinName });
-    console.log("Added coin:", { id: coinHref, name: coinName }, "Updated addedCoins:", addedCoins);
-
+    console.log(addedCoins)
     // Display the added coin in the "addedCoins" list
     $('#added-coins').append(`<li data-id="${coinHref}">${coinName} <span class="delete-coin" style="color: red; cursor: pointer;">&times;</span></li>`);
 
@@ -1611,13 +1254,12 @@ $('#searchResults').on('click', 'li', function (event) {
 
 // Event handler for removing coins from the addedCoins list
 $('#added-coins').on('click', '.delete-coin', function () {
-    console.log("Delete coin clicked");
     const coinId = $(this).closest('li').attr('data-id');
     addedCoins = addedCoins.filter(coin => coin.id !== coinId);
-    console.log("Removed coin:", coinId, "Updated addedCoins:", addedCoins);
     $(this).closest('li').remove();
 });
-$('#create-watchlist-form').on('submit', async function (event) {
+
+$('#create-watchlist-form').on('submit', function (event) {
     console.log("Create watchlist form submitted");
     event.preventDefault();
 
@@ -1630,21 +1272,16 @@ $('#create-watchlist-form').on('submit', async function (event) {
     const coinDataList = addedCoins.map(coin => ({id: coin.id, name: coin.name}));
 
     // Send the data to the server
-    try {
-        const response = await fetch('/api/watchlists', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
-                [csrfHeader]: csrfToken
-            },
-            body: JSON.stringify({name: watchlistName, coinDataList: coinDataList})
-        });
-
-        if (response.ok) {
-            const watchlistId = await response.text();
+    $.ajax({
+        url: '/api/watchlists',
+        type: 'POST',
+        contentType: 'application/json;charset=UTF-8',
+        headers: {
+            [csrfHeader]: csrfToken
+        },
+        data: JSON.stringify({name: watchlistName, coinDataList: coinDataList}),
+        success: function (watchlistId) {
             console.log("Watchlist created successfully:", watchlistId, "with coin data:", coinDataList);
-
-            // Rest of the success code
             Swal.default.fire(
                 'Congratulations',
                 'You have created a new watchlist',
@@ -1711,190 +1348,48 @@ $('#create-watchlist-form').on('submit', async function (event) {
             console.log("Resetting watchlist name input and closing modal");
             $('#watchlist-name').val('');
             $('button[aria-label="Close"]').click();
-        }
-
-         else {
-            throw new Error("Failed to create watchlist");
-        }
-    } catch (error) {
-        console.error("Error creating watchlist:", error);
-        Swal.default.fire(
-            'Sorry',
-            'Your watchlist could not be created',
-            'error'
-        );
-    }
+        },
+        error: function () {
+            Swal.default.fire(
+                'Sorry',
+                'Your watchlist could not be created',
+                'error'
+            )
+        },
+    });
 });
 
-//
-// $('#create-watchlist-form').on('submit', function (event) {
-//     console.log("Create watchlist form submitted");
-//     event.preventDefault();
-//
-//     // Get the CSRF token
-//     const csrfToken = $('meta[name="_csrf"]').attr('content');
-//     const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
-//
-//     // Get the watchlist name and coin data
-//     const watchlistName = $('#watchlist-name').val().trim();
-//     const coinDataList = addedCoins.map(coin => ({id: coin.id, name: coin.name}));
-//
-//     // Send the data to the server
-//     $.ajax({
-//         url: '/api/watchlists',
-//         type: 'POST',
-//         contentType: 'application/json;charset=UTF-8',
-//         headers: {
-//             [csrfHeader]: csrfToken
-//         },
-//         data: JSON.stringify({name: watchlistName, coinDataList: coinDataList}),
-//         success: function (watchlistId) {
-//             console.log("Watchlist created successfully:", watchlistId, "with coin data:", coinDataList);
-//             Swal.default.fire(
-//                 'Congratulations',
-//                 'You have created a new watchlist',
-//                 'success'
-//             )
-//             let formattedArray = coinDataList.map(coin => coin.id).join('%2C');
-//
-//             console.log("Formatted coin IDs:", formattedArray);
-//
-//             const watchlistButtonContainer = $('<div></div>');
-//             watchlistButtonContainer.addClass('watchlistButtonContainer d-flex align-items-center');
-//             watchlistButtonContainer.attr('data-watchlist-id', watchlistId);
-//
-//             // Create the delete button
-//             const deleteWatchlistButton = $('<button class="animate__animated animate__slideInLeft"></button>');
-//             deleteWatchlistButton.text('delete');
-//             deleteWatchlistButton.addClass('deleteWatchlistButton');
-//             deleteWatchlistButton.css('display', 'none'); // Initially hide the delete button
-//             deleteWatchlistButton.attr('onclick', `deleteWatchlist(${watchlistId})`);
-//
-//             const navPills = $('#v-pills-tab');
-//             const newWatchlistButton = $(' <button class="animate__animated animate__fadeInUpBig"></button>');
-//             newWatchlistButton.text(watchlistName);
-//             newWatchlistButton.addClass('nav-link w-100 ');
-//             newWatchlistButton.attr('type', 'button');
-//             newWatchlistButton.attr('name', 'createWatchlist');
-//             newWatchlistButton.attr('data-bs-toggle', 'pill');
-//             newWatchlistButton.attr('role', 'tab');
-//             newWatchlistButton.attr('aria-controls', watchlistName + '-tabpanel');
-//             newWatchlistButton.attr('aria-selected', 'false');
-//
-//             newWatchlistButton.attr('onclick', `getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${formattedArray}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')`);
-//
-//             // Append the delete button and watchlist button to the container
-//             watchlistButtonContainer.append(deleteWatchlistButton);
-//             watchlistButtonContainer.append(newWatchlistButton);
-//
-//             // Insert the container before the last nav-link element
-//             navPills.children('.nav-link:last-child').before(watchlistButtonContainer);
-//
-//             // Show delete button on hover and hide it when the mouse leaves
-//             watchlistButtonContainer.hover(
-//                 function() {
-//                     console.log("Hovering over watchlist button container");
-//                     $(this).find('.deleteWatchlistButton').css('display', 'inline-block');
-//                 },
-//                 function() {
-//                     console.log("Mouse leaving watchlist button container");
-//                     $(this).find('.deleteWatchlistButton').css('display', 'none');
-//                 }
-//             );
-//
-//             $('#create-watchlist-btn').on('click', function () {
-//                 console.log("Create watchlist button clicked");
-//                 // Clear the added coins array and the added-coins list in the HTML
-//                 addedCoins = [];
-//                 $('#added-coins').empty();
-//
-//                 // Clear the search input field
-//                 $('#search').val('');
-//             });
-//
-//             // Reset the watchlist name input and close the modal
-//             console.log("Resetting watchlist name input and closing modal");
-//             $('#watchlist-name').val('');
-//             $('button[aria-label="Close"]').click();
-//         },
-//         error: function () {
-//             Swal.default.fire(
-//                 'Sorry',
-//                 'Your watchlist could not be created',
-//                 'error'
-//             )
-//         },
-//     });
-// });
-//
-// function deleteWatchlist(watchlistId) {
-//     console.log("Deleting watchlist:", watchlistId);
-//     // Get the CSRF token
-//     const csrfToken = $('meta[name="_csrf"]').attr('content');
-//     const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
-//
-//     // Remove the watchlist from the server
-//     $.ajax({
-//         url: `/api/watchlists/${watchlistId}`,
-//         method: 'DELETE',
-//         headers: {
-//             [csrfHeader]: csrfToken
-//         },
-//         success: function () {
-//             Swal.default.fire(
-//                 'confirmed',
-//                 'You have successfully deleted watchlist',
-//                 'success'
-//             )
-//             console.log('Watchlist deleted successfully');
-//
-//             // Remove the watchlist from the DOM
-//             $(`.watchlistButtonContainer[data-watchlist-id="${watchlistId}"]`).remove();
-//         },
-//         error: function (jqXHR, textStatus, errorThrown) {
-//             Swal.default.fire(
-//                 'Sorry',
-//                 'Your watchlist could not be deleted',
-//                 'error'
-//             )
-//             console.error('Error: Cannot Delete Watchlist', errorThrown);
-//         }
-//     });
-// }
-
-async function deleteWatchlist(watchlistId) {
+function deleteWatchlist(watchlistId) {
     console.log("Deleting watchlist:", watchlistId);
     // Get the CSRF token
     const csrfToken = $('meta[name="_csrf"]').attr('content');
     const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
-    try {
-        const response = await fetch(`/api/watchlists/${watchlistId}`, {
-            method: 'DELETE',
-            headers: {
-                [csrfHeader]: csrfToken
-            }
-        });
-
-        if (response.ok) {
+    // Remove the watchlist from the server
+    $.ajax({
+        url: `/api/watchlists/${watchlistId}`,
+        method: 'DELETE',
+        headers: {
+            [csrfHeader]: csrfToken
+        },
+        success: function () {
             Swal.default.fire(
                 'confirmed',
                 'You have successfully deleted watchlist',
                 'success'
-            );
+            )
             console.log('Watchlist deleted successfully');
 
             // Remove the watchlist from the DOM
             $(`.watchlistButtonContainer[data-watchlist-id="${watchlistId}"]`).remove();
-        } else {
-            throw new Error("Failed to delete watchlist");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            Swal.default.fire(
+                'Sorry',
+                'Your watchlist could not be deleted',
+                'error'
+            )
+            console.error('Error: Cannot Delete Watchlist', errorThrown);
         }
-    } catch (error) {
-        console.error('Error: Cannot Delete Watchlist', error);
-        Swal.default.fire(
-            'Sorry',
-            'Your watchlist could not be deleted',
-            'error'
-        );
-    }
+    });
 }
