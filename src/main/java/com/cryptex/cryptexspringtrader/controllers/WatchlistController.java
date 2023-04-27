@@ -137,12 +137,14 @@ public class WatchlistController {
 //
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        System.out.println(userDetails.getUsername());
 //
 //        // Save the watchlist and get the saved watchlist from the service
-//        Watchlist savedWatchlist = watchlistService.createWatchlistForUser(watchlist, userDetails);
+        Watchlist savedWatchlist = watchlistService.createWatchlistForUser(watchlist, userDetails);
 //
 //        // Return the watchlist ID in the response
-//        System.out.println("Watchlist created with ID: " + savedWatchlist.getId());
+        System.out.println("Watchlist created with ID: " + savedWatchlist.getId());
         return new ResponseEntity<>(1L, HttpStatus.CREATED);
     }
 
