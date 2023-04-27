@@ -47,21 +47,22 @@
                 </div>
                 <div class="modal-body">
 
-                  <form id="create-watchlist-form">
+                  <form th:action="'/api/watchlists'" th:method="post" id="create-watchlist-form">
 
                     <div class="mb-3">
                       <label for="watchlist-name" class="form-label">Watchlist Name</label>
-                      <input type="text" class="form-control" id="watchlist-name" required>
+                      <input type="text" class="form-control" id="watchlist-name" required name="name">
                     </div>
                     <div class="form-group">
                       <label for="search">Search for coins:</label>
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" id="search" placeholder="Search for coins">
+                        <input type="text" class="form-control" id="search" placeholder="Search for coins" >
                       </div>
                       <ul id="searchResults" style="list-style-type: none; padding: 0;"></ul>
                     </div>
                     <div class="mb-3">
                       <label for="added-coins" class="form-label">Added Coins</label>
+                      <input type="hidden" value="" id="coins" name="coins">
                       <ul class="list-group" id="added-coins">
                         <!-- Added coins will be listed here with delete functionality -->
                       </ul>
