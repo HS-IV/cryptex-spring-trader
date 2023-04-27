@@ -1617,8 +1617,7 @@ $('#added-coins').on('click', '.delete-coin', function () {
     console.log("Removed coin:", coinId, "Updated addedCoins:", addedCoins);
     $(this).closest('li').remove();
 });
-
-$('#create-watchlist-form').on('submit', function (event) {
+$('#create-watchlist-form').on('submit', async function (event) {
     console.log("Create watchlist form submitted");
     event.preventDefault();
 
@@ -1631,16 +1630,21 @@ $('#create-watchlist-form').on('submit', function (event) {
     const coinDataList = addedCoins.map(coin => ({id: coin.id, name: coin.name}));
 
     // Send the data to the server
-    $.ajax({
-        url: '/api/watchlists',
-        type: 'POST',
-        contentType: 'application/json;charset=UTF-8',
-        headers: {
-            [csrfHeader]: csrfToken
-        },
-        data: JSON.stringify({name: watchlistName, coinDataList: coinDataList}),
-        success: function (watchlistId) {
+    try {
+        const response = await fetch('/api/watchlists', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                [csrfHeader]: csrfToken
+            },
+            body: JSON.stringify({name: watchlistName, coinDataList: coinDataList})
+        });
+
+        if (response.ok) {
+            const watchlistId = await response.text();
             console.log("Watchlist created successfully:", watchlistId, "with coin data:", coinDataList);
+
+            // Rest of the success code
             Swal.default.fire(
                 'Congratulations',
                 'You have created a new watchlist',
@@ -1707,48 +1711,190 @@ $('#create-watchlist-form').on('submit', function (event) {
             console.log("Resetting watchlist name input and closing modal");
             $('#watchlist-name').val('');
             $('button[aria-label="Close"]').click();
-        },
-        error: function () {
-            Swal.default.fire(
-                'Sorry',
-                'Your watchlist could not be created',
-                'error'
-            )
-        },
-    });
+        }
+
+         else {
+            throw new Error("Failed to create watchlist");
+        }
+    } catch (error) {
+        console.error("Error creating watchlist:", error);
+        Swal.default.fire(
+            'Sorry',
+            'Your watchlist could not be created',
+            'error'
+        );
+    }
 });
 
-function deleteWatchlist(watchlistId) {
+//
+// $('#create-watchlist-form').on('submit', function (event) {
+//     console.log("Create watchlist form submitted");
+//     event.preventDefault();
+//
+//     // Get the CSRF token
+//     const csrfToken = $('meta[name="_csrf"]').attr('content');
+//     const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+//
+//     // Get the watchlist name and coin data
+//     const watchlistName = $('#watchlist-name').val().trim();
+//     const coinDataList = addedCoins.map(coin => ({id: coin.id, name: coin.name}));
+//
+//     // Send the data to the server
+//     $.ajax({
+//         url: '/api/watchlists',
+//         type: 'POST',
+//         contentType: 'application/json;charset=UTF-8',
+//         headers: {
+//             [csrfHeader]: csrfToken
+//         },
+//         data: JSON.stringify({name: watchlistName, coinDataList: coinDataList}),
+//         success: function (watchlistId) {
+//             console.log("Watchlist created successfully:", watchlistId, "with coin data:", coinDataList);
+//             Swal.default.fire(
+//                 'Congratulations',
+//                 'You have created a new watchlist',
+//                 'success'
+//             )
+//             let formattedArray = coinDataList.map(coin => coin.id).join('%2C');
+//
+//             console.log("Formatted coin IDs:", formattedArray);
+//
+//             const watchlistButtonContainer = $('<div></div>');
+//             watchlistButtonContainer.addClass('watchlistButtonContainer d-flex align-items-center');
+//             watchlistButtonContainer.attr('data-watchlist-id', watchlistId);
+//
+//             // Create the delete button
+//             const deleteWatchlistButton = $('<button class="animate__animated animate__slideInLeft"></button>');
+//             deleteWatchlistButton.text('delete');
+//             deleteWatchlistButton.addClass('deleteWatchlistButton');
+//             deleteWatchlistButton.css('display', 'none'); // Initially hide the delete button
+//             deleteWatchlistButton.attr('onclick', `deleteWatchlist(${watchlistId})`);
+//
+//             const navPills = $('#v-pills-tab');
+//             const newWatchlistButton = $(' <button class="animate__animated animate__fadeInUpBig"></button>');
+//             newWatchlistButton.text(watchlistName);
+//             newWatchlistButton.addClass('nav-link w-100 ');
+//             newWatchlistButton.attr('type', 'button');
+//             newWatchlistButton.attr('name', 'createWatchlist');
+//             newWatchlistButton.attr('data-bs-toggle', 'pill');
+//             newWatchlistButton.attr('role', 'tab');
+//             newWatchlistButton.attr('aria-controls', watchlistName + '-tabpanel');
+//             newWatchlistButton.attr('aria-selected', 'false');
+//
+//             newWatchlistButton.attr('onclick', `getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${formattedArray}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')`);
+//
+//             // Append the delete button and watchlist button to the container
+//             watchlistButtonContainer.append(deleteWatchlistButton);
+//             watchlistButtonContainer.append(newWatchlistButton);
+//
+//             // Insert the container before the last nav-link element
+//             navPills.children('.nav-link:last-child').before(watchlistButtonContainer);
+//
+//             // Show delete button on hover and hide it when the mouse leaves
+//             watchlistButtonContainer.hover(
+//                 function() {
+//                     console.log("Hovering over watchlist button container");
+//                     $(this).find('.deleteWatchlistButton').css('display', 'inline-block');
+//                 },
+//                 function() {
+//                     console.log("Mouse leaving watchlist button container");
+//                     $(this).find('.deleteWatchlistButton').css('display', 'none');
+//                 }
+//             );
+//
+//             $('#create-watchlist-btn').on('click', function () {
+//                 console.log("Create watchlist button clicked");
+//                 // Clear the added coins array and the added-coins list in the HTML
+//                 addedCoins = [];
+//                 $('#added-coins').empty();
+//
+//                 // Clear the search input field
+//                 $('#search').val('');
+//             });
+//
+//             // Reset the watchlist name input and close the modal
+//             console.log("Resetting watchlist name input and closing modal");
+//             $('#watchlist-name').val('');
+//             $('button[aria-label="Close"]').click();
+//         },
+//         error: function () {
+//             Swal.default.fire(
+//                 'Sorry',
+//                 'Your watchlist could not be created',
+//                 'error'
+//             )
+//         },
+//     });
+// });
+//
+// function deleteWatchlist(watchlistId) {
+//     console.log("Deleting watchlist:", watchlistId);
+//     // Get the CSRF token
+//     const csrfToken = $('meta[name="_csrf"]').attr('content');
+//     const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+//
+//     // Remove the watchlist from the server
+//     $.ajax({
+//         url: `/api/watchlists/${watchlistId}`,
+//         method: 'DELETE',
+//         headers: {
+//             [csrfHeader]: csrfToken
+//         },
+//         success: function () {
+//             Swal.default.fire(
+//                 'confirmed',
+//                 'You have successfully deleted watchlist',
+//                 'success'
+//             )
+//             console.log('Watchlist deleted successfully');
+//
+//             // Remove the watchlist from the DOM
+//             $(`.watchlistButtonContainer[data-watchlist-id="${watchlistId}"]`).remove();
+//         },
+//         error: function (jqXHR, textStatus, errorThrown) {
+//             Swal.default.fire(
+//                 'Sorry',
+//                 'Your watchlist could not be deleted',
+//                 'error'
+//             )
+//             console.error('Error: Cannot Delete Watchlist', errorThrown);
+//         }
+//     });
+// }
+
+async function deleteWatchlist(watchlistId) {
     console.log("Deleting watchlist:", watchlistId);
     // Get the CSRF token
     const csrfToken = $('meta[name="_csrf"]').attr('content');
     const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
-    // Remove the watchlist from the server
-    $.ajax({
-        url: `/api/watchlists/${watchlistId}`,
-        method: 'DELETE',
-        headers: {
-            [csrfHeader]: csrfToken
-        },
-        success: function () {
+    try {
+        const response = await fetch(`/api/watchlists/${watchlistId}`, {
+            method: 'DELETE',
+            headers: {
+                [csrfHeader]: csrfToken
+            }
+        });
+
+        if (response.ok) {
             Swal.default.fire(
                 'confirmed',
                 'You have successfully deleted watchlist',
                 'success'
-            )
+            );
             console.log('Watchlist deleted successfully');
 
             // Remove the watchlist from the DOM
             $(`.watchlistButtonContainer[data-watchlist-id="${watchlistId}"]`).remove();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            Swal.default.fire(
-                'Sorry',
-                'Your watchlist could not be deleted',
-                'error'
-            )
-            console.error('Error: Cannot Delete Watchlist', errorThrown);
+        } else {
+            throw new Error("Failed to delete watchlist");
         }
-    });
+    } catch (error) {
+        console.error('Error: Cannot Delete Watchlist', error);
+        Swal.default.fire(
+            'Sorry',
+            'Your watchlist could not be deleted',
+            'error'
+        );
+    }
 }
