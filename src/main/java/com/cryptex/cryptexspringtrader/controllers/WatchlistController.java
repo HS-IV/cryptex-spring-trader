@@ -114,25 +114,26 @@ public class WatchlistController {
     @PostMapping
     public ResponseEntity<Long> createWatchlist(@RequestBody Watchlists watchlists) {
         System.out.println("============================Creating watchlist: " + watchlists);
-//        Watchlist watchlist = new Watchlist();
-//        watchlist.setName(watchlists.getName());
-//
-//        List<com.cryptex.cryptexspringtrader.models.CoinData> coinDataList = watchlists.getCoinDataList().stream()
-//                .map(coin -> {
-//                    System.out.println("Looking for coin with apiId: " + coin.getApiId());
-//                    com.cryptex.cryptexspringtrader.models.CoinData coinData = coinDataRepository.findByApiId(coin.getApiId());
-//                    if (coinData == null) {
-//                        System.out.println("Saving new CoinData with apiId: " + coin.getApiId());
-//                        coinData = new com.cryptex.cryptexspringtrader.models.CoinData(coin.getApiId());
-//                        coinDataRepository.save(coinData);
-//                    } else {
-//                        System.out.println("CoinData with apiId: " + coin.getApiId() + " already exists");
-//                    }
-//                    return coinData;
-//                })
-//                .collect(Collectors.toList());
-//
-//        watchlist.setCoinDataList(coinDataList);
+        Watchlist watchlist = new Watchlist();
+        watchlist.setName(watchlists.getName());
+
+        List<com.cryptex.cryptexspringtrader.models.CoinData> coinDataList = watchlists.getCoinDataList().stream()
+                .map(coin -> {
+                    System.out.println("Looking for coin with apiId: " + coin.getApiId());
+                    com.cryptex.cryptexspringtrader.models.CoinData coinData = coinDataRepository.findByApiId(coin.getApiId());
+                    if (coinData == null) {
+                        System.out.println("Saving new CoinData with apiId: " + coin.getApiId());
+                        coinData = new com.cryptex.cryptexspringtrader.models.CoinData(coin.getApiId());
+                        coinDataRepository.save(coinData);
+                    } else {
+                        System.out.println("CoinData with apiId: " + coin.getApiId() + " already exists");
+                    }
+                    return coinData;
+                })
+                .collect(Collectors.toList());
+
+        watchlist.setCoinDataList(coinDataList);
+        System.out.println(watchlist);
 //
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
