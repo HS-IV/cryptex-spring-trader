@@ -68,6 +68,7 @@ const getTrending = async () => {
     }
 };
 
+
     const getTicker = async () => {
         try {
             $.getJSON('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h&locale=en')
