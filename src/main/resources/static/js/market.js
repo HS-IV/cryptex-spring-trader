@@ -64,52 +64,53 @@
 
     const getTicker = async () => {
         try {
-           $.getJSON('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h&locale=en')
-           .done(function(data){
-                data.forEach((coin) => {
-                    let Chng = (coin.price_change_percentage_24h).toFixed(2)
-                    let color = Chng > 0 ? 'green' : 'red';
-                    let price = new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        notation: "compact",
-                        compactDisplay: "short",
-                        maximumSignificantDigits: 3
-                    }).format(coin.current_price);
-                    // console.log(Object.entries(coin)[0][1].usd)
-                    let tickerElement = "";
-                    tickerElement +=
-                        `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
-                    $('.ticker').append(tickerElement)
-                })
-            })
-        } catch (error) {
-            console.log("API request failed: " + error);
-            try {
-                $.getJSON("/mockdb/ticker.json")
-                    .done(function(data) {
-                        data.forEach((coin) => {
-                            let Chng = (coin.price_change_percentage_24h).toFixed(2)
-                            let color = Chng > 0 ? 'green' : 'red';
-                            let price = new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "USD",
-                                notation: "compact",
-                                compactDisplay: "short",
-                                maximumSignificantDigits: 3
-                            }).format(coin.current_price);
-                            // console.log(Object.entries(coin)[0][1].usd)
-                            let tickerElement = "";
-                            tickerElement +=
-                                `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
-                            $('.ticker').append(tickerElement)
-                        })
+            $.getJSON('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h&locale=en')
+                .done(function (data) {
+                    data.forEach((coin) => {
+                        let Chng = (coin.price_change_percentage_24h).toFixed(2)
+                        let color = Chng > 0 ? 'green' : 'red';
+                        let price = new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            notation: "compact",
+                            compactDisplay: "short",
+                            maximumSignificantDigits: 3
+                        }).format(coin.current_price);
+                        // console.log(Object.entries(coin)[0][1].usd)
+                        let tickerElement = "";
+                        tickerElement +=
+                            `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
+                        $('.ticker').append(tickerElement)
                     })
-            } catch (error) {
-                console.log("Local JSON request failed: " + error);
-            }
-        }
-    };
+                }).fail(function (jqxhr, textStatus, error) {
+                console.log("Ticker API request failed: " + error);
+                try {
+                    $.getJSON("/mockdb/ticker.json")
+                        .done(function (data) {
+                            data.forEach((coin) => {
+                                let Chng = (coin.price_change_percentage_24h).toFixed(2)
+                                let color = Chng > 0 ? 'green' : 'red';
+                                let price = new Intl.NumberFormat("en-US", {
+                                    style: "currency",
+                                    currency: "USD",
+                                    notation: "compact",
+                                    compactDisplay: "short",
+                                    maximumSignificantDigits: 3
+                                }).format(coin.current_price);
+                                // console.log(Object.entries(coin)[0][1].usd)
+                                let tickerElement = "";
+                                tickerElement +=
+                                    `<div class="ticker__item">${coin.name}: ${price} <span class="dayChange" style="color:${color};">${Chng}%</span></div></div>`
+                                $('.ticker').append(tickerElement)
+                            })
+                        })
+                } catch (error) {
+                    console.log("Local JSON request failed: " + error);
+                }
+            })
+        }catch (e) {
+        console.error("getTicker failed " + e)}
+    }
 
 const getGeckoTerminal = (Contract) => {
     if($('#terminal')){
@@ -823,6 +824,7 @@ $('#search').on('input', function () {
 
 
 const getGlobal = async () => {
+    $('#global').empty()
     try {
         $.getJSON("https://api.coingecko.com/api/v3/global")
             .done(function (data) {
@@ -842,32 +844,37 @@ const getGlobal = async () => {
                 $('#global').append(Global)
 
             })
-    } catch (e) {
-        console.error(e + "Global API call failed");
-    }  try {
-        $.getJSON("/mockdb/global.json")
-            .done(function (data) {
-                console.log(data)
-                let coin = data.data
-                let price = new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    notation: "compact",
-                    compactDisplay: "long",
-                    maximumSignificantDigits: 3
-                }).format(coin.total_volume.usd);
-                coin.total_volume.usd
-                let Global = "";
-                Global +=
-                    `<span>Coins: <span class="globalValue">${coin.active_cryptocurrencies}</span> Exchanges: <span class="globalValue">${coin.markets}</span> 24hr Volume: <span class="globalValue">${price} </span> BTC Dominance: <span class="globalValue">${coin.market_cap_percentage.btc.toFixed(2)}%</span> </span>`
-                $('#global').append(Global)
+            .fail(function (jqxhr, textStatus, error) {
+                console.log("API request failed: " + error);
+                $('#global').empty(); try {
+                    $.getJSON("/mockdb/global.json")
+                        .done(function (data) {
+                            console.log(data)
+                            let coin = data.data
+                            let price = new Intl.NumberFormat("en-US", {
+                                style: "currency",
+                                currency: "USD",
+                                notation: "compact",
+                                compactDisplay: "long",
+                                maximumSignificantDigits: 3
+                            }).format(coin.total_volume.usd);
+                            coin.total_volume.usd
+                            let Global = "";
+                            Global +=
+                                `<span>Coins: <span class="globalValue">${coin.active_cryptocurrencies}</span> Exchanges: <span class="globalValue">${coin.markets}</span> 24hr Volume: <span class="globalValue">${price} </span> BTC Dominance: <span class="globalValue">${coin.market_cap_percentage.btc.toFixed(2)}%</span> </span>`
+                            $('#global').append(Global)
 
+                        })
+                } catch (e) {
+                    console.error(e + "Global JSON fetch failed");
+                }
             })
     } catch (e) {
-        console.error(e + "Global JSON fetch failed");
+        console.error(e + "Global API call failed");
     }
 }
 const getGas = async () => {
+    $('#global').empty()
     try {
         // $.getJSON('../mockdb/gas.json')
         $.getJSON('https://api.etherscan.io/api?module=gastracker&action=gasoracle')
@@ -880,6 +887,7 @@ const getGas = async () => {
     } catch (error) {
         console.log("API request failed: " + error);
     } try {
+        $('#global').empty()
         $.getJSON("/mockdb/gas.json")
             .done(function (data) {
                 let gas = "";
