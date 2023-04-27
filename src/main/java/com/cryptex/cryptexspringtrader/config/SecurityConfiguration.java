@@ -129,7 +129,7 @@ public class  SecurityConfiguration {
 //                .csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
-
+                .csrf().disable()
                 /* Login configuration */
                 .formLogin()
                 .loginPage("/login")
