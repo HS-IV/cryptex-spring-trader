@@ -1017,19 +1017,23 @@ const getGas = async () => {
                     `<span>Gas: <span class="globalValue">${data.result.FastGasPrice}gwei </span></span>`
                 $('#global').append(gas)
             })
+            .fail(function (jqxhr, textStatus, error) {
+                console.log("Ticker API request failed: " + error);
+                try {
+                    $('#global').empty()
+                    $.getJSON("/mockdb/gas.json")
+                        .done(function (data) {
+                            let gas = "";
+                            gas +=
+                                `<span>Gas: <span class="globalValue">${data.result.FastGasPrice}gwei </span></span>`
+                            $('#global').append(gas)
+                        })
+                } catch (error) {
+                    console.log("Local JSON request failed: " + error);
+                }
+        })
     } catch (error) {
         console.log("API request failed: " + error);
-    } try {
-        $('#global').empty()
-        $.getJSON("/mockdb/gas.json")
-            .done(function (data) {
-                let gas = "";
-                gas +=
-                    `<span>Gas: <span class="globalValue">${data.result.FastGasPrice}gwei </span></span>`
-                $('#global').append(gas)
-            })
-    } catch (error) {
-        console.log("Local JSON request failed: " + error);
     }
 }
 
