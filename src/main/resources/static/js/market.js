@@ -5,9 +5,41 @@
 
 
 
-    const getTrending = async () => {
+const getTrending = async () => {
+    try {
+        const response = await fetch("https://api.coingecko.com/api/v3/search/trending?vs_currency=usd");
+        const data = await response.json();
+        data.coins.forEach((coin) => {
+            let price = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+                notation: "compact",
+                compactDisplay: "short",
+                maximumSignificantDigits: 3
+            }).format(coin.item.price_btc * 28000);
+            let coinCard = ""
+            coinCard +=
+                `<div class="">
+             <div class=" mt-1">
+               <span style="display:flex;margin:2px;"><img style="margin-right:1em; height: 200px; width: 200px;" src='${coin.item.large}' alt="${coin.item.name} icon"></span>                 
+              
+                <div class="flex-column">
+                    <h1 class="coin-name p-0">${coin.item.name}</h1>
+                    <h4 class="coin-ticker" > ${coin.item.symbol}</h4>
+                    <h3 class="coin-mc">Marketcap Rank #${coin.item.market_cap_rank}</h3>                 
+                     <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price--> 
+                    <h5 class="user-rating">User Score: ${coin.item.score}/10</h5>
+                </div>
+               
+             </div>
+            </div>
+                `
+            $("#trending").append(coinCard);
+        })
+    } catch (error) {
+        console.log("API request failed: " + error);
         try {
-            const response = await fetch("https://api.coingecko.com/api/v3/search/trending?vs_currency=usd");
+            const response = await fetch("/mockdb/trending.json");
             const data = await response.json();
             data.coins.forEach((coin) => {
                 let price = new Intl.NumberFormat("en-US", {
@@ -19,54 +51,22 @@
                 }).format(coin.item.price_btc * 28000);
                 let coinCard = ""
                 coinCard +=
-                `<div class="col-12">
-                 <div class="border m-5 p-5 rounded d-flex ">
-                   <span style="display:flex;margin:2px;"><img style="margin-right:1em;" src='${coin.item.large}' alt="${coin.item.name} icon"></span>                 
-                  
-                    <div class="col-12 flex-column">
-                        <h1 class="coin-name p-0">${coin.item.name}</h1>
-                        <h4 class="coin-ticker" > ${coin.item.symbol}</h4>
-                        <h3 class="coin-mc">Marketcap Rank #${coin.item.market_cap_rank}</h3>                 
-                         <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price--> 
-                        <h5 class="user-rating">User Score: ${coin.item.score}/10</h5>
-                    </div>
-                   
-                 </div>
+                    `<div class="w-100">
+             <div class="card card-custom jump">
+               <span style="display:flex;margin:2px;"><img style="margin-right:1em;" src='${coin.item.small}' alt="${coin.item.name} icon"><h1 class="coin-name">${coin.item.name}</h1><h4 class="coin-ticker"> ${coin.item.symbol}</h4></span>                 
+                <h3 class="coin-mc">Marketcap Rank #${coin.item.market_cap_rank}</h3>                 
+                 <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price--> 
+                <h5 class="user-rating">User Score: ${coin.item.score}/10</h5>
                 </div>
-                    `
+                </div>
+                `
                 $("#trending").append(coinCard);
             })
         } catch (error) {
-            console.log("API request failed: " + error);
-            try {
-                const response = await fetch("/mockdb/trending.json");
-                const data = await response.json();
-                data.coins.forEach((coin) => {
-                    let price = new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        notation: "compact",
-                        compactDisplay: "short",
-                        maximumSignificantDigits: 3
-                    }).format(coin.item.price_btc * 28000);
-                    let coinCard = ""
-                    coinCard +=
-                        `<div class="w-100">
-                 <div class="card card-custom jump">
-                   <span style="display:flex;margin:2px;"><img style="margin-right:1em;" src='${coin.item.small}' alt="${coin.item.name} icon"><h1 class="coin-name">${coin.item.name}</h1><h4 class="coin-ticker"> ${coin.item.symbol}</h4></span>                 
-                    <h3 class="coin-mc">Marketcap Rank #${coin.item.market_cap_rank}</h3>                 
-                     <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price--> 
-                    <h5 class="user-rating">User Score: ${coin.item.score}/10</h5>
-                    </div>
-                    </div>
-                    `
-                    $("#trending").append(coinCard);
-                })
-            } catch (error) {
-                console.log("Local JSON request failed: " + error);
-            }
+            console.log("Local JSON request failed: " + error);
         }
-    };
+    }
+};
 
     const getTicker = async () => {
         try {
