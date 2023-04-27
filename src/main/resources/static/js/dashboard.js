@@ -357,7 +357,7 @@ const getChart = async (url,header) => {
     } catch (e) {
         console.error(e)
     }
-    $.getJSON("/mockdb/marketcap.json")
+    $.getJSON("/mockdb/dashboard.json")
         .done(function (data) {
             let chartTable = '';
             chartTable +=
