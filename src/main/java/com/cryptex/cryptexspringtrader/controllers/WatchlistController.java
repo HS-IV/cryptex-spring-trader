@@ -76,6 +76,7 @@
 //    }
 package com.cryptex.cryptexspringtrader.controllers;
 
+import com.cryptex.cryptexspringtrader.models.CoinData;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.cryptex.cryptexspringtrader.models.User;
@@ -91,6 +92,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -112,12 +115,22 @@ public class WatchlistController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createWatchlist(@RequestBody Watchlists watchlists) {
-        System.out.println("============================Creating watchlist: " + watchlists);
-        Watchlist watchlist = new Watchlist();
-        watchlist.setName(watchlists.getName());
+    public String createWatchlist (@RequestParam String name, @RequestParam String coins){
+        System.out.println(name);
+        System.out.println(coins);
+                Watchlist watchlist = new Watchlist();
+        watchlist.setName(name);
 
-        List<com.cryptex.cryptexspringtrader.models.CoinData> coinDataList = watchlists.getCoinDataList().stream()
+        if (coins.equals("")){
+            watchlist.setCoinDataList(new ArrayList<>());
+
+        } else {
+           List <String> coinStrings = new ArrayList<>(Arrays.asList( coins.substring(1).split(",")));
+           List<CoinData> coinDataArray = new ArrayList<>();
+           for(String coinStr: coinStrings){
+               coinDataArray.add(new CoinData(coinStr));
+           }
+            List<com.cryptex.cryptexspringtrader.models.CoinData> coinDataList = coinDataArray.stream()
                 .map(coin -> {
                     System.out.println("Looking for coin with apiId: " + coin.getApiId());
                     com.cryptex.cryptexspringtrader.models.CoinData coinData = coinDataRepository.findByApiId(coin.getApiId());
@@ -133,20 +146,60 @@ public class WatchlistController {
                 .collect(Collectors.toList());
 
         watchlist.setCoinDataList(coinDataList);
+         }
+
+
         System.out.println(watchlist);
 //
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        System.out.println(userDetails + "=================");
+//        System.out.println(userDetails + "=================");
 //
-//        // Save the watchlist and get the saved watchlist from the service
+        // Save the watchlist and get the saved watchlist from the service
         Watchlist savedWatchlist = watchlistService.createWatchlistForUser(watchlist, userDetails);
 //
 //        // Return the watchlist ID in the response
-        System.out.println("Watchlist created with ID: " + savedWatchlist.getId());
-        return new ResponseEntity<>(1L, HttpStatus.CREATED);
-    }
+//        System.out.println("Watchlist created with ID: " + savedWatchlist.getId());
+        return "redirect:/dashboard";
+    };
+
+//    @PostMapping
+//    public ResponseEntity<Long> createWatchlist(@RequestBody Watchlists watchlists) {
+//        System.out.println("============================Creating watchlist: " + watchlists);
+//        Watchlist watchlist = new Watchlist();
+//        watchlist.setName(watchlists.getName());
+//
+//        List<com.cryptex.cryptexspringtrader.models.CoinData> coinDataList = watchlists.getCoinDataList().stream()
+//                .map(coin -> {
+//                    System.out.println("Looking for coin with apiId: " + coin.getApiId());
+//                    com.cryptex.cryptexspringtrader.models.CoinData coinData = coinDataRepository.findByApiId(coin.getApiId());
+//                    if (coinData == null) {
+//                        System.out.println("Saving new CoinData with apiId: " + coin.getApiId());
+//                        coinData = new com.cryptex.cryptexspringtrader.models.CoinData(coin.getApiId());
+//                        coinDataRepository.save(coinData);
+//                    } else {
+//                        System.out.println("CoinData with apiId: " + coin.getApiId() + " already exists");
+//                    }
+//                    return coinData;
+//                })
+//                .collect(Collectors.toList());
+//
+//        watchlist.setCoinDataList(coinDataList);
+//        System.out.println(watchlist);
+////
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//
+//        System.out.println(userDetails + "=================");
+////
+////        // Save the watchlist and get the saved watchlist from the service
+//        Watchlist savedWatchlist = watchlistService.createWatchlistForUser(watchlist, userDetails);
+////
+////        // Return the watchlist ID in the response
+//        System.out.println("Watchlist created with ID: " + savedWatchlist.getId());
+//        return new ResponseEntity<>(1L, HttpStatus.CREATED);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWatchlist(@PathVariable Long id) {
