@@ -89,7 +89,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
-    @RequestMapping("/index")
+    @RequestMapping("/")
     public String index() {
         return "index";
     }
@@ -128,6 +128,11 @@ public class IndexController {
     public String showOverview4() {
         return "lessons/lesson4";
     }
+    @GetMapping("/lesson-5")
+    public String showOverview5() {
+        return "lessons/lesson5";
+    }
+
 
     @GetMapping("/about-us")
     public String showAboutUs() {
