@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" >
 <head>
   <meta charset="UTF-8">
   <title>Cipher</title>
@@ -210,9 +210,20 @@
 <body>
 
 
-<nav th:replace="partials/navBar :: navbar2"></nav>
+<header>
+  <nav id="navbar">
+    <ul class="navItems">
+      <li><a class="active" href="/"><strong>Cryptex</strong></a></li>
+      <li><a href="/overview">Guides</a></li>
+      <li><a href="/market">Markets</a></li>
+      <li><a href="/about-us">About</a></li>
+      <li><a href="/sign-up">Sign Up</a></li>
+    </ul>
+  </nav>
+</header>
 
-<div style="position:relative;z-index: 0;height:100vh;">
+
+<div id="hero-banner" style="pointer-events:auto;position:relative;z-index: -20;height:100vh;">
   <svg class="scroll" style="position: absolute;top: 35%;left: 18%;
 }" version="1.0" xmlns="http://www.w3.org/2000/svg"
        width="240.000000pt" height="256.000000pt" viewBox="0 0 247.000000 278.000000"
@@ -265,7 +276,7 @@ m217 -55 c71 -35 109 -68 153 -136 117 -181 41 -424 -160 -516 -70 -32 -189
 
 
       <div class="scroll">
-        <h4 style="animation-delay: .08s; color:white;line-height: 2em; transform:translateY(50%);"><strong style="font-size: 1.5em;color:teal;">CryptEx</strong> is your source for crypto <br> <span style="color:orange;">News,</span> <span style="color:lightcoral;">Stats</span> and <span style="color:cyan;">Market Data.</span></h4>
+        <h4 style="animation-delay: .08s; color:white;line-height: 2em; transform:translateY(50%);"><strong style="font-size: 1.5em;color:teal;">CryptEx</strong> is your source for <br>crypto <span style="color:orange;">News,</span> <span style="color:lightcoral;">Stats</span> and <span style="color:cyan;">Market Data.</span></h4>
         <br> <hr>
       </div>
       <svg class="scroll" version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -485,7 +496,7 @@ c58 -25 123 -90 148 -148 75 -170 -62 -372 -253 -372 -76 0 -130 25 -192 88
               </li>
               <li class="anim5">
                 <div class="quote">
-                  <h4>Professional Audit Scores</h4>
+                  <h4>Crypto Auditor Scores</h4>
                   <svg fill="#000000" height="100px" width="100px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                        viewBox="0 0 488.569 488.569" xml:space="preserve">
 <g>
@@ -562,7 +573,7 @@ c0 13 -7 27 -16 30 -24 9 -277 7 -292 -3z"/>
     </section>
 
     <section>
-      <h4 style="position:absolute;z-index: 4;top:20%;text-shadow:1px 1px 0 black;">Discover a new favorite</h4>
+      <h4 style="position:absolute;z-index: 4;top:20%;text-shadow:1px 1px 0 black;">Discover Great Projects</h4>
       <ul ontouch="start">
         <li>
           <div class='link'>
@@ -671,7 +682,7 @@ c0 13 -7 27 -16 30 -24 9 -277 7 -292 -3z"/>
 
     </section>
     <section>
-      <a href="#"><h1 class="btn-style2 underline">We have Guides</h1></a>
+      <a href="/overview"><h1 class="btn-style2 underline">We have Guides</h1></a>
     </section>
     <section style="background:cyan;">
       <svg class="skew" version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -766,22 +777,22 @@ c-107 -291 -201 -536 -209 -545 -18 -20 -382 168 -584 301 -221 145 -336 323
 
   <ul>
     <div class="scroll featured-content card">
-      <div class="">
-        <img src="duck.gif" alt="Check out our free learning resources!">
+      <div class="feature-item">
+        <img src="/images/crypto_docs.png" alt="Check out our free learning resources!">
         <p style="color:white;text-shadow:1px 1px 0 black;">Use our free guides to learn about Blockchain technology</p>
-        <a href="#"><h3 class=" underline">Get Started</h3></a>
+        <a href="/overview"><h3 class=" underline">Get Started</h3></a>
 
       </div>
-      <div style="transform:translateX(100%)">
-        <img src="duck.gif" alt="View by Markets, Categories, Ecosystems">
+      <div class="feature-item" style="transform:translateX(100%)">
+        <img src="/images/crypto_docs2.png" alt="View by Markets, Categories, Ecosystems">
         <p style="font-weight:bold;color:orange;text-shadow:1px 1px 0 black;">Sort by Marketcap, price, volume, category and more on the latest and greatest crypto projects</p>
-        <a href="#"><h3 class="underline">Browse the Market</h3></a>
+        <a href="/market"><h3 class="underline">Browse the Market</h3></a>
 
       </div>
-      <div class="">
-        <img src="duck.gif" alt="Make an account and keep track of your favorite crypto projects">
+      <div class="feature-item">
+        <img src="/images/crypto_watchlist.png" alt="Make an account and keep track of your favorite crypto projects">
         <p style="color:white;text-shadow:1px 1px 0 black;">Make an account today and track your chosen cryptocurrencies, provide a phone number or email and get price alerts to your device</p>
-        <a href="#"><h3 class="underline">Sign up!</h3></a>
+        <a href="/sign-up"><h3 class="underline">Sign up!</h3></a>
       </div>
     </div>
   </ul>
@@ -961,6 +972,9 @@ c-107 -291 -201 -536 -209 -545 -18 -20 -382 168 -584 301 -221 145 -336 323
     }, 30);
   }
 </script> <!--Cryptex Scrambles-->
+
+
+<script src="/js/threeJSrender.js"></script>
 
 </body>
 </html>

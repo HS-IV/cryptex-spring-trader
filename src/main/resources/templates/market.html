@@ -10,21 +10,27 @@
 
 </head>
 <body>
-
+<div class="mx-2 container">
 <header>
   <nav th:replace="partials/navBar :: navbar2"></nav>
   <div style="position: relative">
     <div class="col-6 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+<nav>
+  <div>
+    <input id="search" oninput="let input = $('#search').val();searchQuery(input); console.log(input)" type="text" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
 
-      <input id="search" oninput="let input = $('#search').val();searchQuery(input); console.log(input)" type="text" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-
-    </div>
+  </div>
+  <div class="row">
+    <div id="global"></div>
+  </div>
+</nav>
       <div><ul id="searchResults"></ul></div>
   </div>
 
   <div class="ticker-wrap">
     <div class="ticker"></div>
   </div>
+    </div>
 
 </header>
 
@@ -114,5 +120,6 @@
 <script src="/jquery-plugins/jquery-sparkline.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="/js/market.js"></script>
+</div>
 </body>
 </html>

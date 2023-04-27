@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                 /* Login configuration */
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/tutorial") // user's home page, it can be any URL
+                .defaultSuccessUrl("/overview") // user's home page, it can be any URL
                 .permitAll() // Anyone can go to the login page
                 /* Logout configuration */
                 .and()
@@ -52,15 +52,14 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/profile", // only authenticated users can create ads
-                        "/logout", "/dashboard", "/api/dashboard/", "/api/watchlists","/api/watchlists/**" // only authenticated users can edit ads
-
+                        "/logout", "/dashboard", "/api/dashboard/", "/api/watchlists","/api/watchlists/*","/api/dashboard/**" // only authenticated users can edit ads
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
 
-                .requestMatchers("/", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/api/watchlists/**","/api/watchlists/marketcap","/REST/","/REST/**","/REST/watchlists/marketcap","/overview","/lesson-1","/lesson-2","/lesson-3","/lesson-4","/about-us") // anyone can see home, the ads pages, and sign up
+                .requestMatchers("/", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/api/watchlists/**","/api/watchlists/marketcap","/REST/","/REST/**","/REST/watchlists/marketcap","/overview","/lesson-1","/lesson-2","/lesson-3","/lesson-4","/lesson-5","/about-us") // anyone can see home, the ads pages, and sign up
 
                 .permitAll()
         ;
@@ -70,8 +69,7 @@ public class SecurityConfiguration {
 }
 
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
+    //    protected void configure(HttpSecurity http) throws Exception {
 //        http.authorizeRequests()
 //                .antMatchers("/images/**").permitAll()
 //                .anyRequest().authenticated()
@@ -81,5 +79,13 @@ public class SecurityConfiguration {
 //                .httpBasic();
 //    }
 //}
-
+//    @Bean
+//    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+//        http.authorizeHttpRequests()
+//                .anyRequest().permitAll()
+//                .and().formLogin()
+//                .and().httpBasic();
+//        return http.build();
+//    }
+//}
 
