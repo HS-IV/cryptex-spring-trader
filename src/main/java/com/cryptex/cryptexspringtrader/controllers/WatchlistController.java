@@ -130,13 +130,13 @@ public class WatchlistController {
            for(String coinStr: coinStrings){
                coinDataArray.add(new CoinData(coinStr));
            }
-            List<com.cryptex.cryptexspringtrader.models.CoinData> coinDataList = coinDataArray.stream()
+            List<CoinData> coinDataList = coinDataArray.stream()
                 .map(coin -> {
                     System.out.println("Looking for coin with apiId: " + coin.getApiId());
-                    com.cryptex.cryptexspringtrader.models.CoinData coinData = coinDataRepository.findByApiId(coin.getApiId());
+                    CoinData coinData = coinDataRepository.findByApiId(coin.getApiId());
                     if (coinData == null) {
                         System.out.println("Saving new CoinData with apiId: " + coin.getApiId());
-                        coinData = new com.cryptex.cryptexspringtrader.models.CoinData(coin.getApiId());
+                        coinData = new CoinData(coin.getApiId());
                         coinDataRepository.save(coinData);
                     } else {
                         System.out.println("CoinData with apiId: " + coin.getApiId() + " already exists");
@@ -210,72 +210,72 @@ public class WatchlistController {
 
     // ... rest of the code ...
 
-
-    public static class Watchlists {
-
-        private String name;
-        private User user;
-        private List<CoinData> coinDataList;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return "WatchlistData{" +
-                    "name='" + name + '\'' +
-                    ", coinDataList=" + coinDataList +
-                    '}';
-        }
-
-        public List<CoinData> getCoinDataList() {
-
-            return coinDataList;
-        }
-
-        public void setCoinDataList(List<CoinData> coinDataList) {
-            this.coinDataList = coinDataList;
-        }
-
-        public User getUser() {
-            return user;
-        }
-
-        public void setUser(User user) {
-            this.user = user;
-        }
-    }
-
-    public static class CoinData {
-        private String apiId;
-
-        @Override
-        public String toString() {
-            return "CoinData{" +
-                    "apiId='" + apiId + '\'' +
-                    '}';
-        }
-
-        public String getApiId() { // Change this from getApi_ID to getApiId
-            return apiId;
-        }
-
-        public void setApiId(String apiId) { // Change this from setApi_ID to setApiId
-            this.apiId = apiId;
-        }
-
-
-        @JsonCreator
-        public CoinData(@JsonProperty("id") String apiId) {
-            this.apiId = apiId;
-        }
-
-    }
+//
+//    public static class Watchlists {
+//
+//        private String name;
+//        private User user;
+//        private List<CoinData> coinDataList;
+//
+//        public String getName() {
+//            return name;
+//        }
+//
+//        public void setName(String name) {
+//            this.name = name;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return "WatchlistData{" +
+//                    "name='" + name + '\'' +
+//                    ", coinDataList=" + coinDataList +
+//                    '}';
+//        }
+//
+//        public List<CoinData> getCoinDataList() {
+//
+//            return coinDataList;
+//        }
+//
+//        public void setCoinDataList(List<CoinData> coinDataList) {
+//            this.coinDataList = coinDataList;
+//        }
+//
+//        public User getUser() {
+//            return user;
+//        }
+//
+//        public void setUser(User user) {
+//            this.user = user;
+//        }
+//    }
+//
+//    public static class CoinData {
+//        private String apiId;
+//
+//        @Override
+//        public String toString() {
+//            return "CoinData{" +
+//                    "apiId='" + apiId + '\'' +
+//                    '}';
+//        }
+//
+//        public String getApiId() { // Change this from getApi_ID to getApiId
+//            return apiId;
+//        }
+//
+//        public void setApiId(String apiId) { // Change this from setApi_ID to setApiId
+//            this.apiId = apiId;
+//        }
+//
+//
+//        @JsonCreator
+//        public CoinData(@JsonProperty("id") String apiId) {
+//            this.apiId = apiId;
+//        }
+//
+//    }
 }
 
 

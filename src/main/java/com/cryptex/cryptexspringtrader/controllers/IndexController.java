@@ -99,10 +99,6 @@ public class IndexController {
         return "dashboard";
     }
 
-    @GetMapping("/dashboard")
-    public String showDashboard() {
-        return "dashboard";
-    }
     @RequestMapping("/market")
     public String market() {return "market";}
 
