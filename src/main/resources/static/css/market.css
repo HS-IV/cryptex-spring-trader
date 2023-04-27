@@ -112,7 +112,7 @@ h1,h2,p {padding: 0 5%;}
 #searchResults {
     position:absolute;
     list-style:none;
-    left:-10px;
+    left:70%;
     z-index: 10;
     margin:2px;
     padding:4px;
@@ -126,8 +126,8 @@ h1,h2,p {padding: 0 5%;}
     text-shadow: 1px 1px 0 black;
 }
 #searchResults li {
-    background:darkslategrey;
-    opacity: .9;
+    background:black;
+    cursor: pointer;
 }
 #searchResults li:hover {
     background:rgba(0,0,30,.9);
