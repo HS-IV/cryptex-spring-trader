@@ -20,8 +20,8 @@ const getTrending = async () => {
             let coinCard = ""
             coinCard +=
                 `<div class="">
-             <div class=" mt-1">
-               <span style="display:flex;margin:2px;"><img style="margin-right:1em; height: 200px; width: 200px;" src='${coin.item.large}' alt="${coin.item.name} icon"></span>                 
+             <div class="mt-1">
+              <a style="cursor:pointer;" onclick="getShow('${coin.item.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"> <span style="display:flex;margin:2px;"><img style="margin-right:1em; height: 200px; width: 200px;" src='${coin.item.large}' alt="${coin.item.name} icon"></span></a>                 
               
                 <div class="flex-column">
                     <h1 class="coin-name p-0">${coin.item.name}</h1>
@@ -51,14 +51,20 @@ const getTrending = async () => {
                 }).format(coin.item.price_btc * 28000);
                 let coinCard = ""
                 coinCard +=
-                    `<div class="w-100">
-             <div class="card card-custom jump">
-               <span style="display:flex;margin:2px;"><img style="margin-right:1em;" src='${coin.item.small}' alt="${coin.item.name} icon"><h1 class="coin-name">${coin.item.name}</h1><h4 class="coin-ticker"> ${coin.item.symbol}</h4></span>                 
-                <h3 class="coin-mc">Marketcap Rank #${coin.item.market_cap_rank}</h3>                 
-                 <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price--> 
-                <h5 class="user-rating">User Score: ${coin.item.score}/10</h5>
+                    `<div class="">
+             <div class="mt-1">
+               <a style="cursor:pointer;" onclick="getShow('${coin.item.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><span style="display:flex;margin:2px;"><img style="margin-right:1em; height: 200px; width: 200px;" src='${coin.item.large}' alt="${coin.item.name} icon"></span></a>                 
+              
+                <div class="flex-column">
+                    <h1 class="coin-name p-0">${coin.item.name}</h1>
+                    <h4 class="coin-ticker" > ${coin.item.symbol}</h4>
+                    <h3 class="coin-mc">Marketcap Rank #${coin.item.market_cap_rank}</h3>                 
+                     <h3 class="coin-price">${price}</h3> <!--hardcode BTC current price--> 
+                    <h5 class="user-rating">User Score: ${coin.item.score}/10</h5>
                 </div>
-                </div>
+               
+             </div>
+            </div>
                 `
                 $("#trending").append(coinCard);
             })
@@ -1314,6 +1320,19 @@ getGlobal()
 getGas()
 getTrending()
 getTicker()
+
+
+var scrollAmount = 100;
+var scrollDelay = 5000;
+var scrollRight = true;
+
+
+setInterval(function() {
+    $('#trending').animate({scrollLeft: '+=300px'}, 500);
+    setTimeout(function() {
+        $('#trending').animate({scrollLeft: '-=300px'}, 500);
+    }, 10000);
+}, 2000);
 
 $(document).ready(function (){
     $('#dropdownBlockchain').click(function () {
