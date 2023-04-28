@@ -107,6 +107,7 @@ public class WatchlistController {
     @Autowired
     private CoinDataRepository coinDataRepository;
 
+
     @GetMapping
     public ResponseEntity<List<Watchlist>> getAllWatchlists() {
         System.out.println("Getting all watchlists");

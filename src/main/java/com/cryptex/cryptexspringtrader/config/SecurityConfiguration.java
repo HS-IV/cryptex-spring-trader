@@ -130,9 +130,9 @@ public class  SecurityConfiguration {
 //                .csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
-//                .csrf().ignoringRequestMatchers("/api/watchlists")
+                .csrf().ignoringRequestMatchers("/jquery-sparkline.js/**","/api/dashboard/**")
 
-//                               .and()
+                               .and()
 
                 /* Login configuration */
                 .formLogin()
@@ -148,13 +148,13 @@ public class  SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/profile", // only authenticated users can create ads
-                        "/logout", "/dashboard", "/api/dashboard/","/api/dashboard/**","/api/watchlists","/api/watchlists/**" // only authenticated users can edit ads
+                        "/logout", "/dashboard","/api/dashboard/**","/api/watchlists/**" // only authenticated users can edit ads
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/REST/","/REST/**","/REST/watchlists/marketcap","/overview","/lesson-1","/lesson-2","/lesson-3","/lesson-4","/lesson-5","/about-us") // anyone can see home, the ads pages, and sign up
+                .requestMatchers("/", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/REST/","/REST/**","/REST/watchlists/marketcap","/overview","/lesson-1","/lesson-2","/lesson-3","/lesson-4","/lesson-5","/about-us","/jquery-sparkline.js/**") // anyone can see home, the ads pages, and sign up
                 .permitAll()
         ;
 
