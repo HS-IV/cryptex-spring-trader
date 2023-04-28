@@ -125,16 +125,17 @@ public class  SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.headers().disable();
+//        http.headers().disable();
         http.cors().disable()
 //                .csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
-                .csrf().ignoringRequestMatchers("/jquery-sparkline.js/**","/api/dashboard/**")
+                .csrf().ignoringRequestMatchers("/api/watchlists")
 
-                               .and()
+//                               .and()
 
                 /* Login configuration */
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/overview") // user's home page, it can be any URL
