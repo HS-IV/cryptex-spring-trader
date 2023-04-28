@@ -926,9 +926,10 @@ const searchQuery = (input) => {
                     if (marketCap == null) {
                         return "NA";
                     }
+
                     let searchContent = "";
                     searchContent +=
-                        `<li><span>#${marketCap} </span><a href="${coin.id}"><img src="${coin.thumb}" alt="${coin.id}">${coin.symbol} ${coin.id}</a></li>`;
+                        `<li><a onclick="$('#searchResults').empty();getShow('${coin.id}');$('#largeModal').modal('toggle');"><span>#${marketCap} </span><img src="${coin.thumb}" alt="${coin.id}">${coin.symbol} ${coin.id}</a></li>`;
                     $('#searchResults').append(searchContent);
                 });
             });

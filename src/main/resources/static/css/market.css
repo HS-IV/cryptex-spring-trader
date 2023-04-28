@@ -127,7 +127,7 @@ h1,h2,p {padding: 0 5%;}
 }
 #searchResults li {
     background:black;
-
+    cursor: pointer;
 }
 #searchResults li:hover {
     background:rgba(0,0,30,.9);
