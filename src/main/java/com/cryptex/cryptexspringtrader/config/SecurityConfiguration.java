@@ -125,12 +125,15 @@ public class  SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.headers().disable();
         http.cors().disable()
 //                .csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
                 .csrf().ignoringRequestMatchers("/api/watchlist")
+
                                .and()
+
                 /* Login configuration */
                 .formLogin()
                 .loginPage("/login")
