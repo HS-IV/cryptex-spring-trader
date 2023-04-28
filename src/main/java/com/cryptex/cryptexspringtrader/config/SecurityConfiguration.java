@@ -125,13 +125,17 @@ public class  SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.headers().disable();
         http.cors().disable()
 //                .csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
+
                 .csrf().ignoringRequestMatchers("/api/watchlists","/databaseTester")
                                .and()
+
                 /* Login configuration */
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/overview") // user's home page, it can be any URL
@@ -145,13 +149,15 @@ public class  SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/profile", // only authenticated users can create ads
-                        "/logout", "/dashboard", "/api/dashboard/","/api/dashboard/**" // only authenticated users can edit ads
+                        "/logout", "/dashboard","/api/dashboard/**","/api/watchlists/**" // only authenticated users can edit ads
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
+
                 .requestMatchers("/","/databaseTester", "/api/watchlists","/api/watchlists/**", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/REST/","/REST/**","/REST/watchlists/marketcap","/overview","/lesson-1","/lesson-2","/lesson-3","/lesson-4","/lesson-5","/about-us") // anyone can see home, the ads pages, and sign up
+
                 .permitAll()
         ;
 
