@@ -130,7 +130,7 @@ public class  SecurityConfiguration {
 //                .csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
-                .csrf().ignoringRequestMatchers("/api/watchlist")
+                .csrf().ignoringRequestMatchers("/api/watchlists")
 
                                .and()
 
