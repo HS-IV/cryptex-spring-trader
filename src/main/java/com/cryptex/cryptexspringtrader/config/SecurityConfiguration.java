@@ -130,9 +130,9 @@ public class  SecurityConfiguration {
 //                .csrf()
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
-                .csrf().ignoringRequestMatchers("/api/watchlists")
 
-//                               .and()
+                .csrf().ignoringRequestMatchers("/api/watchlists","/databaseTester")
+                               .and()
 
                 /* Login configuration */
                 .and()
@@ -155,7 +155,9 @@ public class  SecurityConfiguration {
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/REST/","/REST/**","/REST/watchlists/marketcap","/overview","/lesson-1","/lesson-2","/lesson-3","/lesson-4","/lesson-5","/about-us","/jquery-sparkline.js/**") // anyone can see home, the ads pages, and sign up
+
+                .requestMatchers("/","/databaseTester", "/api/watchlists","/api/watchlists/**", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/REST/","/REST/**","/REST/watchlists/marketcap","/overview","/lesson-1","/lesson-2","/lesson-3","/lesson-4","/lesson-5","/about-us") // anyone can see home, the ads pages, and sign up
+
                 .permitAll()
         ;
 

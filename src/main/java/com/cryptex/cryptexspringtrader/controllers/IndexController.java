@@ -82,13 +82,31 @@ package com.cryptex.cryptexspringtrader.controllers;//package com.cryptex.crypte
 //}
 
 
+import com.cryptex.cryptexspringtrader.models.CoinData;
+import com.cryptex.cryptexspringtrader.models.User;
+import com.cryptex.cryptexspringtrader.models.Watchlist;
+import com.cryptex.cryptexspringtrader.repositories.CoinDataRepository;
+import com.cryptex.cryptexspringtrader.repositories.UserRepository;
+import com.cryptex.cryptexspringtrader.repositories.WatchlistRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class IndexController {
-
+@Autowired
+    CoinDataRepository coinService;
+@Autowired
+    UserRepository userService;
+@Autowired
+    WatchlistRepository watchlistService;
     @RequestMapping("/")
     public String index() {
         return "index";
@@ -101,6 +119,47 @@ public class IndexController {
 
     @RequestMapping("/market")
     public String market() {return "market";}
+//databaseTester
+
+    @GetMapping("/databaseTester")
+    public String databaseTest(){
+        return "databaseTester";
+    }
+//        @PostMapping("/databaseTester")
+//        public String createWatchlist(@RequestParam String username, @RequestParam String name, @RequestParam Watchlist newWatchlist, @RequestParam CoinData newCoindata, Principal principal) {
+//            User user = new User();
+//
+//            System.out.println("User " + user.getUsername() + " added," + "Watchlist " + newWatchlist.getName() + " added");
+//            System.out.println("Coins " + newWatchlist.getCoinDataList() + " added");
+//
+//            user.setUsername(username);
+//            newWatchlist.setUser(user);
+//            newWatchlist.setName(name);
+//            newWatchlist.addCoinData(newCoindata);
+//            watchlistService.save(newWatchlist);
+//            return "/databaseTester";
+//        }
+//databaseTester
+
+    @PostMapping("/databaseTester")
+    public String createWatchlist(@RequestParam String username,
+                                  @RequestParam String name,
+                                  @RequestParam String newWatchlist,
+                                  @RequestParam String newCoinData) {
+        User user = userService.findByUsername(username);
+        Watchlist watchlist = new Watchlist();
+        CoinData coinData = new CoinData();
+
+        watchlist.setUser(user);
+        watchlist.setName(name);
+        watchlistService.save(watchlist);
+
+        coinData.setWatchlist(watchlist);
+        coinData.setApiId(newCoinData);
+        coinService.save(coinData);
+
+        return "redirect:/databaseTester";
+    }
 
     @GetMapping("/overview")
     public String showOverview() {
