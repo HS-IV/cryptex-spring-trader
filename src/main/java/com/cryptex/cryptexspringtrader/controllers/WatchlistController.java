@@ -77,8 +77,6 @@
 package com.cryptex.cryptexspringtrader.controllers;
 
 import com.cryptex.cryptexspringtrader.models.CoinData;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.cryptex.cryptexspringtrader.models.User;
 import com.cryptex.cryptexspringtrader.models.Watchlist;
 import com.cryptex.cryptexspringtrader.repositories.CoinDataRepository;
