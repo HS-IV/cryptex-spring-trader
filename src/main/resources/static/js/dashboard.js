@@ -262,8 +262,7 @@ const getShow = async (input) => {
         console.error(e)
     }
 }//getShow function
-let chart,
-    Query;
+let chart; //dont delete this
 
 const clearChart = () => {
     console.log("Clearing chart");
@@ -747,11 +746,11 @@ $('#create-watchlist-form').on('submit', function (event) {
             // Show delete button on hover and hide it when the mouse leaves
             watchlistButtonContainer.hover(
                 function() {
-                    console.log("Hovering over watchlist button container");
+                    // console.log("Hovering over watchlist button container");
                     $(this).find('.deleteWatchlistButton').css('display', 'inline-block');
                 },
                 function() {
-                    console.log("Mouse leaving watchlist button container");
+                    // console.log("Mouse leaving watchlist button container");
                     $(this).find('.deleteWatchlistButton').css('display', 'none');
                 }
             );
