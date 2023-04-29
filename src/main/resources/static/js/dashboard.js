@@ -2415,31 +2415,17 @@ const getOHLC = async (coin, days) => {
 };
 
 
-const getChart = async (url, header) => {
-    console.log("Fetching chart data from:", url);
+const getChart = async (url,header) => {
     $('#terminal').empty();
-    $('#coinChart').empty();
-    $('#selectedTable').empty();
-
+    $('#coinChart').empty()
+    $('#selectedTable').empty()
     try {
-        console.log("Making JSON request");
         $.getJSON(url)
-            .fail(function (jqxhr, textStatus, error) {
-                console.log("API request failed: " + error);
-            });
-    } catch (e) {
-        console.error("Error occurred while fetching data:", e);
-    }
+            .done(function (data) {
+                let chartTable = '';
+                chartTable +=
 
-    console.log("Fetching data from /mockdb/dashboard.json");
-    $.getJSON("/mockdb/dashboard.json")
-        .done(function (data) {
-            console.log("Data fetched from /mockdb/dashboard.json:", data);
-            let chartTable = '';
-            // ... Rest of the chartTable string ...
-            chartTable +=
-
-                `<h1>${header}</h1>                
+                    `<h1>${header}</h1>                
             <table class="table table-dark">
             <thead id="tableHead">
             
@@ -2460,74 +2446,69 @@ const getChart = async (url, header) => {
             </thead>
             <tbody id="coinChart"></tbody>
             </table>`
-            console.log("Appending chartTable");
-            $('#selectedTable').append(chartTable);
 
-            var th = $('#tableHead th');
-            th.click(function () {
-                console.log('Sorting table');
-                // ... Rest of the sorting code ...
-                console.log('sorting table');
-                let table = $(this).parents('table').eq(0);
-                let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
-                this.asc = !this.asc;
-                if (!this.asc) {
-                    rows = rows.reverse();
-                }
-                for (var i = 0; i < rows.length; i++) {
-                    table.append(rows[i]);
-                }
-            });
+                $('#selectedTable').append(chartTable);
 
-            function comparer(index) {
-                // ... Rest of the comparer function ...
-                return function(a, b) {
-                    let valA = getCellValue(a, index), valB = getCellValue(b, index);
-                    let numA = parseFloat(valA.replace(/[^0-9.-]+/g,""));
-                    let numB = parseFloat(valB.replace(/[^0-9.-]+/g,""));
-                    if ($.isNumeric(numA) && $.isNumeric(numB)) {
-                        return numA - numB;
-                    } else {
-                        return valA.toString().localeCompare(valB);
+                var th = $('#tableHead th');
+                th.click(function () {
+                    console.log('sorting table');
+                    let table = $(this).parents('table').eq(0);
+                    let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+                    this.asc = !this.asc;
+                    if (!this.asc) {
+                        rows = rows.reverse();
                     }
-                };
-            }
+                    for (var i = 0; i < rows.length; i++) {
+                        table.append(rows[i]);
+                    }
+                });
 
-            function getCellValue(row, index) {
-                // ... Rest of the getCellValue function ...
-                let cell = $(row).children('td').eq(index);
-                if (cell.data('numeric')) {
-                    return cell.attr('data-raw');
-                } else {
-                    return cell.text();
-                }
-            }
-
-            console.log("Processing data");
-            data.forEach((coin) => {
-                // ... Rest of the data processing code ...
-
-                let colorDay = coin.price_change_percentage_1h_in_currency > 0 ? 'green' : 'red';
-                let color = coin.price_change_percentage_24h > 0 ? 'green' : 'red';
-                let colorWeek = coin.price_change_percentage_7d_in_currency > 0 ? 'green' : 'red';
-
-
-
-                const numberNotationCheck = (input) => {
-                    return '$' + (input).toLocaleString("en-US");
+                function comparer(index) {
+                    return function (a, b) {
+                        let valA = getCellValue(a, index), valB = getCellValue(b, index);
+                        let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+                        let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+                        if ($.isNumeric(numA) && $.isNumeric(numB)) {
+                            return numA - numB;
+                        } else {
+                            return valA.toString().localeCompare(valB);
+                        }
+                    };
                 }
 
-                let sparkValue = coin.sparkline_in_7d.price;
-                let chartElement = "";
-                // ... Rest of the chartElement string ...
-                `<tr>
+                function getCellValue(row, index) {
+                    let cell = $(row).children('td').eq(index);
+                    if (cell.data('numeric')) {
+                        return cell.attr('data-raw');
+                    } else {
+                        return cell.text();
+                    }
+                }
+
+
+                data.forEach((coin) => {
+
+
+                    let colorDay = coin.price_change_percentage_1h_in_currency > 0 ? 'green' : 'red';
+                    let color = coin.price_change_percentage_24h > 0 ? 'green' : 'red';
+                    let colorWeek = coin.price_change_percentage_7d_in_currency > 0 ? 'green' : 'red';
+
+
+                    const numberNotationCheck = (input) => {
+                        return '$' + (input).toLocaleString("en-US")
+                    }
+
+                    let sparkValue = coin.sparkline_in_7d.price
+                    let chartElement = "";
+                    chartElement +=
+                        `<tr>
 <td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
-<td><img class="coin-icon" src="${coin.image}" alt=""><strong> ${coin.name} </strong></td>
+<td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
 <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
 <td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
-<td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}</td>
-<td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}</td>
-<td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}</td>
+<td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}%</td>
+<td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}%</td>
+<td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}%</td>
 <td class="coin-volume">${numberNotationCheck(coin.total_volume)}</td>
 <td class="coin-marketcap">${numberNotationCheck(coin.market_cap)}</td>
 <td class="coin-high">${numberNotationCheck(coin.high_24h)}</td>
@@ -2544,14 +2525,9 @@ const getChart = async (url, header) => {
   <span>.</span>
   <span>.</span>
   </div></td>`
-                console.log("Appending chartElement for coin:", coin.name);
-                $('#coinChart').append(chartElement);
 
-                if ($(`#${coin.id}-sparkline`) !== null) {
-                    console.log("Creating sparkline for coin:", coin.name);
-                    $(`#${coin.id}-sparkline`).sparkline(sparkValue, {
-                        // ... Rest of the sparkline options ...
-                        myPrefixes: [],
+                    $('#coinChart').append(chartElement)
+                    if($(`#${coin.id}-sparkline`) !== null) {$(`#${coin.id}-sparkline`).sparkline(sparkValue,{myPrefixes: [],
                         tooltipFormatter: function(sp, options, fields) {
                             var format =  $.spformat();
                             var result = '';
@@ -2561,14 +2537,156 @@ const getChart = async (url, header) => {
                             })
                             return result;
                         },type: 'line',lineWidth: 2, lineColor:`${colorWeek}`,fillColor:false, width: 200, height:50,  normalRangeMax: coin.ath})}
+                    else{
+                        return 'NA'
+                    }
 
-                else {
-                    console.log("No sparkline found for coin:", coin.name);
-                    return 'NA';
+
+                }); //forEach
+            }) //done
+            .fail(function (jqxhr, textStatus, error) {
+                console.log("API request failed: " + error);
+                try {
+                    $.getJSON("/mockdb/dashboard.json")
+                        .done(function (data) {
+                        console.log("JSON dashboard loading...")
+                            let chartTable = '';
+                            chartTable +=
+
+                                `<h1>${header}</h1>                
+            <table class="table table-dark">
+            <thead id="tableHead">
+            
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">name</th>
+                <th scope="col">ticker</th>
+                <th scope="col">price</th>
+                <th scope="col">1h</th>
+                <th scope="col">24h</th>
+                <th scope="col">7d</th>
+                <th scope="col">volume</th>
+                <th scope="col">marketcap</th>
+                <th scope="col">24h Hi</th>
+                <th scope="col">24h Lo</th>
+                <th scope="col">Last 7 days</th>
+            </tr>
+            </thead>
+            <tbody id="coinChart"></tbody>
+            </table>`
+
+                            $('#selectedTable').append(chartTable);
+
+                            var th = $('#tableHead th');
+                            th.click(function () {
+                                console.log('sorting table');
+                                let table = $(this).parents('table').eq(0);
+                                let rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+                                this.asc = !this.asc;
+                                if (!this.asc) {
+                                    rows = rows.reverse();
+                                }
+                                for (var i = 0; i < rows.length; i++) {
+                                    table.append(rows[i]);
+                                }
+                            });
+
+                            function comparer(index) {
+                                return function (a, b) {
+                                    let valA = getCellValue(a, index), valB = getCellValue(b, index);
+                                    let numA = parseFloat(valA.replace(/[^0-9.-]+/g, ""));
+                                    let numB = parseFloat(valB.replace(/[^0-9.-]+/g, ""));
+                                    if ($.isNumeric(numA) && $.isNumeric(numB)) {
+                                        return numA - numB;
+                                    } else {
+                                        return valA.toString().localeCompare(valB);
+                                    }
+                                };
+                            }
+
+                            function getCellValue(row, index) {
+                                let cell = $(row).children('td').eq(index);
+                                if (cell.data('numeric')) {
+                                    return cell.attr('data-raw');
+                                } else {
+                                    return cell.text();
+                                }
+                            }
+
+
+                            data.forEach((coin) => {
+
+
+                                let colorDay = coin.price_change_percentage_1h_in_currency > 0 ? 'green' : 'red';
+                                let color = coin.price_change_percentage_24h > 0 ? 'green' : 'red';
+                                let colorWeek = coin.price_change_percentage_7d_in_currency > 0 ? 'green' : 'red';
+
+
+                                const numberNotationCheck = (input) => {
+                                    return '$' + (input).toLocaleString("en-US")
+                                }
+
+                                let sparkValue = coin.sparkline_in_7d.price
+                                let chartElement = "";
+                                chartElement +=
+                                    `<tr>
+<td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
+<td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
+<td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
+<td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
+<td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}%</td>
+<td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}%</td>
+<td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}%</td>
+<td class="coin-volume">${numberNotationCheck(coin.total_volume)}</td>
+<td class="coin-marketcap">${numberNotationCheck(coin.market_cap)}</td>
+<td class="coin-high">${numberNotationCheck(coin.high_24h)}</td>
+<td class="coin-low">${numberNotationCheck(coin.low_24h)}</td>
+<td id="${coin.id}-sparkline" class="sparkline">
+<div class="loading"><span>L</span>
+  <span>o</span>
+  <span>a</span>
+  <span>d</span>
+  <span>i</span>
+  <span>n</span>
+  <span>g</span>
+  <span>.</span>
+  <span>.</span>
+  <span>.</span>
+  </div></td>`
+
+                                $('#coinChart').append(chartElement)
+                                $(`#${coin.id}-sparkline`).sparkline(sparkValue, {
+                                    myPrefixes: [],
+                                    tooltipFormatter: function (sp, options, fields) {
+                                        var format = $.spformat();
+                                        var result = '';
+                                        $.each(fields, function (i, field) {
+                                            field.myprefix = options.get('myPrefixes')[i];
+                                            result += format.render(field, options.get('tooltipValueLookups'), options);
+                                        })
+                                        return result;
+                                    },
+                                    type: 'line',
+                                    lineWidth: 2,
+                                    lineColor: `${colorWeek}`,
+                                    fillColor: false,
+                                    width: 200,
+                                    height: 50,
+                                    normalRangeMax: coin.ath
+                                })
+
+
+                            }); //forEach
+                    console.log("Dashboard JSON GET successful")
+                        }) //done
+                } catch (e) {
+                    console.error(e)
                 }
-            }); // forEach
-        }) // done
-    console.log("JSON GET successful");
+            })
+    } catch (e) {
+        console.error(e)
+    }
+
 }
 
 
@@ -2708,7 +2826,7 @@ $('#create-watchlist-form').on('submit', function (event) {
             newWatchlistButton.attr('aria-controls', watchlistName + '-tabpanel');
             newWatchlistButton.attr('aria-selected', 'false');
 
-            newWatchlistButton.attr('onclick', `getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${formattedArray}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en')`);
+            newWatchlistButton.attr('onclick', `getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${formattedArray}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en', '${watchlistName}')`);
 
             // Append the delete button and watchlist button to the container
             watchlistButtonContainer.append(deleteWatchlistButton);
