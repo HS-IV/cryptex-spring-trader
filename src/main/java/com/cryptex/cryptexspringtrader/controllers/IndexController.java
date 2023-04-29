@@ -121,46 +121,6 @@ public class IndexController {
     public String market() {return "market";}
 //databaseTester
 
-    @GetMapping("/databaseTester")
-    public String databaseTest(){
-        return "databaseTester";
-    }
-//        @PostMapping("/databaseTester")
-//        public String createWatchlist(@RequestParam String username, @RequestParam String name, @RequestParam Watchlist newWatchlist, @RequestParam CoinData newCoindata, Principal principal) {
-//            User user = new User();
-//
-//            System.out.println("User " + user.getUsername() + " added," + "Watchlist " + newWatchlist.getName() + " added");
-//            System.out.println("Coins " + newWatchlist.getCoinDataList() + " added");
-//
-//            user.setUsername(username);
-//            newWatchlist.setUser(user);
-//            newWatchlist.setName(name);
-//            newWatchlist.addCoinData(newCoindata);
-//            watchlistService.save(newWatchlist);
-//            return "/databaseTester";
-//        }
-//databaseTester
-
-    @PostMapping("/databaseTester")
-    public String createWatchlist(@RequestParam String username,
-                                  @RequestParam String name,
-                                  @RequestParam String newWatchlist,
-                                  @RequestParam String newCoinData) {
-        User user = userService.findByUsername(username);
-        Watchlist watchlist = new Watchlist();
-        CoinData coinData = new CoinData();
-
-        watchlist.setUser(user);
-        watchlist.setName(name);
-        watchlistService.save(watchlist);
-
-        coinData.setWatchlist(watchlist);
-        coinData.setApiId(newCoinData);
-        coinService.save(coinData);
-
-        return "redirect:/databaseTester";
-    }
-
 
     @GetMapping("/overview")
     public String showOverview() {
