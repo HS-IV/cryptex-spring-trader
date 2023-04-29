@@ -102,10 +102,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
 
 @Configuration
 @EnableWebSecurity
-public class  SecurityConfiguration {
+public class SecurityConfiguration {
 
     private UserDetailsLoader usersLoader;
 
@@ -131,8 +135,8 @@ public class  SecurityConfiguration {
 //                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
 
-                .csrf().ignoringRequestMatchers("/api/watchlists","/databaseTester")
-                               .and()
+                .csrf().ignoringRequestMatchers("/api/watchlists", "/databaseTester")
+                .and()
 
                 /* Login configuration */
 //                .and()
@@ -148,15 +152,15 @@ public class  SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/profile", // only authenticated users can create ads
-                        "/logout", "/dashboard","/api/dashboard/**","/api/watchlists/**" // only authenticated users can edit ads
+                        "/profile", // only authenticated users can create watchlists
+                        "/logout", "/dashboard", "/api/dashboard/**", "/api/watchlists/**" // only authenticated users can edit watchlists
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */
                 .and()
                 .authorizeHttpRequests()
 
-                .requestMatchers("/","/databaseTester", "/api/watchlists","/api/watchlists/**", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**","/images/**","jquery-plugins/**", "/mockdb/**","/REST/","/REST/**","/REST/watchlists/marketcap","/overview","/lesson-1","/lesson-2","/lesson-3","/lesson-4","/lesson-5","/about-us") // anyone can see home, the ads pages, and sign up
+                .requestMatchers("/", "/databaseTester", "/api/watchlists", "/api/watchlists/**", "/sign-up", "/creators", "/index", "/market", "/tutorial", "/css/**", "/js/**", "/images/**", "jquery-plugins/**", "/mockdb/**", "/REST/", "/REST/**", "/REST/watchlists/marketcap", "/overview", "/lesson-1", "/lesson-2", "/lesson-3", "/lesson-4", "/lesson-5", "/about-us") // anyone can see home, the pages, and sign up
 
                 .permitAll()
         ;
