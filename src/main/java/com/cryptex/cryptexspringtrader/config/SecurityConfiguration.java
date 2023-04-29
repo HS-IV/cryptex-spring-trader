@@ -135,7 +135,7 @@ public class  SecurityConfiguration {
                                .and()
 
                 /* Login configuration */
-                .and()
+//                .and()
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/overview") // user's home page, it can be any URL
