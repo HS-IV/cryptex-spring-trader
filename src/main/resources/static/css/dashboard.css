@@ -124,14 +124,14 @@ h1,h2,p {padding: 0 5%;}
 #searchResults a {
     text-decoration: none!important;
     color:white;
-    text-shadow: 1px 1px 0 black;
+    text-shadow: 1px 1px 0 whitesmoke;
 }
 #searchResults li {
-    background:black;
-    opacity: .9;
+    background:white;
+    /*opacity: .9;*/
 }
 #searchResults li:hover {
-    background:rgba(0,0,30,.9);
+    background:lightgrey;
 }
 
 
