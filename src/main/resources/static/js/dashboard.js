@@ -262,7 +262,7 @@ const getShow = async (input) => {
         console.error(e)
     }
 }//getShow function
-let chart; //dont delete this
+let chart,Query; //dont delete this
 
 const clearChart = () => {
     console.log("Clearing chart");
@@ -272,56 +272,70 @@ const clearChart = () => {
 };
 
 const getOHLC = async (coin, days) => {
-    console.log("Fetching OHLC data for coin:", coin, "days:", days);
-    $('#chartButtons').empty();
-
+    $('#chartButtons').empty()
     try {
+
         const candle = await $.getJSON(`https://api.coingecko.com/api/v3/coins/${coin}/ohlc?vs_currency=usd&days=${days}`);
-        console.log("Candle data:", candle);
-
-        const coinData = await $.getJSON(`https://api.coingecko.com/api/v3/coins/${coin}?localization=false&tickers=true&market_data=true&community_data=true&developer_data=true&sparkline=true`);
-        console.log("Coin data:", coinData);
-
+        const coinData = await $.getJSON(`https://api.coingecko.com/api/v3/coins/${coin}?localization=false&tickers=true&market_data=true&community_data=true&developer_data=true&sparkline=true`)
         const dataPoints = candle.map((candles) => {
             return {
                 x: new Date(candles[0]),
                 y: [candles[1], candles[2], candles[3], candles[4]]
             };
         });
-        console.log("Data points:", dataPoints);
 
         let chartType = () => {
             if (days == 1){
-                return `${coinData.name} 24 hour`;
-            } else if(days > 1) {
-                return `${coinData.name} ` + days + ` day`;
+                return `${coinData.name} 24 hour`
+            }else if(days > 1){
+                return `${coinData.name} ` + days + ` day`
+            }
+        }
+        const options2 = {
+            series: [{
+                data: dataPoints
+            }],
+            chart: {
+                type: 'candlestick',
+                height: 350
+            },
+            theme: {
+                monochrome: {
+                    enabled: true,
+                    color: '#255aee',
+                    shadeTo: 'light',
+                    shadeIntensity: 0.65
+                }
+            },
+            title: {
+                text: chartType(),
+                align: 'left'
+            },
+            xaxis: {
+                type: 'datetime'
+            },
+            yaxis: {
+                tooltip: {
+                    enabled: true
+                }
             }
         };
-
-        const options2 = {
-            // ... rest of the options ...
-        };
-
         let chartButtons = `<button id="btn1">1d</button>
-        // ... rest of the buttons ...
-        `;
-        console.log("Chart buttons:", chartButtons);
-
+    <button id="btn14" onclick=" getOHLC(Query, '14');">14d</button>
+    <button id="btn30" onclick=" getOHLC(Query, '30');">30d</button>
+    <button id="btn90" onclick=" getOHLC(Query, '90');">90d</button>
+    <a class="btn-sm bg-dark" id="deleteChart" href="#search" onclick="chart.destroy();$('#chartButtons').empty();"><i class="bi bi-dash-lg"></i></a>`
         if (chart) {
-            console.log("Destroying previous chart");
             chart.destroy();
         }
 
         chart = new ApexCharts($("#liveChart")[0], options2);
-        console.log("Creating new chart with options:", options2);
-        $('#chartButtons').append(chartButtons);
+        $('#chartButtons').append(chartButtons)
         chart.render();
-        console.log("Chart rendered");
     } catch (e) {
-        console.error("Error occurred while fetching data:", e);
+        console.error(e);
     }
 };
-
 
 const getChart = async (url,header) => {
     $('#terminal').empty();
@@ -411,7 +425,7 @@ const getChart = async (url,header) => {
                     chartElement +=
                         `<tr>
 <td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
-<td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
+<td><img class="coin-icon" src="${coin.image}" alt=""><a class="coin-name fw-bold" href="#coin-description" data-bs-toggle="modal" data-bs-target="#largeModal" onclick="Query = '${coin.id}';getShow(Query);if(chart){chart.destroy()};getOHLC(Query,'1')"> ${coin.name} </a></td>
 <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
 <td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
 <td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}%</td>
@@ -539,7 +553,7 @@ const getChart = async (url,header) => {
                                 chartElement +=
                                     `<tr>
 <td class="coin-marketcapRank"><span>${coin.market_cap_rank}</span></td>
-<td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
+<td><img class="coin-icon" src="${coin.image}" alt=""><a class="coin-name fw-bold" href="#coin-description" data-bs-toggle="modal" data-bs-target="#largeModal" onclick="Query = '${coin.id}';getShow(Query);if(chart){chart.destroy()};getOHLC(Query,'1')"> ${coin.name} </a></td>
 <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
 <td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
 <td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}%</td>
@@ -646,6 +660,10 @@ $('#search').on('input', function () {
     $('#searchResults').empty();
     debouncedFunction($(this).val());
 });
+// $('#searchBtn').on('input', function () {
+//     $('#searchResults').empty();
+//     searchQuery($('#search').val());
+// });
 let addedCoins = [];
 
 $('#searchResults').on('click', 'li', function (event) {
