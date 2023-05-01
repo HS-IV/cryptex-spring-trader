@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Getting Started</title>
-    <link th:replace="partials/partials :: bootstrapLink">
+    <link th:replace="~{partials/partials :: bootstrapLink}">
     <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
@@ -40,7 +40,7 @@
             outline: none;
             width: 100%;
             background: rgba(255, 255, 255, 0.7);
-            curser: pointer;
+            cursor: pointer;
             transition: .3s;
         }
 
@@ -127,9 +127,9 @@
     </div>
 </div>
 
-<div th:replace="partials/partials :: footer"></div>
+<div th:replace="~{partials/partials :: footer}"></div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script th:replace="partials/partials :: bootstrapScript"></script>
+<script th:replace="~{partials/partials :: bootstrapScript}"></script>
 </body>
 </html>
 
