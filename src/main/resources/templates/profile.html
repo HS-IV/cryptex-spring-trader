@@ -1,38 +1,181 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang ="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec ="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title>Getting Started</title>
+    <link th:replace="partials/partials :: bootstrapLink">
+    <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+    <style>
+        *{
+            color: white;
+        }
+        body{
+            background-color: #2a2b3c;
+
+        }
+
+        .row{
+            background-color: #1c1d2b;
+        }
+        .picture{
+            background-color: white;
+            width: 300px;
+            height: 300px;
+        }
+
+
+        .submit {
+
+            border:none;
+            border-radius: 30px;
+            font-size: 15px;
+            height: 45px;
+            outline: none;
+            width: 100%;
+            background: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .input {
+            height: 45px;
+            width: 150%;
+            border: none;
+            outline: none;
+            border-radius: 30px;
+            color: #ffffff;
+            padding: 0 0 0 50px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .info{
+            height: 45px;
+            width: 100%;
+            border: none;
+            outline: none;
+            border-radius: 15px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .info2{
+            height: 45px;
+            width: 100%;
+            border: none;
+            outline: none;
+            border-radius: 15px;
+            color: #ffffff;
+
+        }
+
+
+        .fix {
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            padding: 0 15px 0 15px;
+        }
+
+        span {
+            color: #ffffff;
+            font-size: medium;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0 10px 0;
+        }
+
+    </style>
+
 </head>
-<body>
-<h1 th:text="${user.getUsername()}"></h1>
-<!--email-->
-<p>email: <span th:text="${user.getEmail()}"></span></p>
-<p>phone number: <span th:text="${user.getPhonenumber()}"></span></p>
-<p>username: <span th:text="${user.getUsername()}"></span></p>
+
+<body class ="body">
+<nav th:replace="partials/navBar :: navbar2"></nav>
 
 
-<h1>EDIT ACCOUNT INFO</h1>
-<form th:action="@{/profile}" th:method="post" th:object="${user}">
+<div class=" container bg-white d-flex flex-row justify-content-center align-items-center mt-5 border">
 
 
-    <input type="hidden" name="id" th:value="${user.id}" />
 
-    <label for="username">USERNAME:</label>
-    <input th:field="*{username}" type="text" id="username">
+    <div class="p-5 row m-5 rounded border border-white">
+        <h1 class="">Profile</h1>
+    <div class="d-flex">
+        <h1>Welcome </h1>
+        <h1 th:text="${user.getUsername()}"></h1>
+        <h1>!</h1>
+    </div>
 
-    <label for="email">EMAIL:</label>
-    <input th:field="*{email}" type="text" id="email">
 
-    <label for="phonenumber">PHONE NUMBER:</label>
-    <input th:field="*{phonenumber}" type="text" id="phonenumber">
+        <div class="p-5">
 
-    <input th:field="*{password}" type="hidden" id="password">
+            <div class="d-flex info rounded m-1 justify-content-between">
+                <span class="mx-3">Username: </span>
+                <span class="mx-3" th:text="${user.getUsername()}"></span>
+            </div>
 
-    <button>submit</button>
-</form>
+            <div class="d-flex info2 bg-dark rounded m-1 justify-content-between">
+                <span class="mx-3">Email: </span>
+                <span class="mx-3" th:text="${user.getEmail()}"></span>
+            </div>
 
+            <div class="d-flex info rounded m-1 justify-content-between">
+                <span class="mx-3">Phone Number: </span>
+                <span class="mx-3" th:text="${user.getPhonenumber()}"></span>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="row m-5 rounded border border-white">
+
+        <div class="col-12 fix m-5 p-5 d-flex flex-column justify-content-center align-items-center">
+
+            <h1>EDIT ACCOUNT INFO</h1>
+            <form th:action="@{/profile}" th:method="post" th:object="${user}">
+
+                <input type="hidden" name="id" th:value="${user.id}" />
+
+                <div for="username" class="input-field d-flex flex-column justify-content-center align-items-center">
+                    <input class="input mb-2" th:field="*{username}" type="text" id="username">
+                </div>
+
+                <div for="email" class="input-field d-flex flex-column justify-content-center align-items-center">
+                    <input class="input mb-2" th:field="*{email}" type="text" id="email">
+                </div>
+
+                <div for="phonenumber" class="input-field d-flex flex-column justify-content-center align-items-center">
+                    <input class="input mb-2" th:field="*{phonenumber}" type="text" id="phonenumber">
+                </div>
+
+                <div for="password" class="input-field d-flex flex-column justify-content-center align-items-center">
+                    <input class="input mb-2" th:field="*{password}" type="hidden" id="password">
+                </div>
+
+                <div class="input-field mt-3">
+                    <input type="submit" class="submit" value="Submit Changes">
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
 
 <div th:replace="partials/partials :: footer"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:replace="partials/partials :: bootstrapScript"></script>
 </body>
 </html>
+
+
+
+
