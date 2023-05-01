@@ -260,7 +260,7 @@ section {
     display: flex;
     position: relative;
     background-color: #2a2b3c;
-    box-shadow: 0 0 1px 0 rgba(24,94,224,.15), 0 6px 12px 0 rgba(24,94,224,.15);
+    /*box-shadow: 0 0 1px 0 rgba(24,94,224,.15), 0 6px 12px 0 rgba(24,94,224,.15);*/
 
 }
 
@@ -403,5 +403,5 @@ input[id=radio3]:checked ~ .glider {
 
 #trending {
     overflow-x: scroll;
-    width: 40%;
+    width: 80%;
 }
