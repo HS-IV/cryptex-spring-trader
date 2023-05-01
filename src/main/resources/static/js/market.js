@@ -77,7 +77,7 @@ const getTrending = async () => {
 
     const getTicker = async () => {
         try {
-            $.getJSON('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin%2Cethereum%2Cdogecoin%2Cshiba-inu%2Cchainlink&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=1h&locale=en')
+            $.getJSON('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false&price_change_percentage=1h&locale=en')
                 .done(function (data) {
                     data.forEach((coin) => {
                         let Chng = (coin.price_change_percentage_24h).toFixed(2)
@@ -533,9 +533,9 @@ function getExchanges(url) {
 <td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
 <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
 <td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
-<td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}</td>
-<td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}</td>
-<td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}</td>
+<td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}%</td>
+<td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}%</td>
+<td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}%</td>
 <td class="coin-volume">${numberNotationCheck(coin.total_volume)}</td>
 <td class="coin-marketcap">${numberNotationCheck(coin.market_cap)}</td>
 <td class="coin-high">${numberNotationCheck(coin.high_24h)}</td>
@@ -660,9 +660,9 @@ function getExchanges(url) {
 <td><a style="cursor:pointer;" onclick="getShow('${coin.id}')" data-bs-toggle="modal" data-bs-target="#largeModal"><img class="coin-icon" src="${coin.image}" alt=""><strong>${coin.name}</strong></a></td>
 <td class="coin-ticker">${coin.symbol.toUpperCase()}</td>
 <td class="coin-price">${numberNotationCheck(coin.current_price)}</td>
-<td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}</td>
-<td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}</td>
-<td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}</td>
+<td class="coin-volChange" style="color: ${colorDay}">${(coin.price_change_percentage_1h_in_currency).toFixed(2)}%</td>
+<td class="coin-volChange" style="color: ${color};">${(coin.price_change_percentage_24h).toFixed(2)}%</td>
+<td class="coin-volChange" style="color: ${colorWeek}">${(coin.price_change_percentage_7d_in_currency).toFixed(2)}%</td>
 <td class="coin-volume">${numberNotationCheck(coin.total_volume)}</td>
 <td class="coin-marketcap">${numberNotationCheck(coin.market_cap)}</td>
 <td class="coin-high">${numberNotationCheck(coin.high_24h)}</td>

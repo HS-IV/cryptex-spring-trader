@@ -7,6 +7,9 @@
     <title>Getting Started</title>
     <link th:replace="partials/partials :: bootstrapLink">
     <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
+
     <style>
         * {
             color: white;
@@ -86,6 +89,17 @@
 
             <form th:action="@{/login}" method="post">
 
+                <div th:if="${param.error}">
+                    <script>
+                        Swal.default.fire(
+                            'Invalid Credentials',
+                            'Please check your log-in information',
+                            'error'
+                        )
+                    </script>
+                </div>
+
+
                 <div class="username d-flex flex-column justify-content-center align-items-center">
                     <input id="username" name="username" type="text " class="input m-2" placeholder="UserName"/>
                 </div>
@@ -102,7 +116,11 @@
                     <input type="submit" class="submit" value="login">
                 </div>
 
+
+
+
             </form>
+
 
         </div>
 

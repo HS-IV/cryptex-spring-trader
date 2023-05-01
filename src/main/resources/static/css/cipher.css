@@ -793,3 +793,22 @@ h1 {
     height:400px;
     width:400px;
 }
+
+@media
+(min-width: 375px) and (max-width: 400px),
+(min-width: 468px) {
+    #CryptEx{
+        top:40%;
+    }
+    section img {
+        height:50%;
+        width:50%;
+    }
+}
+
+@media (max-width: 480px) {
+    img {
+        height:50%;
+        width:50%;
+    }
+}
