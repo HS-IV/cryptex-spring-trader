@@ -120,19 +120,27 @@
 
 
 
-  <main class="mt-5">
-    <section class="container-fluid ">
-      <div class="row d-flex justify-content-center">
+
+    <div class="container mt-4">
+      <div class="row d-flex justify-content-center col-10">
 
 
 
         <div class="row" id="selectedTable"></div>
 
-          <div class="" style="height:900px;" id="terminal"></div>
+          <div class="" style="height:0;" id="terminal"></div>
 
-        <div id="trending" class="border m-3 p-3 rounded d-flex align-items-center">
-          <h1 style="margin-left: 0">Trending Now:
-            <span class="">
+
+
+
+      </div>
+    </div>
+
+  <div class="d-flex justify-content-center mt-5">
+
+  <div id="trending" class="border m-3 p-3 rounded d-flex align-items-center">
+    <h1 style="margin-left: 0">Trending Now:
+      <span class="">
             <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
                  width="200.000000pt" height="150.000000pt" viewBox="0 0 228.000000 186.000000"
                  preserveAspectRatio="xMidYMid meet">
@@ -173,17 +181,13 @@ m217 -55 c71 -35 109 -68 153 -136 117 -181 41 -424 -160 -516 -70 -32 -189
                     </g>
                 </svg>
           </span>
-          </h1>
-          <hr style="color:white;">
+    </h1>
+    <hr style="color:white;">
 
 
-        </div>
+  </div>
 
-
-      </div>
-    </section>
-  </main>
-
+  </div>
 
 
 <div th:replace="partials/partials :: footer"></div>
