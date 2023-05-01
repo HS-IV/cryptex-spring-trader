@@ -7,6 +7,8 @@
     <title>Getting Started</title>
     <link th:replace="partials/partials :: bootstrapLink">
     <script src="https://kit.fontawesome.com/f692bfbf5c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.js"></script>
     <style>
         *{
             color: white;
@@ -86,6 +88,8 @@
 
 
             <form th:action="@{/sign-up}" th:object="${user}" method="post">
+
+                <div th:if="${param.error}"></div>
 
 
                 <div for="username" class="input-field d-flex flex-column justify-content-center align-items-center">
