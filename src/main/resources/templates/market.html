@@ -18,7 +18,7 @@
 
 <div class="page-wrapper">
   <header>
-    <nav th:replace="partials/navBar :: navbar2"></nav>
+    <nav th:replace="~{partials/navBar :: navbar2}"></nav>
     <div style="position: relative">
       <div class="col-6 col-lg-auto mb-3 mb-lg-0 me-lg-3">
         <nav>
@@ -186,7 +186,7 @@ m217 -55 c71 -35 109 -68 153 -136 117 -181 41 -424 -160 -516 -70 -32 -189
 
 
 
-<div th:replace="partials/partials :: footer"></div>
+<div th:replace="~{partials/partials :: footer}"></div>
 
 <script>
   let topBtn = document.getElementById("topBtn");
