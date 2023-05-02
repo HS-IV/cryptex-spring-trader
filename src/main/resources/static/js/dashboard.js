@@ -832,3 +832,94 @@ function deleteWatchlist(watchlistId) {
         }
     });
 }
+const getUserWatchlists = () => {
+    const csrfToken = $('meta[name="_csrf"]').attr('content');
+    const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+
+
+    // Send the data to the server
+    $.ajax({
+        url: '/api/watchlists',
+        type: 'GET',
+        contentType: 'application/json;charset=UTF-8',
+        headers: {
+            [csrfHeader]: csrfToken
+        },
+        success: function (data) {
+            console.log(data)
+                // const formattedArray = data.flatMap(watchlist => watchlist.coinDataList.map(coin => coin.apiId)).join('%2C');
+            data.forEach((list) => {
+                let formattedArray = list.coinDataList.map(coin => coin.apiId).join('%2C');
+
+
+                console.log("Formatted coin IDs:", formattedArray);
+
+                const watchlistButtonContainer = $('<div></div>');
+                watchlistButtonContainer.addClass('watchlistButtonContainer d-flex align-items-center');
+                watchlistButtonContainer.attr('data-watchlist-id', list.id);
+
+                // Create the delete button
+                const deleteWatchlistButton = $('<button class="animate__animated animate__slideInLeft"></button>');
+                deleteWatchlistButton.text('delete');
+                deleteWatchlistButton.addClass('deleteWatchlistButton');
+                deleteWatchlistButton.css('display', 'none'); // Initially hide the delete button
+                deleteWatchlistButton.attr('onclick', `deleteWatchlist(${list.id})`);
+
+                const navPills = $('#v-pills-tab');
+                const newWatchlistButton = $(' <button class="animate__animated animate__fadeInUpBig"></button>');
+                newWatchlistButton.text(list.name);
+                newWatchlistButton.addClass('nav-link w-100 ');
+                newWatchlistButton.attr('type', 'button');
+                newWatchlistButton.attr('name', 'createWatchlist');
+                newWatchlistButton.attr('data-bs-toggle', 'pill');
+                newWatchlistButton.attr('role', 'tab');
+                newWatchlistButton.attr('aria-controls', list.name + '-tabpanel');
+                newWatchlistButton.attr('aria-selected', 'false');
+
+                newWatchlistButton.attr('onclick', `getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${formattedArray}&order=market_cap_desc&per_page=100&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en', '${list.name}')`);
+
+                // Append the delete button and watchlist button to the container
+                watchlistButtonContainer.append(deleteWatchlistButton);
+                watchlistButtonContainer.append(newWatchlistButton);
+
+                // Insert the container before the last nav-link element
+                navPills.children('.nav-link:last-child').before(watchlistButtonContainer);
+
+                // Show delete button on hover and hide it when the mouse leaves
+                watchlistButtonContainer.hover(
+                    function() {
+                        // console.log("Hovering over watchlist button container");
+                        $(this).find('.deleteWatchlistButton').css('display', 'inline-block');
+                    },
+                    function() {
+                        // console.log("Mouse leaving watchlist button container");
+                        $(this).find('.deleteWatchlistButton').css('display', 'none');
+                    }
+                );
+
+                $('#create-watchlist-btn').on('click', function () {
+                    console.log("Create watchlist button clicked");
+                    // Clear the added coins array and the added-coins list in the HTML
+                    addedCoins = [];
+                    $('#added-coins').empty();
+
+                    // Clear the search input field
+                    $('#search').val('');
+                });
+
+
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+            console.error('Error: Cannot Fetch Watchlists', errorThrown);
+        }
+    });
+    }
+
+    getUserWatchlists()
+// <button className="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-coinTable"
+//         type="button" role="tab" aria-controls="v-pills-watchlist1" aria-selected="true"
+//         onClick="getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=binance-smart-chain&per_page=10&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en');clearChart()">Watchlist
+//     1</button>

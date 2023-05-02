@@ -47,6 +47,7 @@
 //}
 package com.cryptex.cryptexspringtrader.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -59,6 +60,7 @@ public class CoinData {
     @Column(name = "api_id")
     private String apiId;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "coinDataList")
     private List<Watchlist> watchlists;
 

@@ -1,5 +1,6 @@
 package com.cryptex.cryptexspringtrader.models;
 
+ import com.fasterxml.jackson.annotation.JsonIgnore;
  import jakarta.persistence.*;
  import jakarta.validation.constraints.Email;
  import jakarta.validation.constraints.NotBlank;
@@ -15,12 +16,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+@JsonIgnore
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Invalid email address")
     @Column(nullable = false, length = 50, unique=true)
     private String email;
-
+@JsonIgnore
     @NotBlank(message = "Password cannot be empty")
     @Size(min = 6, message = "Password must be at least 6 characters long")
     @Column(nullable = false, length = 100)
@@ -28,10 +29,14 @@ public class User {
     @NotBlank(message = "Username cannot be empty")
     @Column(nullable = false, length = 50, unique=true)
     private String username;
+
+    @JsonIgnore
     @NotBlank(message = "Phone number cannot be empty")
 //    @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Invalid phone number")
     @Column(nullable = false, length = 20)
     private String phonenumber;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Watchlist> watchlists;
 

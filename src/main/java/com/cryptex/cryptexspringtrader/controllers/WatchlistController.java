@@ -1,6 +1,7 @@
 
 package com.cryptex.cryptexspringtrader.controllers;
 
+import com.cryptex.cryptexspringtrader.repositories.UserRepository;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.cryptex.cryptexspringtrader.models.User;
@@ -24,16 +25,23 @@ import java.util.stream.Collectors;
 public class WatchlistController {
 
     @Autowired
+    private UserRepository userDao;
+
+    @Autowired
     private WatchlistService watchlistService;
 
     @Autowired
     private CoinDataRepository coinDataRepository;
 
     @GetMapping
+    @ResponseBody
     public ResponseEntity<List<Watchlist>> getAllWatchlists() {
         System.out.println("Getting all watchlists");
-        List<Watchlist> watchlists = watchlistService.getAllWatchlists();
-        return new ResponseEntity<>(watchlists, HttpStatus.OK);
+//        List<Watchlist> watchlists = watchlistService.getAllWatchlists();
+        User userWithRoles = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userDao.findByUsername(userWithRoles.getUsername());
+        System.out.println("User Watchlists" + user.getWatchlists().toString());
+        return new ResponseEntity<>(user.getWatchlists(), HttpStatus.OK);
     }
 
     @PostMapping
