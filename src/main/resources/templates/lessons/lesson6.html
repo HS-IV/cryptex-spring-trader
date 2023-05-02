@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang ="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec ="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Crypto Trading</title>
+    <link th:replace="partials/partials :: bootstrapLink">
+    <style>
+        *{
+            color: white;
+        }
+        body{
+            background-color: #2a2b3c;
+        }
+        .dark{
+            background-color: #1c1d2b;
+        }
+        .picture{
+            background-color: white;
+            width: 300px;
+            height: 300px;
+        }
+        .picture2{
+            background-color: white;
+            width: 400px;
+            height: 400px;
+        }
+        @media screen and (min-width:768px) {
+            .fix{
+                padding-right: 120px!important;
+                padding-left: 0!important;
+            }
+        }
+        @media screen and (min-width:1200px) {
+            .fix{
+                padding-right: 120px!important;
+                padding-left: 0!important;
+            }
+        }
+        /*.fix{*/
+        /*    padding-right: 120px!important;*/
+        /*    padding-left: 0!important;*/
+        /*}*/
+
+
+
+    </style>
+
+</head>
+
+<body class ="body">
+<nav th:replace="partials/navBar :: navbar2"></nav>
+
+
+<div class="container">
+        <div class="col">
+            <h1>Understanding Crypto Trading</h1>
+
+        </div>
+    <div class="row">
+
+        <div class=" col-sm-12 col-md-8 col-lg-4 d-flex justify-content-center fix">
+            <div class="picture "></div>
+        </div>
+
+        <div class="col-sm-12 col-md-12 col-lg-8 p-3 d-flex flex-column justify-content-center dark ">
+
+            <h5 class="card-title p-3">What determines the price of crypto?</h5>
+            <p class="card-text p-3">In brief: buyers increase the price of a token, and sellers decrease the price.</p>
+            <p class="card-text p-3">The basic economic principle of supply and demand plays a significant role in determining the price of cryptocurrencies. If there is a high demand for a particular crypto and the supply is limited, then the price will increase. On the other hand, if the supply is high and demand is low, then the price will decrease.</p>
+
+
+
+        </div>
+
+    </div>
+    <div class="row mt-5">
+
+        <div class="dark col-sm-12 col-md-6 ">
+            <h4 class="m-3 p-3">Market Cap, Price and Supply</h4>
+            <p class="m-3 p-3">Market capitalization, price, and supply are all important factors that contribute to the value of a cryptocurrency:</p>
+            <ul>
+                <li class="pb-3">Market capitalization: The market capitalization of a cryptocurrency is calculated by multiplying the current price of a single coin by the total number of coins in circulation. This metric provides an estimate of the total value of the cryptocurrency.</li>
+
+                <li class="pb-3">Price: The price of a cryptocurrency is simply the amount of money that someone is willing to pay for a single coin or token. The price is determined by the forces of supply and demand and can fluctuate rapidly based on market conditions.</li>
+
+                <li class="pb-3">Supply: The supply of a cryptocurrency refers to the total number of coins or tokens that have been created and are available for use. Some cryptocurrencies have a fixed supply, while others have a variable supply that changes over time based on predetermined rules.</li>
+            </ul>
+
+        </div>
+
+        <div class=" col-sm-12 col-md-6 d-flex align-items-center justify-content-end">
+            <div class="picture2 m-3"></div>
+        </div>
+
+    </div>
+
+    <div class="row my-5">
+        <div class=" col-sm-12 col-md-4 dark">
+            <h4 class="m-3 p-3">Liquidity</h4>
+            <p class="p-3">Liquidity in cryptocurrency refers to the ability of a cryptocurrency to be easily bought or sold without significantly affecting its price. This can apply to individual coins or whole exchanges. High liquidity means that there are many buyers and sellers in the market, making it easy to buy or sell a particular cryptocurrency at any given time. Low liquidity, on the other hand, means that there are fewer buyers and sellers, and it may be more difficult to buy or sell a cryptocurrency without affecting its price.</p>
+            <p class="p-3">Locked liquidity is often used in decentralized finance (DeFi) platforms as a way to ensure that there is always enough liquidity available to support trading activity on the platform. By locking a certain amount of cryptocurrency in a smart contract, the platform can guarantee that there will always be enough liquidity to support trades, even during periods of high volatility or low trading volume.</p>
+            <p class="p-3">For example: a coin on a DeFi platform has a locked liquidity of 10,000 tokens, this means that 10,000 tokens are held in a smart contract and cannot be traded on the exchange. Instead, they are used to provide liquidity for the coin on the exchange, ensuring that there are always enough tokens available to support trading activity. <br>
+                Investors can benefit from locked liquidity by having a greater level of confidence in the stability of the coin or exchange, as they know that there is always a certain amount of liquidity available to support trades.</p>
+        </div>
+        <div class=" col-sm-12 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="picture"></div>
+        </div>
+
+    </div>
+
+    <div class="row my-5">
+        <div class=" col-sm-12 col-md-4 dark">
+            <h4 class="p-3">Trading Volume</h4>
+            <p class="p-3">The trading volume of a cryptocurrency refers to the total amount of that cryptocurrency that is traded in a given period, such as a day or a week. High trading volumes generally indicate high liquidity, as there are many buyers and sellers in the market.</p>
+        </div>
+        <div class=" col-sm-12 col-md-4 d-flex justify-content-center align-items-center">
+            <div class="picture"></div>
+        </div>
+        <div class="col-sm-12 col-md-4 dark">
+            <h4 class="p-3">Market Depth</h4>
+            <p class="p-3">Market depth refers to the number of buy and sell orders that are currently placed at different price levels for a particular cryptocurrency. A cryptocurrency with a deep market will have many buy and sell orders at different price levels, which can make it easier to buy or sell without affecting the price.</p>
+            <h4 class="p-3">Market Sentiment</h4>
+            <p class="p-3">Market sentiment refers to the overall attitude or feeling that investors and traders have towards the cryptocurrency market at a particular point in time. It reflects the collective emotions, beliefs, and expectations of market participants, and can play a significant role in shaping market trends and price movements.</p>
+        </div>
+
+    </div>
+
+</div>
+<div class="row" style="position:relative;">
+    <h3 class="p-3 text-white" style="position: absolute;top: 40%;left: 50%;width:unset;"><a style="text-decoration: none;" href="/lesson-7">Next</a></h3>
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
+
+
+<g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
+	<path d="M 48.454 82.069 c -0.417 0 -0.837 -0.087 -1.231 -0.265 c -1.076 -0.485 -1.768 -1.556 -1.768 -2.735 V 61.334 H 28.869 c -10.011 0 -18.85 6.824 -23.068 17.811 c -0.519 1.351 -1.926 2.133 -3.348 1.875 C 1.031 80.756 0 79.516 0 78.069 V 66.56 c 0 -16.268 2.937 -37.894 28.327 -37.894 h 17.128 V 10.931 c 0 -1.18 0.691 -2.25 1.768 -2.735 c 1.075 -0.484 2.337 -0.293 3.219 0.487 l 38.545 34.07 C 89.631 43.322 90 44.14 90 45 s -0.369 1.679 -1.014 2.248 L 50.441 81.317 C 49.883 81.812 49.173 82.069 48.454 82.069 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+</g>
+  </svg>
+</div>
+<div class="row" style="position:relative;">
+    <h3 class="p-3 text-white" style="position:absolute;top: 35%;left: 42%;z-index: 2; width:unset;"><a style="text-decoration: none;" href="/lesson-5">Previous</a></h3>
+    <svg style="rotate: 180deg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve"><g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
+	<path d="M 48.454 82.069 c -0.417 0 -0.837 -0.087 -1.231 -0.265 c -1.076 -0.485 -1.768 -1.556 -1.768 -2.735 V 61.334 H 28.869 c -10.011 0 -18.85 6.824 -23.068 17.811 c -0.519 1.351 -1.926 2.133 -3.348 1.875 C 1.031 80.756 0 79.516 0 78.069 V 66.56 c 0 -16.268 2.937 -37.894 28.327 -37.894 h 17.128 V 10.931 c 0 -1.18 0.691 -2.25 1.768 -2.735 c 1.075 -0.484 2.337 -0.293 3.219 0.487 l 38.545 34.07 C 89.631 43.322 90 44.14 90 45 s -0.369 1.679 -1.014 2.248 L 50.441 81.317 C 49.883 81.812 49.173 82.069 48.454 82.069 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+</g>
+  </svg>
+</div>
+<div th:replace="partials/partials :: footer"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:replace="partials/partials :: bootstrapScript"></script>
+</body>
+</html>
+
+
+
+

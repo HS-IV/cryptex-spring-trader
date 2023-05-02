@@ -65,7 +65,18 @@ public class IndexController {
     public String showOverview5() {
         return "lessons/lesson5";
     }
-
+    @GetMapping("/lesson-6")
+    public String showOverview6() {
+        return "lessons/lesson6";
+    }
+    @GetMapping("/lesson-7")
+    public String showOverview7() {
+        return "lessons/lesson7";
+    }
+    @GetMapping("/lesson-8")
+    public String showOverview8() {
+        return "lessons/lesson8";
+    }
 
     @GetMapping("/about-us")
     public String showAboutUs() {
