@@ -919,7 +919,4 @@ const getUserWatchlists = () => {
     }
 
     getUserWatchlists()
-// <button className="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-coinTable"
-//         type="button" role="tab" aria-controls="v-pills-watchlist1" aria-selected="true"
-//         onClick="getChart('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=binance-smart-chain&per_page=10&page=1&sparkline=true&price_change_percentage=1h%2C24h%2C7d&locale=en');clearChart()">Watchlist
-//     1</button>
+getChart('/mockdb/dashboard.js')
