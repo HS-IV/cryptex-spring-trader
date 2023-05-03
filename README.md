@@ -9,8 +9,8 @@ Stay up to date on the latest developments in the cryptocurrency and blockchain 
 ### Educational Resources: 
 Whether you're a seasoned pro or just starting out, our educational resources can help you learn more about these fascinating technologies.
 
-### Community: Join 
-our community of like-minded individuals to share your knowledge, ideas, and insights.
+### Community: 
+Join our community of like-minded individuals to share your knowledge, ideas, and insights.
 
 ### Market Data: 
 Keep track of the latest prices and trends in the cryptocurrency markets with our real-time market data.
