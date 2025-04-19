@@ -19,6 +19,16 @@ target/
 *.iml
 *.ipr
 src/main/resources/application.properties
+# Java build outputs
+*.jar
+*.war
+# Docker
+Dockerfile
+.dockerignore
+
+# Environment files (local secrets)
+.env
+
 
 ### NetBeans ###
 /nbproject/private/
