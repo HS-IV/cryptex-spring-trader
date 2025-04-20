@@ -16,7 +16,7 @@ Join our community of like-minded individuals to share your knowledge, ideas, an
 Keep track of the latest prices and trends in the cryptocurrency markets with our real-time market data.
 
 ### Getting Started
-To get started using CryptexLife, simply visit our website at cryptexlife.com. From there, you can browse our content, join our community, and access our educational resources.
+To get started using CryptexLife, simply visit our website at https://cryptex-spring-trader-6.onrender.com. From there, you can browse our content, join our community, and access our educational resources.
 
 ### Contributing
 We welcome contributions from anyone interested in cryptocurrency and blockchain technology. If you'd like to contribute to CryptexLife, please visit our contributing guidelines for more information.
